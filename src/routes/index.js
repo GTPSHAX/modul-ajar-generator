@@ -1,0 +1,92 @@
+import path from "node:path";
+import fs from "node:fs/promises";
+import Express from "express";
+
+export class AppRoute {
+  constructor(path, method, handler) {
+    this.path = path;
+    this.method = method;
+    this.handler = handler;
+  }
+}
+
+export async function loadRoutes() {
+  // Variables for filtering files (easy to modify if needed)
+  const ignoreFiles = ["index.ts", "index.js"];
+  const allowedExtensions = [".ts", ".js"];
+  const dissallowedExtensions = [".map", ".d.ts"];
+
+  const __dirname = import.meta.dirname;
+
+  // Create a new Express router
+  const router = Express.Router();
+
+  // Helper function to read files recursively
+  async function getFilesWalk(dir) {
+    let results = [];
+    const list = await fs.readdir(dir, { withFileTypes: true });
+    for (const item of list) {
+      const fullPath = path.join(dir, item.name);
+      if (item.isDirectory()) {
+        results = results.concat(await getFilesWalk(fullPath));
+      } else {
+        results.push(fullPath);
+      }
+    }
+    return results;
+  }
+
+  // Read all files recursively in the routes directory
+  const routesDir = path.join(__dirname);
+  const allFiles = await getFilesWalk(routesDir);
+
+  const filteredFiles = allFiles.filter((filePath) => {
+    const fileName = path.basename(filePath);
+    const ext = path.extname(fileName);
+    return !ignoreFiles.includes(fileName) && allowedExtensions.includes(ext) && !dissallowedExtensions.includes(ext) && !fileName.startsWith(".") && !fileName.endsWith(".d.ts");
+  });
+
+  // Dynamically import each route file and register the route
+  for (const filePath of filteredFiles) {
+    const file = path.relative(routesDir, filePath);
+    const routeModule = await import(filePath);
+    if (routeModule.route instanceof AppRoute) {
+      const route = routeModule.route;
+      
+      // Determine folder prefix for the route
+      const relDir = path.dirname(file);
+      const prefix = relDir === "." ? "" : "/" + relDir.split(path.sep).join("/");
+      
+      // Normalize original route path and combine with prefix
+      const normalizedRoutePath = route.path.startsWith("/") ? route.path : "/" + route.path;
+      let finalPath = prefix + (normalizedRoutePath === "/" ? "" : normalizedRoutePath);
+      if (finalPath === "") finalPath = "/";
+      
+      console.log(`Registering route: [${route.method.toUpperCase()}] ${finalPath} from file ${file}`);
+
+      switch (route.method.toLowerCase()) {
+        case "get":
+          router.get(finalPath, route.handler);
+          break;
+        case "post":
+          router.post(finalPath, route.handler);
+          break;
+        case "put":
+          router.put(finalPath, route.handler);
+          break;
+        case "delete":
+          router.delete(finalPath, route.handler);
+          break;
+        case "patch":
+          router.patch(finalPath, route.handler);
+          break;
+        default:
+          console.warn(`Unsupported HTTP method: ${route.method} in file ${file}`);
+      }
+    } else {
+      console.warn(`No valid route found in file: ${file}`);
+    }
+  }
+
+  return router;
+}

@@ -1,0 +1,39 @@
+<!-- Required Variables -->
+<!-- APP_NAME: The name of the application, used in the title and other places.
+TITLE: The title of the current page, used in the title tag. -->
+
+<% if (typeof APP_NAME !== 'undefined' && typeof TITLE !== 'undefined') { %>
+  <title><%= TITLE %> - <%= APP_NAME %></title>
+<% } else if (typeof TITLE !== 'undefined') { %>
+  <title><%= TITLE %></title>
+<% } else if (typeof APP_NAME !== 'undefined') { %>
+  <title><%= APP_NAME %></title>
+<% } else { %>
+  <title>My Express App</title>
+<% } %>
+
+<!-- Standard Meta Tags -->
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="Simple RPP Builder application for easy lesson planning">
+<meta name="keywords" content="rpp, builder, education, express, web, app">
+<meta name="author" content="Your Name">
+<meta name="robots" content="index,follow">
+<meta name="rating" content="General">
+<meta name="target" content="all">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="language" content="ID">
+
+<!-- OpenGraph Meta Tags -->
+<meta property="og:title" content="Simple RPP Builder">
+<meta property="og:description" content="Simple RPP Builder application for easy lesson planning">
+<meta property="og:type" content="website">
+<meta property="og:url" content="http://localhost:3000/">
+<meta property="og:site_name" content="Simple RPP Builder">
+<meta property="og:image" content="/images/default-og-image.jpg">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simple RPP Builder">
+<meta name="twitter:description" content="Simple RPP Builder application for easy lesson planning">
+<meta name="twitter:image" content="/images/default-og-image.jpg">
