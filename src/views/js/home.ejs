@@ -1,11 +1,16 @@
 <script>
   const btnGenerate = document.getElementById("btn_generate");
   const btnDownload = document.getElementById("btn_download");
+  const btnDownloadMobile = document.getElementById("btn_download_mobile");
   const previewContent = document.getElementById("preview_content");
   const form = document.getElementById("form-rpp");
+  const previewContainer = document.getElementById("preview_container");
+  const resizeDivider = document.getElementById("resize_divider");
 
   let currentMarkdown = null;
   let rppObject = null;
+  let isResizing = false;
+  let previewHeight = 384;
 
   const BTN_CLASSES = {
     active: "flex-1 py-2 px-4 rounded font-semibold transition-colors bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 focus:outline-none",
@@ -46,8 +51,144 @@
     });
   }
 
+  function initResizablePreview() {
+    const isMobile = window.innerWidth < 768;
+
+    if (!isMobile) {
+      const savedWidth = localStorage.getItem("previewWidth");
+      if (savedWidth) {
+        previewContainer.style.width = savedWidth;
+      }
+
+      resizeDivider.addEventListener("mousedown", startResize);
+    }
+  }
+
+  function startResize(e) {
+    isResizing = true;
+    const startX = e.clientX;
+    const startWidth = previewContainer.offsetWidth;
+
+    function onMouseMove(e) {
+      if (!isResizing) return;
+      const diff = e.clientX - startX;
+      let newWidth = startWidth - diff;
+      const minWidth = 300;
+      const maxWidth = window.innerWidth - 400;
+
+      newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+      previewContainer.style.width = newWidth + "px";
+      localStorage.setItem("previewWidth", newWidth + "px");
+    }
+
+    function onMouseUp() {
+      isResizing = false;
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    }
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  }
+
+  function showPreview() {
+    previewContainer.style.display = "flex";
+    previewContainer.style.flexDirection = "column";
+    previewHeight = 384;
+    localStorage.setItem("previewVisible", "true");
+    updatePreviewToggleButton();
+  }
+
+  function hidePreview() {
+    previewContainer.style.display = "none";
+    localStorage.setItem("previewVisible", "false");
+    updatePreviewToggleButton();
+  }
+
+  function togglePreviewMobile() {
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile) return;
+
+    if (previewContainer.style.display === "none") {
+      showPreview();
+    } else {
+      hidePreview();
+    }
+  }
+
+  function updatePreviewToggleButton() {
+    const toggleBtn = document.getElementById("btn_preview_toggle");
+    const toggleIcon = document.getElementById("preview_toggle_icon");
+
+    if (!toggleBtn || !toggleIcon) return;
+
+    if (previewContainer.style.display === "none") {
+      toggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />';
+      toggleBtn.title = "Show preview";
+    } else {
+      toggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
+      toggleBtn.title = "Hide preview";
+    }
+  }
+
+  function minimizePreview() {
+    const isMobile = window.innerWidth < 768;
+    previewHeight = 60;
+    if (isMobile) {
+      previewContainer.style.height = "60px";
+    }
+    const prose = previewContainer.querySelector(".prose");
+    if (prose) prose.style.display = "none";
+
+    const minimizeBtn = document.getElementById("btn_preview_minimize");
+    minimizeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" /></svg>';
+    minimizeBtn.title = "Expand";
+    minimizeBtn.setAttribute("onclick", "expandPreview()");
+
+    document.getElementById("btn_download").style.display = "none";
+    document.getElementById("btn_download_mobile").style.display = "none";
+    localStorage.setItem("previewHeight", "60");
+  }
+
+  function expandPreview() {
+    const isMobile = window.innerWidth < 768;
+    previewHeight = 384;
+    if (isMobile) {
+      previewContainer.style.height = "384px";
+    } else {
+      previewContainer.style.height = "";
+    }
+    const prose = previewContainer.querySelector(".prose");
+    if (prose) prose.style.display = "block";
+    if (currentMarkdown) {
+      document.getElementById("btn_download").style.display = "inline-block";
+      document.getElementById("btn_download_mobile").style.display = "inline-block";
+    }
+
+    const minimizeBtn = document.getElementById("btn_preview_minimize");
+    minimizeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 20.25l-7.5-6.75M19.5 6.75L12 13.5l-7.5-6.75" /></svg>';
+    minimizeBtn.title = "Minimize";
+    minimizeBtn.setAttribute("onclick", "minimizePreview()");
+
+    localStorage.setItem("previewHeight", "384");
+  }
+
   window.addEventListener("DOMContentLoaded", () => {
     loadCustomModelsToDropdown();
+    initResizablePreview();
+
+    const savedVisible = localStorage.getItem("previewVisible");
+    const savedHeight = localStorage.getItem("previewHeight");
+
+    if (savedVisible === "false" && window.innerWidth < 768) {
+      hidePreview();
+    }
+
+    if (savedHeight === "60" && window.innerWidth < 768) {
+      minimizePreview();
+    }
+
+    updatePreviewToggleButton();
 
     const savedData = localStorage.getItem("rppFormData");
     if (savedData) {
@@ -63,12 +204,19 @@
       currentMarkdown = savedMarkdown;
       previewContent.innerHTML = marked.parse(savedMarkdown);
       btnDownload.classList.remove("hidden");
+      btnDownloadMobile.style.display = "inline-block";
+      showPreview();
+      expandPreview();
     }
 
     const savedRppObject = localStorage.getItem("rppPreviewObject");
     if (savedRppObject) {
       rppObject = JSON.parse(savedRppObject);
     }
+  });
+
+  window.addEventListener("resize", () => {
+    initResizablePreview();
   });
 
   form.addEventListener("input", () => {
@@ -90,6 +238,9 @@
     previewContent.innerHTML =
       '<p class="text-blue-400 animate-pulse">Sedang menghasilkan RPP, harap tunggu sebentar...</p>';
     btnDownload.classList.add("hidden");
+    btnDownloadMobile.style.display = "none";
+    showPreview();
+    expandPreview();
 
     const formData = new FormData(e.target);
     const dataInput = {};
@@ -121,6 +272,7 @@
         localStorage.setItem("rppPreviewMarkdown", data.rpp);
         localStorage.setItem("rppPreviewObject", JSON.stringify(data.obj));
         btnDownload.classList.remove("hidden");
+        btnDownloadMobile.style.display = "inline-block";
       } else {
         previewContent.innerHTML =
           '<p class="text-red-500">Gagal menghasilkan RPP.</p>';
