@@ -17,7 +17,7 @@
           id="form-rpp"
           class="flex flex-col gap-5 bg-white/10 p-6 rounded-lg border border-gray-600 text-white"
         >
-          <!-- Switch Jenis RPP -->
+          <!-- Document Type Selection -->
           <div class="flex flex-col gap-2 mb-2">
             <label class="font-medium text-gray-200">Jenis Dokumen RPP</label>
             <div class="flex gap-4">
@@ -39,11 +39,9 @@
                 Pilih RPPM
               </button>
             </div>
-            <!-- Input Hidden RPPH/RPPM -->
             <input type="hidden" id="tipe_rpp" name="tipe_rpp" value="rpph" />
           </div>
 
-          <!-- Nama Pengajar -->
           <div class="flex flex-col gap-1">
             <label for="nama_pengajar" class="font-medium text-gray-200"
               >Nama Pengajar</label
@@ -57,7 +55,6 @@
             />
           </div>
 
-          <!-- Nama Sekolah -->
           <div class="flex flex-col gap-1">
             <label for="nama_sekolah" class="font-medium text-gray-200"
               >Nama Sekolah</label
@@ -71,7 +68,6 @@
             />
           </div>
 
-          <!-- Hari/Tanggal -->
           <div class="flex flex-col gap-1">
             <label for="hari_tanggal" class="font-medium text-gray-200"
               >Hari/Tanggal</label
@@ -84,7 +80,6 @@
             />
           </div>
 
-          <!-- Semester/Minggu Ke -->
           <div class="flex flex-col gap-1">
             <label for="semester" class="font-medium text-gray-200"
               >Semester/Minggu Ke</label
@@ -98,7 +93,6 @@
             />
           </div>
 
-          <!-- Tahun Ajaran -->
           <div class="flex flex-col gap-1">
             <label for="tahun_ajaran" class="font-medium text-gray-200"
               >Tahun Ajaran</label
@@ -112,7 +106,6 @@
             />
           </div>
 
-          <!-- Kelas -->
           <div class="flex flex-col gap-1">
             <label for="kelas" class="font-medium text-gray-200"
               >Kelas/Kelompok Usia</label
@@ -132,7 +125,6 @@
             </select>
           </div>
 
-          <!-- Alokasi Waktu -->
           <div class="flex flex-col gap-1">
             <label for="alokasi_waktu" class="font-medium text-gray-200"
               >Alokasi Waktu</label
@@ -146,7 +138,6 @@
             />
           </div>
 
-          <!-- Model Pembelajaran -->
           <div class="flex flex-col gap-1">
             <label for="model_pembelajaran" class="font-medium text-gray-200"
               >Model Pembelajaran</label
@@ -160,7 +151,6 @@
             />
           </div>
 
-          <!-- Tema/Sub-Tema -->
           <div class="flex flex-col gap-1">
             <label for="tema_subtema" class="font-medium text-gray-200"
               >Tema/Sub-Tema</label
@@ -174,7 +164,6 @@
             />
           </div>
 
-          <!-- Tujuan Pembelajaran -->
           <div class="flex flex-col gap-1">
             <label for="tujuan_pembelajaran" class="font-medium text-gray-200"
               >Tujuan Pembelajaran</label
@@ -212,7 +201,6 @@
             </div>
           </div>
 
-          <!-- Advance options -->
           <div class="flex flex-col gap-2 mt-2">
             <button
               type="button"
@@ -267,7 +255,6 @@
         </form>
       </div>
 
-      <!-- Preview -->
       <div
         class="flex-1 overflow-auto w-full h-full bg-white/10 p-6 rounded-lg border border-gray-600 text-white"
         id="preview_container"
@@ -293,7 +280,6 @@
   </div>
 </div>
 
-<!-- Load Marked JS -->
 <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
 
 <%- include('js/home') %>
