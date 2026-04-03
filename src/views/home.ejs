@@ -208,6 +208,46 @@
             </div>
           </div>
 
+          <!-- Advance options -->
+          <div class="flex flex-col gap-2 mt-2">
+            <button
+              type="button"
+              id="btn_toggle_advance"
+              onclick="toggleAdvanceOptions()"
+              class="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors w-fit focus:outline-none"
+            >
+              <svg
+                id="icon_advance_chevron"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="w-5 h-5 transition-transform duration-200"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Tampilkan Opsi Lanjutan
+            </button>
+            <div id="advance_options_container" class="hidden flex-col gap-4 p-4 mt-2 bg-black/30 rounded-lg border border-gray-700">
+              <!-- Custom Prompt Section -->
+              <div class="flex flex-col gap-1">
+                <label for="custom_prompt" class="font-medium text-gray-200 text-sm"
+                  >Instruksi Tambahan (Opsional AI)</label
+                >
+                <textarea
+                  id="custom_prompt"
+                  name="custom_prompt"
+                  rows="2"
+                  placeholder="Misal: Buatkan juga referensi lagu anak-anak yang cocok."
+                  class="w-full p-2 text-sm rounded bg-black/20 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
           <button
             type="submit"
             id="btn_generate"
@@ -475,12 +515,28 @@
       // Set RPPH active
       btnRpph.className = activeClasses;
       btnRppm.className = inactiveClasses;
-      // TODO: Anda dapat menambahkan logika untuk meyesuaikan field input secara dinamis (toggle hide/show field)
     } else {
       // Set RPPM active
       btnRppm.className = activeClasses;
       btnRpph.className = inactiveClasses;
-      // TODO: Toggle hide/show field lainnya di sini jika diperlukan
+    }
+  }
+
+  function toggleAdvanceOptions() {
+    const container = document.getElementById("advance_options_container");
+    const icon = document.getElementById("icon_advance_chevron");
+    const containerIsClosed = container.classList.contains("hidden");
+
+    if (containerIsClosed) {
+      // Expand
+      container.classList.remove("hidden");
+      container.classList.add("flex");
+      icon.style.transform = "rotate(-180deg)";
+    } else {
+      // Collapse
+      container.classList.add("hidden");
+      container.classList.remove("flex");
+      icon.style.transform = "rotate(0deg)";
     }
   }
 </script>
