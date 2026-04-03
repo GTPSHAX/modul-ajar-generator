@@ -450,6 +450,7 @@
 
   function requestRecommendation() {
     try {
+      const formData = new FormData(form);
       const button = document.getElementById("btn_recommendation");
       const submitButton = document.getElementById("btn_generate");
       const inputField = document.getElementById("tujuan_pembelajaran");
@@ -464,12 +465,17 @@
       inputField.disabled = true;
       submitButton.disabled = true;
 
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
       fetch("/api/recommendation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: tujuanPembelajaran }),
+        body: JSON.stringify({ prompt: tujuanPembelajaran, data }),
       })
         .then((response) => response.json())
         .then((data) => {
