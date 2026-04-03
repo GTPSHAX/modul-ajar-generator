@@ -139,16 +139,56 @@
           </div>
 
           <div class="flex flex-col gap-1">
-            <label for="model_pembelajaran" class="font-medium text-gray-200"
-              >Model Pembelajaran</label
-            >
-            <input
-              type="text"
-              id="model_pembelajaran"
-              name="model_pembelajaran"
-              placeholder="Misal: Project-Based Learning"
-              class="p-2 rounded bg-black/20 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <label for="model_pembelajaran" class="font-medium text-gray-200">Model Pembelajaran</label>
+            <div class="flex gap-2">
+              <select
+                id="model_pembelajaran"
+                name="model_pembelajaran"
+                class="flex-1 p-2 rounded bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                onchange="handleModelChange()"
+              >
+                <option value="">-- Pilih Model Pembelajaran --</option>
+                <option value="Project-Based Learning (PjBL)">Project-Based Learning (PjBL)</option>
+                <option value="Problem-Based Learning (PBL)">Problem-Based Learning (PBL)</option>
+                <option value="Inquiry & Discovery Learning">Inquiry & Discovery Learning</option>
+                <option value="Pembelajaran Berdiferensiasi">Pembelajaran Berdiferensiasi</option>
+                <option value="Flipped Classroom">Flipped Classroom</option>
+                <option value="Game-Based Learning & Gamification">Game-Based Learning & Gamification</option>
+                <option value="Cooperative Learning (Jigsaw, TPS)">Cooperative Learning (Jigsaw, TPS)</option>
+                <option value="__custom__">+ Tambah Custom</option>
+              </select>
+              <button
+                type="button"
+                id="btn_add_custom_model"
+                onclick="showAddCustomModel()"
+                class="px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-semibold transition-colors focus:outline-none hidden"
+                title="Tambah model custom"
+              >
+                +
+              </button>
+            </div>
+            <div id="custom_model_container" class="hidden flex gap-2">
+              <input
+                type="text"
+                id="custom_model_input"
+                placeholder="Masukkan nama model (mis: Blended Learning)"
+                class="flex-1 p-2 text-sm rounded bg-black/20 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <button
+                type="button"
+                onclick="saveCustomModel()"
+                class="px-3 py-2 text-sm rounded bg-green-500 hover:bg-green-600 text-white font-semibold transition-colors focus:outline-none"
+              >
+                Simpan
+              </button>
+              <button
+                type="button"
+                onclick="cancelCustomModel()"
+                class="px-3 py-2 text-sm rounded bg-gray-600 hover:bg-gray-700 text-white font-semibold transition-colors focus:outline-none"
+              >
+                Batal
+              </button>
+            </div>
           </div>
 
           <div class="flex flex-col gap-1">

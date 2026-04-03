@@ -12,7 +12,43 @@
     inactive: "flex-1 py-2 px-4 rounded font-semibold transition-colors bg-gray-700 text-gray-300 border border-gray-600 hover:bg-gray-600 focus:outline-none"
   };
 
+  const DEFAULT_MODELS = [
+    { label: "Project-Based Learning (PjBL)", value: "Project-Based Learning (PjBL)" },
+    { label: "Problem-Based Learning (PBL)", value: "Problem-Based Learning (PBL)" },
+    { label: "Inquiry & Discovery Learning", value: "Inquiry & Discovery Learning" },
+    { label: "Pembelajaran Berdiferensiasi", value: "Pembelajaran Berdiferensiasi" },
+    { label: "Flipped Classroom", value: "Flipped Classroom" },
+    { label: "Game-Based Learning & Gamification", value: "Game-Based Learning & Gamification" },
+    { label: "Cooperative Learning (Jigsaw, TPS)", value: "Cooperative Learning (Jigsaw, TPS)" }
+  ];
+
+  function getCustomModels() {
+    const stored = localStorage.getItem("customModels");
+    return stored ? JSON.parse(stored) : [];
+  }
+
+  function saveCustomModelsToStorage(models) {
+    localStorage.setItem("customModels", JSON.stringify(models));
+  }
+
+  function loadCustomModelsToDropdown() {
+    const select = document.getElementById("model_pembelajaran");
+    const customModels = getCustomModels();
+
+    customModels.forEach(model => {
+      const optionExists = Array.from(select.options).some(opt => opt.value === model);
+      if (!optionExists) {
+        const option = document.createElement("option");
+        option.value = model;
+        option.textContent = model;
+        select.insertBefore(option, select.querySelector('option[value="__custom__"]'));
+      }
+    });
+  }
+
   window.addEventListener("DOMContentLoaded", () => {
+    loadCustomModelsToDropdown();
+
     const savedData = localStorage.getItem("rppFormData");
     if (savedData) {
       const formData = JSON.parse(savedData);
@@ -193,6 +229,65 @@
       console.error("Error in requestRecommendation:", error);
       alert("Terjadi kesalahan. Silakan coba lagi.");
     }
+  }
+
+  function handleModelChange() {
+    const select = document.getElementById("model_pembelajaran");
+    const container = document.getElementById("custom_model_container");
+    const btn = document.getElementById("btn_add_custom_model");
+
+    if (select.value === "__custom__") {
+      showAddCustomModel();
+    } else {
+      container.classList.add("hidden");
+      btn.classList.add("hidden");
+      select.value = select.options[select.selectedIndex].value;
+    }
+  }
+
+  function showAddCustomModel() {
+    const container = document.getElementById("custom_model_container");
+    const input = document.getElementById("custom_model_input");
+    const select = document.getElementById("model_pembelajaran");
+
+    select.value = "__custom__";
+    container.classList.remove("hidden");
+    input.focus();
+  }
+
+  function saveCustomModel() {
+    const input = document.getElementById("custom_model_input");
+    const select = document.getElementById("model_pembelajaran");
+    const modelName = input.value.trim();
+
+    if (!modelName) {
+      alert("Silakan masukkan nama model pembelajaran!");
+      return;
+    }
+
+    const customModels = getCustomModels();
+    if (!customModels.includes(modelName)) {
+      customModels.push(modelName);
+      saveCustomModelsToStorage(customModels);
+
+      const option = document.createElement("option");
+      option.value = modelName;
+      option.textContent = modelName;
+      select.insertBefore(option, select.querySelector('option[value="__custom__"]'));
+    }
+
+    select.value = modelName;
+    cancelCustomModel();
+  }
+
+  function cancelCustomModel() {
+    const container = document.getElementById("custom_model_container");
+    const input = document.getElementById("custom_model_input");
+    const select = document.getElementById("model_pembelajaran");
+
+    container.classList.add("hidden");
+    input.value = "";
+    select.value = "";
   }
 
   function pilihTipeRPP(tipe) {
