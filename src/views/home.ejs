@@ -313,23 +313,23 @@
         style="z-index: 40; max-height: calc(100vh - 100px);"
       >
         <!-- Mobile Header Controls -->
-        <div class="flex md:hidden justify-between items-center mb-4 pb-2 border-b border-gray-600">
+        <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-600">
           <h2 class="text-lg font-bold">Preview RPP</h2>
           <div class="flex gap-2 items-center">
             <button
               type="button"
-              id="btn_download_mobile"
+              id="btn_download"
               onclick="downloadRPP()"
-              class="hidden px-2 py-1 text-xs bg-green-500 hover:bg-green-600 text-white font-semibold rounded transition-colors"
+              class="hidden px-2 py-1 md:px-4 md:py-1.5 text-xs md:text-base bg-green-500 hover:bg-green-600 text-white font-semibold rounded transition-colors duration-200"
               title="Download Word (.docx)"
             >
-              Download
+              Download Docx
             </button>
             <button
               type="button"
               id="btn_preview_minimize"
               onclick="minimizePreview()"
-              class="p-1 hover:bg-gray-700 rounded transition-colors"
+              class="md:hidden p-1 hover:bg-gray-700 rounded transition-colors"
               title="Minimize"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -340,7 +340,7 @@
               type="button"
               id="btn_preview_close"
               onclick="hidePreview()"
-              class="p-1 hover:bg-gray-700 rounded transition-colors"
+              class="md:hidden p-1 hover:bg-gray-700 rounded transition-colors"
               title="Close"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -348,19 +348,6 @@
               </svg>
             </button>
           </div>
-        </div>
-
-        <!-- Desktop Header -->
-        <div class="hidden md:flex justify-between items-center mb-4">
-          <h2 class="text-xl font-bold" id="preview_title">Preview RPP</h2>
-          <button
-            type="button"
-            id="btn_download"
-            onclick="downloadRPP()"
-            class="hidden bg-green-500 hover:bg-green-600 text-white font-semibold py-1.5 px-4 rounded transition duration-200"
-          >
-            Download Word (.docx)
-          </button>
         </div>
 
         <div class="prose prose-invert" id="preview_content">
