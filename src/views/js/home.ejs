@@ -93,6 +93,7 @@
   function showPreview() {
     previewContainer.style.display = "flex";
     previewContainer.style.flexDirection = "column";
+    document.getElementById("preview_backdrop").classList.remove("hidden");
     previewHeight = 384;
     localStorage.setItem("previewVisible", "true");
     updatePreviewToggleButton();
@@ -100,6 +101,7 @@
 
   function hidePreview() {
     previewContainer.style.display = "none";
+    document.getElementById("preview_backdrop").classList.add("hidden");
     localStorage.setItem("previewVisible", "false");
     updatePreviewToggleButton();
   }
@@ -135,6 +137,7 @@
     previewHeight = 60;
     if (isMobile) {
       previewContainer.style.height = "60px";
+      document.getElementById("preview_backdrop").classList.add("hidden");
     }
     const prose = previewContainer.querySelector(".prose");
     if (prose) prose.style.display = "none";
@@ -153,6 +156,7 @@
     previewHeight = 384;
     if (isMobile) {
       previewContainer.style.height = "384px";
+      document.getElementById("preview_backdrop").classList.remove("hidden");
     } else {
       previewContainer.style.height = "";
     }
