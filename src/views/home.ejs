@@ -295,11 +295,63 @@
         </form>
       </div>
 
+      <!-- Resize Divider (Desktop Only) -->
       <div
-        class="flex-1 overflow-auto w-full h-full bg-white/10 p-6 rounded-lg border border-gray-600 text-white"
-        id="preview_container"
+        id="resize_divider"
+        class="hidden md:flex items-center justify-center h-full m-2 hover:cursor-col-resize"
+        title="Drag to resize preview"
       >
-        <div class="flex justify-between items-center mb-4">
+        <div class="p-2 bg-gray-900 rounded whitespace-nowrap text-xs text-gray-300 pointer-events-none">
+          <span>⋮</span>
+        </div>
+      </div>
+
+      <!-- Preview Panel -->
+      <div
+        class="fixed md:relative bottom-0 left-0 right-0 md:right-auto md:bottom-auto w-full md:w-2/5 h-96 md:h-full p-6 rounded-t-lg md:rounded-r-lg border-t md:border-t-0 md:rounded-lg! md:border-l border-gray-600 text-white bg-gray-700 overflow-auto"
+        id="preview_container"
+        style="z-index: 40; max-height: calc(100vh - 100px);"
+      >
+        <!-- Mobile Header Controls -->
+        <div class="flex md:hidden justify-between items-center mb-4 pb-2 border-b border-gray-600">
+          <h2 class="text-lg font-bold">Preview RPP</h2>
+          <div class="flex gap-2 items-center">
+            <button
+              type="button"
+              id="btn_download_mobile"
+              onclick="downloadRPP()"
+              class="hidden px-2 py-1 text-xs bg-green-500 hover:bg-green-600 text-white font-semibold rounded transition-colors"
+              title="Download Word (.docx)"
+            >
+              Download
+            </button>
+            <button
+              type="button"
+              id="btn_preview_minimize"
+              onclick="minimizePreview()"
+              class="p-1 hover:bg-gray-700 rounded transition-colors"
+              title="Minimize"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 20.25l-7.5-6.75M19.5 6.75L12 13.5l-7.5-6.75" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              id="btn_preview_close"
+              onclick="hidePreview()"
+              class="p-1 hover:bg-gray-700 rounded transition-colors"
+              title="Close"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Desktop Header -->
+        <div class="hidden md:flex justify-between items-center mb-4">
           <h2 class="text-xl font-bold" id="preview_title">Preview RPP</h2>
           <button
             type="button"
@@ -310,12 +362,28 @@
             Download Word (.docx)
           </button>
         </div>
+
         <div class="prose prose-invert" id="preview_content">
           <p class="text-gray-500">
             Isi formulir untuk melihat preview RPP di sini.
           </p>
         </div>
       </div>
+
+      <!-- Mobile Preview Toggle Button (Floating) - Outside preview_container -->
+      <button
+        type="button"
+        id="btn_preview_toggle"
+        onclick="togglePreviewMobile()"
+        class="md:hidden fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg transition-all flex items-center justify-center"
+        style="z-index: 35; background-color: rgb(59, 130, 246);"
+        title="Toggle preview"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white" id="preview_toggle_icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </button>
     </div>
   </div>
 </div>
