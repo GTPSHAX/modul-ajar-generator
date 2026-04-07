@@ -23,20 +23,20 @@ class G4F {
 ATURAN FORMAT (WAJIB DIPATUHI):
 1. Output HANYA berisi pasangan key-value.
 2. Setiap key WAJIB dalam format:
-   :nama_key:
+   {NAMA_KEY}
    value
 3. DILARANG keras:
-   - Menulis key tanpa tanda ":" di awal dan akhir
-   - Menulis ":key" tanpa ":" penutup
-   - Menulis ":key:" tanpa value
+   - Menulis key tanpa tanda "{" dan "}"
+   - Menulis "{key" tanpa "}" penutup
+   - Menulis "{key}" tanpa value
    - Menambahkan teks penjelasan di luar format key-value
    - Menambahkan judul, heading, atau kalimat pembuka/penutup
 
 4. Format WAJIB selalu:
-   :key:
+   {KEY}
    value
 
-   :key_lain:
+   {KEY_LAIN}
    value
 
    (dipisah 1 baris kosong antar key)
@@ -48,10 +48,10 @@ ATURAN KONTEN:
 ATURAN KHUSUS PENILAIAN:
 7. Key yang berhubungan dengan penilaian WAJIB dalam bentuk tabel Markdown.
 
-8. Untuk :indikator_penilaian: gunakan tabel dengan 3 kolom:
+8. Untuk {INDIKATOR_PENILAIAN} gunakan tabel dengan 3 kolom:
    | Program Pengembangan | KD | Indikator |
 
-9. Untuk :teknik_penilaian: gunakan tabel sesuai teknik, contoh:
+9. Untuk {TEKNIK_PENILAIAN} gunakan tabel sesuai teknik, contoh:
    | Teknik | Bentuk |
 
 VALIDASI INTERNAL (WAJIB):
