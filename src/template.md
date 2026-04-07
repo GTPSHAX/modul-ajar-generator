@@ -3,8 +3,6 @@
 <!-- {ACADEMIC_YEAR} adalah tahun ajaran, misalnya 2023/2024`. -->
 # RENCANA PELAKSANAAN PEMBELAJARAN {RPP_TYPE} (RPP{INITIAL_TYPE})<br>TAHUN AJARAN {ACADEMIC_YEAR}
 
-<br>
-
 <!-- {SCHOOL_NAME} adalah nama sekolah -->
 Satuan Pendidikan : {SCHOOL_NAME}<br>
 <!-- {THEME_SUBTHEME} adalah tema dan subtema pembelajaran, misalnya `Tubuh/Bagian Tubuh` -->
