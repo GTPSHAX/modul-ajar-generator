@@ -1,32 +1,31 @@
-import { configDotenv } from "dotenv";
+import { configDotenv } from 'dotenv'
+
+import path from 'node:path'
+import Express from 'express'
+import ejs from 'ejs' // eslint-disable-line no-unused-vars
+
+import { loadRoutes } from './routes/index.js'
 configDotenv();
 
-import path from "node:path";
-import Express from "express";
-import ejs from "ejs";
-
-import { loadRoutes } from "./routes/index.js";
-
 (async () => {
-  const app = Express();
+  const app = Express()
 
   // Set EJS as the template engine
-  app.set("view engine", "ejs");
+  app.set('view engine', 'ejs')
 
   // Explicitly set the views directory
-  const dirname = import.meta.dirname;
-  app.set("views", path.join(dirname, "views"));
+  const dirname = import.meta.dirname
+  app.set('views', path.join(dirname, 'views'))
 
-  app.use(Express.json());
+  app.use(Express.json())
 
   // Load and register routes
-  const router = await loadRoutes();
-  app.use(router);
+  const router = await loadRoutes()
+  app.use(router)
 
   // Serving static files
-  app.use(Express.static("public"));
-22
+  app.use(Express.static('public'))
   app.listen(3000, '0.0.0.0', () => {
-    console.log("Server is running on http://localhost:3000");
-  });
-})();
+    console.log('Server is running on http://localhost:3000')
+  })
+})()

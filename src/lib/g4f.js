@@ -1,22 +1,22 @@
-import openai from 'openai';
+import openai from 'openai'
 
 class G4F {
-  constructor(apiKey, type = 'default') {
+  constructor (apiKey, type = 'default') {
     this.client = new openai.OpenAI({
-      apiKey: apiKey,
-      baseURL: 'https://api.longcat.chat/openai',
-    });
-    this.type = type;
+      apiKey,
+      baseURL: 'https://api.longcat.chat/openai'
+    })
+    this.type = type
   }
 
-  setModel(model) {
-    this.model = model;
+  setModel (model) {
+    this.model = model
   }
 
-  #getSystemPrompt() {
+  #getSystemPrompt () {
     switch (this.type) {
       case 'recommendation':
-        return 'Kamu akan membantu memberikan 1 rekomendasi langsung untuk mengisi kolom input, tentang tujuan pembelajaran yang cocok untuk siswa siswi PAUD berdasarkan minat dan kebutuhan mereka. Tampa ada kalimat penjelasan, tanpa ada kalimat seperti "Berikut rekomendasi tujuan pembelajaran langsung untuk kolom input:" atau kalimat pembuka lainnya. Kamu hanya memberikan rekomendasi tujuan pembelajaran yang cocok untuk siswa siswi PAUD berdasarkan minat dan kebutuhan mereka, tanpa ada kalimat penjelasan lainnya.';
+        return 'Kamu akan membantu memberikan 1 rekomendasi langsung untuk mengisi kolom input, tentang tujuan pembelajaran yang cocok untuk siswa siswi PAUD berdasarkan minat dan kebutuhan mereka. Tampa ada kalimat penjelasan, tanpa ada kalimat seperti "Berikut rekomendasi tujuan pembelajaran langsung untuk kolom input:" atau kalimat pembuka lainnya. Kamu hanya memberikan rekomendasi tujuan pembelajaran yang cocok untuk siswa siswi PAUD berdasarkan minat dan kebutuhan mereka, tanpa ada kalimat penjelasan lainnya.'
       default:
         return `Kamu bertugas membuat RPP (Rencana Pelaksanaan Pembelajaran) untuk PAUD/TK dalam format Markdown STRICT.
 
@@ -61,33 +61,33 @@ VALIDASI INTERNAL (WAJIB):
    - Tidak ada teks di luar key-value
    - Semua tabel valid Markdown
 
-Jika melanggar SATU saja aturan di atas, perbaiki sebelum mengirim jawaban.`;
+Jika melanggar SATU saja aturan di atas, perbaiki sebelum mengirim jawaban.`
     }
   }
 
-  async chat(prompt) {
+  async chat (prompt) {
     try {
       const messages = [
         {
           role: 'system',
-          content: this.#getSystemPrompt(),
+          content: this.#getSystemPrompt()
         },
         {
           role: 'user',
-          content: prompt,
-        },
-      ];
+          content: prompt
+        }
+      ]
 
       const response = await this.client.chat.completions.create({
         model: this.model || 'LongCat-Flash-Lite',
-        messages,
-      });
-      return response.choices[0].message.content;
+        messages
+      })
+      return response.choices[0].message.content
     } catch (error) {
-      console.error('Error generating response:', error);
-      throw error;
+      console.error('Error generating response:', error)
+      throw error
     }
   }
 }
 
-export default G4F;
+export default G4F

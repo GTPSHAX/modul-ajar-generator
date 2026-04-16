@@ -1,14 +1,14 @@
-import fs from "fs";
-import path from "path";
-import vm from "vm";
-import * as docx from "docx";
+import fs from 'fs'
+import path from 'path'
+import vm from 'vm'
+import * as docx from 'docx'
 
-const __dirname = import.meta.dirname;
-const __filename = import.meta.filename;
+const __dirname = import.meta.dirname
+const __filename = import.meta.filename
 
 const shared = {
-  buffer: null,
-};
+  buffer: null
+}
 
 const code = `
 (async () => {
@@ -66,7 +66,7 @@ const code = `
 
   console.log("[DONE] Document saved as: " + filePath);
 })();
-`;
+`
 
 try {
   const context = {
@@ -76,19 +76,19 @@ try {
     fs,
     path,
     ...docx,
-    shared,
-  };
+    shared
+  }
 
-  const result = vm.runInNewContext(code, context);
-  if (result && typeof result.then === "function") {
+  const result = vm.runInNewContext(code, context)
+  if (result && typeof result.then === 'function') {
     result.then(() => {
-      console.log("Buffer in shared object after VM execution:", shared.buffer ? "Buffer exists" : "No buffer");
+      console.log('Buffer in shared object after VM execution:', shared.buffer ? 'Buffer exists' : 'No buffer')
     }).catch((err) => {
-      console.error("Error in async code within VM:", err);
-    });
+      console.error('Error in async code within VM:', err)
+    })
   }
 } catch (err) {
-  console.error("Error executing VM code:", err);
+  console.error('Error executing VM code:', err)
 } finally {
-  console.log("Finished executing VM code.");
+  console.log('Finished executing VM code.')
 }
