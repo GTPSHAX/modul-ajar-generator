@@ -1,0 +1,17 @@
+# Pre-commit framework configuration
+# Install pre-commit: https://pre-commit.com/#install
+# Setup: pre-commit install
+# Update hooks: pre-commit autoupdate
+# Run manually: pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.0.0
+    hooks:
+      - id: eslint
+        files: \.[jt]sx?$
+        types: [file]
+        additional_dependencies:
+          - eslint@latest
+          - standard@17.1.2
+        args: ['--fix']
