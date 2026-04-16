@@ -40,8 +40,8 @@ export function getKeysDescriptionFromMarkdown(markdown) {
 
 export function removeCommentsFromMarkdown(markdown) {
   return markdown
-    .replace(/<!--[\s\S]*?-->/g, '')      // Hapus semua HTML comment
-    .replace(/\n\s*\n+/g, '\n')           // Hapus baris kosong berlebih
+    .replace(/<!--(?!-?>)(?:(?!-->)[\s\S]){0,50000}?-->/g, '')
+    .replace(/\n\s*\n+/g, '\n')
     .trim();
 }
 
