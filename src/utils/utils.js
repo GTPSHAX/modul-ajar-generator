@@ -45,12 +45,15 @@ export function removeCommentsFromMarkdown (markdown) {
 
 export function removeImportRequire (content) {
   return content
+    // Multi-line static import ... from '...' (PREVENT crossing into next import)
+    .replace(/^\s*import\s+(?:(?!^\s*import\b)[\s\S])*?\bfrom\s+['"][^'"]+['"]\s*;?\s*$/gm, '')
+
+    // Multi-line dynamic import(...) or require(...)
+    .replace(/^\s*(?:const|let|var\s+)?\w+\s*=\s*(import|require)\s*\([\s\S]*?\)\s*;?\s*$/gm, '')
+
     // Single-line: import ... ; or require(...);
     .replace(/^\s*(import|require)(\s+|\s*\()([^\n]*?);?\s*$/gm, '')
-    // Multi-line dynamic import(...) or require(...)
-    .replace(/^\s*(import|require)\s*\([\s\S]*?\)\s*;?\s*$/gm, '')
-    // Multi-line static import ... from '...' (no semicolon, spread across lines)
-    .replace(/^\s*import\s[\s\S]*?from\s+['"][^'"]+['"]\s*;?\s*$/gm, '')
+
     // Remove excess blank lines
     .replace(/\n\s*\n+/g, '\n')
     .trim()
