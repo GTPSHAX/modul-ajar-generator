@@ -26,13 +26,11 @@ export function parseMarkdownToObject(markdown) {
 
 export function getKeysDescriptionFromMarkdown(markdown) {
   const result = {};
-  const regex = /<!--\s*\{([A-Z_]+)\}\s+([\s\S]*?)\s*-->/g;
+  const regex = /<!--\s*\{([A-Z_]+)\}\s+([\s\S]{0,2000}?)\s*-->/g;
 
   let match;
   while ((match = regex.exec(markdown)) !== null) {
-    const key = match[1];
-    const description = match[2].trim();
-    result[key] = description;
+    result[match[1]] = match[2].trim();
   }
 
   return result;
