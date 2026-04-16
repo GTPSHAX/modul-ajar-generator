@@ -15,6 +15,8 @@ import {
 import fs from 'fs'
 import path from 'path'
 
+// Config -------------------------------------------------------
+
 const properties = {
   page: {
     size: {
@@ -222,6 +224,10 @@ const formField = (label) => [
   })
 ];
 
+// --------------------------------------------------------------
+
+// Main ---------------------------------------------------------
+
 (async () => {
   const coverPage = {
     properties,
@@ -373,3 +379,5 @@ const formField = (label) => [
     fs.writeFileSync('My Document.docx', buffer)
   })
 })()
+
+// --------------------------------------------------------------
