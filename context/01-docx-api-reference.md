@@ -1,32 +1,33 @@
-# API Documentation
+# API Reference for DOCX Generation
 
-This document describes the utility functions for easily building structured Word (`.docx`) documents using the `docx` library. It also provides a comprehensive usage example.
+This document provides a comprehensive reference for the API functions used to build structured Word documents (`.docx`) using the `docx` library. It includes function descriptions, parameter details, and usage examples.
 
 ## Functions
 
 ### `parseHtmlTags(text)`
-Parses a string containing basic HTML-like tags (`<b>`, `<i>`, `<u>`, `<s>`) and converts it into an array of `TextRun` objects. Supports nested tags.
+Parses a string containing basic HTML tags (`<b>`, `<i>`, `<u>`, `<s>`) and converts them into an array of `TextRun` objects. It supports nested tags.
 - **Parameters:**
-  - `text` (String): The text to parse.
+  - `text` (String): The input string to be parsed.
 - **Returns:** `TextRun[]`
+- **Description:** This function enables the insertion of basic text formatting (bold, italic, underline, and strikethrough) directly within an input string, which is then translated into a format compatible with the `docx` library.
 
 ### `createParagraph(content, customSpacing)`
-Creates a `docx` `Paragraph` object. Automatically parses HTML tags if the content contains a string with tags.
+Creates a `Paragraph` with "Normal" styling. It supports HTML tag processing within the `content` and accepts optional spacing configurations.
 - **Parameters:**
-  - `content` (String | Object): The textual content or paragraph configuration object.
-  - `customSpacing` (Object, optional): Custom spacing configuration (e.g., `before`, `after`, `line`).
+  - `content` (String | Object): The textual content or a paragraph configuration object.
+  - `customSpacing` (Object, optional): Configuration for spacing (e.g., `before`, `after`, `line`). If omitted, default spacing is applied.
 - **Returns:** `Paragraph`
 
 ### `createTitle(text, center, customSpacing)`
-Creates a `Paragraph` styled as a Document Title.
+Creates a `Paragraph` styled as a **Document Title**.
 - **Parameters:**
-  - `text` (String): The title text. Supports HTML tags.
+  - `text` (String): The title text (supports HTML tags).
   - `center` (Boolean, optional): Whether to center-align the text. Default is `false`.
   - `customSpacing` (Object, optional): Custom spacing overrides.
 - **Returns:** `Paragraph`
 
 ### `createHeading(text, level, center, customSpacing, indentSize)`
-Creates a `Paragraph` styled as a Heading. Multiple lines (separated by `\n`) are preserved.
+Creates a `Paragraph` styled as a **Heading**. Standard line breaks (`\n`) are preserved.
 - **Parameters:**
   - `text` (String): The heading text.
   - `level` (Number, optional): The heading level (1-6). Default is `1`.
@@ -36,31 +37,31 @@ Creates a `Paragraph` styled as a Heading. Multiple lines (separated by `\n`) ar
 - **Returns:** `Paragraph`
 
 ### `createHeadingWithChildren(headingText, level, children, indentSize, headingIndent)`
-Creates a heading paragraph followed by an array of child elements (paragraphs, tables, or strings) with an applied indentation.
+Creates a heading paragraph followed by an array of indented child elements (paragraphs, tables, or strings).
 - **Parameters:**
   - `headingText` (String): The heading text.
-  - `level` (Number, optional): The heading level. Default is `1`.
+  - `level` (Number, optional): The heading level (1-3). Default is `1`.
   - `children` (Array, optional): An array of strings, `Paragraph` objects, or `Table` objects.
-  - `indentSize` (Number, optional): Left indentation size for the children. Default is `720` (1/2 inch).
-  - `headingIndent` (Number, optional): Left indentation size for the heading itself. Default is `0`.
-- **Returns:** `Array` (contains `[headingParagraph, ...childParagraphs]`)
+  - `indentSize` (Number, optional): Left indentation for the child elements. Default is `720` (1/2 inch).
+  - `headingIndent` (Number, optional): Left indentation for the heading itself. Default is `0`.
+- **Returns:** `Array` (Contains `[headingParagraph, ...childParagraphs]`)
 
 ### `bulletPoint(label, textOrChildren, children)`
-Creates one or more bullet-pointed paragraphs. Supports a bold label prefix and nested sub-bullets.
+Creates one or more bullet-pointed paragraphs. Supports bold label prefixes and nested sub-bullets.
 - **Parameters:**
-  - `label` (String): The bolded label for the main bullet point. Supports HTML tags.
-  - `textOrChildren` (String | Array, optional): The text following the label, or an array of sub-bullets if no primary text is needed. Supports HTML tags.
-  - `children` (Array, optional): An array of sub-bullet objects (e.g., `{ label: '...', text: '...' }` or strings) to nest under the main bullet point.
+  - `label` (String): The bolded label for the primary bullet point (supports HTML tags).
+  - `textOrChildren` (String | Array, optional): The text following the label, or an array of sub-bullets if no primary text is required.
+  - `children` (Array, optional): An array of sub-bullet objects (e.g., `{ label: '...', text: '...' }`) to nest under the main bullet.
 - **Returns:** `Paragraph[]`
 
 ### `titleCell(text)`
-Creates a `TableCell` for a table header/title. It spans 2 columns, has a light gray shading, and uses the Title style. Supports multiline text (`\n`).
+Creates a `TableCell` for table headers. It spans two columns, features a light gray background, and applies Title styling. Supports multiline text (`\n`).
 - **Parameters:**
   - `text` (String): The cell text.
 - **Returns:** `TableCell`
 
 ### `formField(label)`
-Creates an array of two `TableCell` objects intended to be used within a single `TableRow` to act as a form field. The left cell contains the label bordered in black, and the right cell is an empty bordered input area.
+Generates an array of two `TableCell` objects designed for a single `TableRow` to function as a form field. The left cell contains a bordered label, while the right cell serves as an empty bordered input area.
 - **Parameters:**
   - `label` (String): The label for the form field.
 - **Returns:** `[TableCell, TableCell]`
@@ -69,7 +70,7 @@ Creates an array of two `TableCell` objects intended to be used within a single 
 
 ## Example Usage
 
-Below is a demonstration of how to combine these API functions to structure complete document sections (e.g., Cover Pages and Content Pages) and export them using the `docx` library.
+The following example demonstrates how to combine these API functions to structure complete document sections and export them using the `docx` library.
 
 ```javascript
 import fs from 'fs';
