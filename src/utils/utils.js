@@ -1,3 +1,6 @@
+import fs from 'fs'
+import path from 'path'
+
 export function parseMarkdownToObject (markdown) {
   const lines = markdown.split('\n')
   const result = {}
@@ -57,4 +60,26 @@ export function removeImportRequire (content) {
     // Remove excess blank lines
     .replace(/\n\s*\n+/g, '\n')
     .trim()
+}
+
+/**
+ * This function loads all Markdown files from a specified directory, reads their content, and constructs an object where each key is derived from the filename (converted to uppercase and underscores) and the value is the file's content. This allows for easy access to the content of multiple Markdown files in a structured format.
+ * @param {*} dir - Content directory path
+ * @returns {Object} - An object where keys are derived from filenames and values are file contents
+ */
+export function loadContexts (dir) {
+  const context = {}
+  const files = fs.readdirSync(dir)
+
+  files.sort() // Ensure consistent order
+
+  for (const file of files) {
+    if (file.endsWith('.md')) {
+      const content = fs.readFileSync(path.join(dir, file), 'utf-8')
+      const key = path.basename(file, '.md').toUpperCase().replace(/-/g, '_')
+      context[key] = content
+    }
+  }
+
+  return context
 }
