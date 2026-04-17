@@ -12,7 +12,8 @@
     "cli:docx": "node src/cli/read-docx.js",
     "poc:vm-executor": "node poc/vm-executor.js",
     "poc:vm-docx": "node poc/vm-docx.js",
-    "poc:vm-generate-docx": "node poc/vm-generate-docx.js"
+    "poc:vm-generate-docx": "node poc/vm-generate-docx.js",
+    "poc:ai-request": "node poc/scripts/ai-request.js"
   },
   "keywords": [],
   "author": "",
