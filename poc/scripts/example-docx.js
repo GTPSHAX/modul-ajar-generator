@@ -539,21 +539,47 @@ const formField = (label) => [
         'B. IDENTIFIKASI KESIAPAN PESERTA DIDIK',
         2,
         [
-          bulletPoint('Pengetahuan Awal: ', 'Peserta didik telah memiliki pengetahuan dasar tentang nama-nama hewan dalam bahasa Inggris dan dapat membuat kalimat sederhana untuk mendeskripsikan sesuatu.'),
-          bulletPoint('Minat: ', 'Sebagian besar peserta didik memiliki minat terhadap fauna dan kehidupan alam, serta tertarik belajar melalui media visual seperti gambar dan video.'),
-          bulletPoint('Latar Belakang: ', 'Peserta didik berasal dari latar belakang yang beragam, dengan tingkat paparan bahasa Inggris yang bervariasi di lingkungan rumah.')
+          ...bulletPoint('Pengetahuan Awal: ', 'Peserta didik telah memiliki pengetahuan dasar tentang nama-nama hewan dalam bahasa Inggris dan dapat membuat kalimat sederhana untuk mendeskripsikan sesuatu.'),
+          ...bulletPoint('Minat: ', 'Sebagian besar peserta didik memiliki minat terhadap fauna dan kehidupan alam, serta tertarik belajar melalui media visual seperti gambar dan video.'),
+          ...bulletPoint('Latar Belakang: ', 'Peserta didik berasal dari latar belakang yang beragam, dengan tingkat paparan bahasa Inggris yang bervariasi di lingkungan rumah.'),
+          ...bulletPoint('Kebutuhan Belajar: ', '', [
+            { label: 'Visual: ', text: 'Peserta didik belajar lebih baik dengan bantuan gambar, video, komik, dan infografis tentang hewan.' },
+            { label: 'Auditori: ', text: 'Peserta didik perlu mendengarkan audio dialog, monolog, dan penjelasan guru untuk memahami pengucapan dan intonasi.' },
+            { label: 'Kinestetik: ', text: 'Peserta didik memerlukan aktivitas bergerak seperti permainan, presentasi, dan pembuatan proyek (misalnya poster atau mading) untuk menjaga fokus dan motivasi.' }
+          ])
         ],
         720
       ),
       ...createHeadingWithChildren(
-        'C. KEBUTUHAN BELAJAR',
+        'C. KARAKTERISTIK MATERI PELAJARAN',
         2,
         [
-          ...bulletPoint('Kebutuhan Belajar: ', 'Belajar lebih baik dengan bantuan gambar, video, komik, dan infografis tentang hewan.', [
-            { label: 'Visual: ', text: 'Peserta didik belajar lebih baik dengan bantuan <b>gambar, video, komik</b>, dan <u>infografis</u> tentang hewan.' },
-            { label: 'Auditori: ', text: 'Peserta didik perlu mendengarkan <i>audio dialog, monolog</i>, dan penjelasan guru untuk memahami <b><u>pengucapan dan intonasi</u></b>.' },
-            { label: 'Kinestetik: ', text: 'Peserta didik memerlukan aktivitas bergerak seperti <b>permainan, presentasi</b>, dan pembuatan proyek <i>(misalnya poster atau <s>mading</s>)</i> untuk menjaga fokus dan motivasi.' }
+          ...bulletPoint('Jenis Pengetahuan yang Akan Dicapai: ', '', [
+            { label: 'Konseptual: ', text: 'Memahami fungsi sosial, struktur teks, dan unsur kebahasaan dari teks report untuk mendeskripsikan hewan (fauna Indonesia).' },
+            { label: 'Prosedural: ', text: 'Mampu menyusun teks report sederhana secara lisan dan tulisan untuk mendeskripsikan hewan, serta mempresentasikannya.' }
+          ]),
+          ...bulletPoint('Relevansi dengan Kehidupan Nyata Peserta Didik: ', 'Materi ini relevan karena meningkatkan kesadaran peserta didik terhadap kekayaan fauna di Indonesia, menumbuhkan rasa cinta dan kepedulian terhadap kelestarian hewan langka, dan mengasah kemampuan mendeskripsikan objek di sekitar mereka.'),
+          ...bulletPoint('Tingkat Kesulitan: ', 'Sedang. Materi ini memperkenalkan teks report yang merupakan pengembangan dari teks deskriptif yang telah dipelajari, dengan penambahan kosakata dan struktur kalimat yang lebih kompleks (passive voice, noun group).'),
+          ...bulletPoint('Struktur Materi: ', 'Materi disusun secara sistematis mulai dari pengenalan hewan endemik Indonesia (Bekantan), membandingkan dua hewan yang mirip (Orangutan dan Gorilla), hingga mempelajari berbagai jenis burung khas Indonesia. Setiap unit mengintegrasikan keenam elemen keterampilan berbahasa (menyimak, berbicara, membaca, memirsa, menulis, mempresentasikan).'),
+          ...bulletPoint('Integrasi Nilai dan Karakter: ', '', [
+            { label: 'Keimanan dan Ketakwaan terhadap Tuhan Yang Maha Esa, dan Berakhlak Mulia: ', text: 'Mensyukuri anugerah Tuhan berupa kekayaan fauna Indonesia dan menunjukkan kepedulian terhadap kelestarian makhluk ciptaan-Nya.' },
+            { label: 'Bernalar Kritis: ', text: 'Menganalisis informasi dari berbagai sumber (teks, audio, infografis) untuk mengidentifikasi ciri-ciri spesifik, habitat, dan ancaman yang dihadapi hewan.' },
+            { label: 'Kreativitas: ', text: 'Menghasilkan karya (tulisan, presentasi, poster) yang informatif dan menarik tentang fauna Indonesia.' },
+            { label: 'Kolaborasi/Bergotong Royong: ', text: 'Bekerja sama dalam kelompok untuk berdiskusi, mencari informasi, dan menyelesaikan tugas proyek.' },
+            { label: 'Kemandirian: ', text: 'Mencari informasi secara mandiri dari berbagai sumber dan menyelesaikan tugas-tugas individu.' },
+            { label: 'Kepedulian: ', text: 'Menunjukkan rasa peduli terhadap hewan yang terancam punah dan pentingnya konservasi.' }
           ])
+        ],
+        720
+      ),
+      ...createHeadingWithChildren(
+        'D. DIMENSI PROFIL LULUSAN',
+        2,
+        [
+          ...bulletPoint('Keimanan dan Ketakwaan terhadap Tuhan Yang Maha Esa, dan Berakhlak Mulia: ', 'Peserta didik diajak untuk mengagumi dan mensyukuri keragaman hayati sebagai ciptaan Tuhan, yang diwujudkan melalui sikap peduli terhadap kelestarian lingkungan dan fauna.'),
+          ...bulletPoint('Kewargaan: ', 'Peserta didik mengembangkan rasa memiliki dan tanggung jawab terhadap kekayaan alam Indonesia, memahami pentingnya peran serta dalam menjaga fauna endemik sebagai bagian dari identitas bangsa.'),
+          ...bulletPoint('Penalaran Kritis: ', 'Peserta didik dilatih untuk menganalisis dan membandingkan informasi tentang berbagai hewan, mengidentifikasi fakta, dan menarik kesimpulan berdasarkan data yang disajikan.'),
+          ...bulletPoint('Penalaran Kritis: ', 'Peserta didik dilatih untuk menganalisis dan membandingkan informasi tentang berbagai hewan, mengidentifikasi fakta, dan menarik kesimpulan berdasarkan data yang disajikan.')
         ],
         720
       )
