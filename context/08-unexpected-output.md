@@ -1,4 +1,4 @@
-# Unwanted Output
+# Unexpected Output
 
 Dalam beberapa kasus, terutama saat menggunakan AI untuk menghasilkan kode atau dokumen, mungkin ada output yang tidak diinginkan atau tidak relevan yang muncul. Hal ini bisa disebabkan oleh berbagai faktor seperti kesalahan dalam prompt, keterbatasan model AI, atau bahkan bug dalam sistem.
 
