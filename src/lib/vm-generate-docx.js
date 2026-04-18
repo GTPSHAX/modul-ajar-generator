@@ -27,6 +27,8 @@ export default function generateDocxInVM (templateCode) {
   ${cleanedCode}
   `
 
+  console.debug('Executing VM code:\n', code)
+
   const context = {
     console,
     fs,
