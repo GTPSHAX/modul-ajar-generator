@@ -83,3 +83,32 @@ export function loadContexts (dir) {
 
   return context
 }
+
+/**
+ * Removes markdown code blocks and inline code from a markdown string.
+ * Note: This removes MARKDOWN code blocks (e.g., from markdown with embedded code),
+ * NOT pure code files. If the entire content is a code block, will return empty string.
+ * @param {string} markdown - Markdown content with embedded code blocks
+ * @returns {string} - Markdown with code blocks removed
+ */
+export function removeCodeBlocksFromMarkdown (markdown) {
+  return markdown
+    .replace(/^```[\s\S]*?^```/gm, '') // fenced blocks (``` on own line)
+    .replace(/`[^`\n]+`/g, '') // inline code only (no newlines inside)
+    .replace(/\n{3,}/g, '\n\n') // collapse excess blank lines
+    .trim()
+}
+
+/**
+ * Cleans code extracted from markdown code blocks.
+ * Removes the enclosing backticks while preserving inner content.
+ * Use this when the entire input is a markdown code block.
+ * @param {string} code - Code wrapped in markdown fences (```...```)
+ * @returns {string} - Code content without fence markers
+ */
+export function extractCodeFromMarkdownFence (code) {
+  return code
+    .replace(/^```.*?\n/, '') // Remove opening fence with language identifier
+    .replace(/\n```$/, '') // Remove closing fence
+    .trim()
+}
