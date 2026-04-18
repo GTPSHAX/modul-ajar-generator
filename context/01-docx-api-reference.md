@@ -76,6 +76,167 @@ Converts an integer to its Roman numeral representation.
 
 Example: `convertNumToRoman(1)` returns `"I"`.
 
+## Classes
+
+### `Row`
+A class for creating table rows with extensive styling and cell management capabilities.
+
+#### Methods
+
+- **`addCell(cell)`**: Adds a cell or array of cells to the row.
+  - **Parameters:** `cell` (TableCell|Array<TableCell>)
+  - **Returns:** `Row` (for chaining)
+
+- **`addTitleCell(text, columnSpan)`**: Adds a title cell that spans multiple columns with gray background.
+  - **Parameters:** `text` (String), `columnSpan` (Number, default: 2)
+  - **Returns:** `Row` (for chaining)
+
+- **`addFormField(label)`**: Adds a form field pair (label cell + empty input cell).
+  - **Parameters:** `label` (String)
+  - **Returns:** `Row` (for chaining)
+
+- **`addTextCell(text, options)`**: Adds a regular text cell with customizable styling.
+  - **Parameters:** `text` (String), `options` (Object: alignment, style, bold, italic, columnSpan, margins, borders)
+  - **Returns:** `Row` (for chaining)
+
+- **`addLabelValue(label, value, options)`**: Adds a label/value pair inside the same row.
+  - **Parameters:** `label` (String), `value` (String), `options` (Object: labelOptions, valueOptions)
+  - **Returns:** `Row` (for chaining)
+
+- **`setHeight(height, rule)`**: Sets the row height.
+  - **Parameters:** `height` (Number in twips), `rule` (String: 'auto', 'atLeast', 'exact')
+  - **Returns:** `Row` (for chaining)
+
+- **`setCantSplit(cantSplit)`**: Prevents the row from splitting across pages.
+  - **Parameters:** `cantSplit` (Boolean)
+  - **Returns:** `Row` (for chaining)
+
+- **`setAsHeader(isHeader)`**: Sets the row as a table header that repeats on each page.
+  - **Parameters:** `isHeader` (Boolean)
+  - **Returns:** `Row` (for chaining)
+
+- **`build()`**: Constructs and returns the `TableRow` object.
+  - **Returns:** `TableRow`
+
+### `TableWrapper`
+Enhanced table builder with Row objects and advanced table styling.
+
+#### Methods
+
+- **`addRow()`**: Creates and returns a new `Row` instance for chaining.
+  - **Returns:** `Row`
+
+- **`addTitleRow(text)`**: Convenience method to add a title row (legacy support).
+  - **Parameters:** `text` (String)
+  - **Returns:** `TableWrapper` (for chaining)
+
+- **`addFormFieldRow(label)`**: Convenience method to add a form field row (legacy support).
+  - **Parameters:** `label` (String)
+  - **Returns:** `TableWrapper` (for chaining)
+
+- **`addLabelValueRow(label1, value1, label2, value2)`**: Creates a row with two label/value pairs across four cells.
+  - **Parameters:** `label1` (String), `value1` (String), `label2` (String), `value2` (String)
+  - **Returns:** `TableWrapper` (for chaining)
+
+- **`addRowObject(row)`**: Adds a pre-built `Row` object to the table.
+  - **Parameters:** `row` (Row)
+  - **Returns:** `TableWrapper` (for chaining)
+
+- **`setWidth(size, type)`**: Sets the table width.
+  - **Parameters:** `size` (Number), `type` (WidthType)
+  - **Returns:** `TableWrapper` (for chaining)
+
+- **`setIndent(size, type)`**: Sets the table indentation.
+  - **Parameters:** `size` (Number), `type` (WidthType)
+  - **Returns:** `TableWrapper` (for chaining)
+
+- **`setBorders(borders)`**: Sets table border styling.
+  - **Parameters:** `borders` (Object)
+  - **Returns:** `TableWrapper` (for chaining)
+
+- **`setMargins(margins)`**: Sets table margins.
+  - **Parameters:** `margins` (Object)
+  - **Returns:** `TableWrapper` (for chaining)
+
+- **`build()`**: Constructs and returns the final `Table` object.
+  - **Returns:** `Table`
+
+#### Advanced Usage Examples
+
+```javascript
+import { TableWrapper, Row, AlignmentType, WidthType, BorderStyle } from './docx-api.js';
+
+// Example 1: Complex table with Row objects and styling
+const complexTable = new TableWrapper()
+  .setWidth(100, WidthType.PERCENTAGE)
+  .addRowObject(
+    new Row()
+      .addTitleCell('COMPLEX TABLE HEADER\nWith Multiple Lines', 3)
+      .setAsHeader(true)
+      .setHeight(600, 'exact')
+  )
+  .addRowObject(
+    new Row()
+      .addTextCell('Column 1', { 
+        bold: true, 
+        alignment: AlignmentType.CENTER,
+        style: 'Heading4'
+      })
+      .addTextCell('Column 2', { 
+        italic: true,
+        alignment: AlignmentType.LEFT 
+      })
+      .addTextCell('Column 3', { 
+        alignment: AlignmentType.RIGHT 
+      })
+      .setHeight(400, 'atLeast')
+      .setCantSplit(true)
+  )
+  .addRowObject(
+    new Row()
+      .addFormField('Name')
+      .addTextCell('Additional Info', { columnSpan: 1 })
+  )
+  .setBorders({
+    top: { style: BorderStyle.SINGLE, size: 2, color: '000000' },
+    bottom: { style: BorderStyle.SINGLE, size: 2, color: '000000' },
+    left: { style: BorderStyle.SINGLE, size: 1, color: 'CCCCCC' },
+    right: { style: BorderStyle.SINGLE, size: 1, color: 'CCCCCC' }
+  })
+  .build();
+
+// Example 2: Simple chaining approach (backward compatible)
+const simpleTable = new TableWrapper()
+  .addTitleRow('Simple Title')
+  .addFormFieldRow('Field Label')
+  .addFormFieldRow('Another Field')
+  .build();
+
+// Example 3: Mixed approach - combining Row objects and convenience methods
+const mixedTable = new TableWrapper()
+  .addTitleRow('Header Row')
+  .addRowObject(
+    new Row()
+      .addTextCell('Custom Cell 1', { bold: true })
+      .addTextCell('Custom Cell 2', { italic: true })
+      .setHeight(300, 'exact')
+  )
+  .addFormFieldRow('Standard Form Field')
+  .build();
+
+// Example 4: Advanced Row with multiple cells and styling
+const advancedRow = new Row()
+  .addTitleCell('Section Header', 2)
+  .addTextCell('Data', { alignment: AlignmentType.CENTER })
+  .setAsHeader(false)
+  .setCantSplit(true)
+  .setHeight(500, 'atLeast');
+
+const tableWithAdvancedRow = new TableWrapper()
+  .addRowObject(advancedRow)
+  .build();
+```
+
 ---
 
 ## Example Usage
