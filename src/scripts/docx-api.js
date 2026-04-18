@@ -2,6 +2,7 @@ import {
   Paragraph,
   Table,
   TableCell,
+  TableRow,
   WidthType,
   BorderStyle,
   ShadingType,
@@ -10,6 +11,372 @@ import {
 } from 'docx'
 
 // API ----------------------------------------------------------
+
+/**
+ * Row class for table rows with styling capabilities
+ */
+class Row {
+  constructor () {
+    this.cells = []
+    this.height = null
+    this.cantSplit = false
+    this.tableHeader = false
+  }
+
+  /**
+   * Add a cell to the row
+   * @param {TableCell|Array<TableCell>} cell - Cell or array of cells
+   * @returns {Row} - For chaining
+   */
+  addCell (cell) {
+    if (Array.isArray(cell)) {
+      this.cells.push(...cell)
+    } else {
+      this.cells.push(cell)
+    }
+    return this
+  }
+
+  /**
+   * Add a title cell that spans multiple columns
+   * @param {string} text - The title text
+   * @param {number} columnSpan - Number of columns to span (default: 2)
+   * @returns {Row} - For chaining
+   */
+  addTitleCell (text, columnSpan = 2) {
+    const cell = new TableCell({
+      children: text.split('\n').map((line) =>
+        createParagraph({
+          text: line,
+          alignment: AlignmentType.CENTER,
+          style: 'Heading3'
+        })
+      ),
+      shading: {
+        type: ShadingType.CLEAR,
+        fill: 'CCCCCC'
+      },
+      columnSpan,
+      margins: { top: 80, bottom: 80, left: 100, right: 100 }
+    })
+    this.cells.push(cell)
+    return this
+  }
+
+  /**
+   * Add a form field cell pair (label + empty input)
+   * @param {string} label - The label text
+   * @returns {Row} - For chaining
+   */
+  addFormField (label) {
+    const labelCell = new TableCell({
+      children: [
+        new Paragraph({
+          text: label,
+          spacing: { line: 240, lineRule: 'AUTO' }
+        })
+      ],
+      width: { size: 3000, type: WidthType.DXA },
+      margins: { top: 50, bottom: 50, left: 100, right: 100 },
+      borders: {
+        top: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        bottom: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        left: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        right: { style: BorderStyle.SINGLE, size: 1, color: '000000' }
+      }
+    })
+
+    const inputCell = new TableCell({
+      children: [
+        new Paragraph({ text: '', spacing: { line: 240, lineRule: 'AUTO' } })
+      ],
+      margins: { top: 50, bottom: 50, left: 100, right: 100 },
+      borders: {
+        top: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        bottom: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        left: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        right: { style: BorderStyle.SINGLE, size: 1, color: '000000' }
+      }
+    })
+
+    this.cells.push(labelCell, inputCell)
+    return this
+  }
+
+  /**
+   * Add a regular cell with text content
+   * @param {string} text - The cell text
+   * @param {Object} options - Cell options (alignment, style, etc.)
+   * @returns {Row} - For chaining
+   */
+  addTextCell (text, options = {}) {
+    const {
+      alignment = AlignmentType.LEFT,
+      style = null,
+      bold = false,
+      italic = false,
+      columnSpan = 1,
+      margins = { top: 50, bottom: 50, left: 100, right: 100 },
+      borders = {
+        top: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        bottom: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        left: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
+        right: { style: BorderStyle.SINGLE, size: 1, color: '000000' }
+      }
+    } = options
+
+    const cell = new TableCell({
+      children: [
+        createParagraph({
+          text,
+          alignment,
+          style,
+          bold,
+          italic
+        })
+      ],
+      columnSpan,
+      margins,
+      borders
+    })
+
+    this.cells.push(cell)
+    return this
+  }
+
+  /**
+   * Add a label/value pair inside the same row
+   * @param {string} label - The label text
+   * @param {string} value - The value text
+   * @param {Object} options - Optional styling for the value cell
+   * @returns {Row} - For chaining
+   */
+  addLabelValue (label, value, options = {}) {
+    this.addTextCell(label, {
+      bold: true,
+      alignment: AlignmentType.LEFT,
+      ...options.labelOptions
+    })
+    this.addTextCell(value, {
+      alignment: AlignmentType.LEFT,
+      ...options.valueOptions
+    })
+    return this
+  }
+
+  /**
+   * Set row height
+   * @param {number} height - Height in twips
+   * @param {string} rule - Height rule ('auto', 'atLeast', 'exact')
+   * @returns {Row} - For chaining
+   */
+  setHeight (height, rule = 'atLeast') {
+    this.height = { value: height, rule }
+    return this
+  }
+
+  /**
+   * Set row to not split across pages
+   * @param {boolean} cantSplit - Whether row can split
+   * @returns {Row} - For chaining
+   */
+  setCantSplit (cantSplit = true) {
+    this.cantSplit = cantSplit
+    return this
+  }
+
+  /**
+   * Set row as table header (repeats on each page)
+   * @param {boolean} isHeader - Whether this is a header row
+   * @returns {Row} - For chaining
+   */
+  setAsHeader (isHeader = true) {
+    this.tableHeader = isHeader
+    return this
+  }
+
+  /**
+   * Build the TableRow object
+   * @returns {TableRow} - The constructed docx TableRow
+   */
+  build () {
+    const rowOptions = {}
+
+    if (this.height) {
+      rowOptions.height = this.height
+    }
+
+    if (this.cantSplit) {
+      rowOptions.cantSplit = true
+    }
+
+    if (this.tableHeader) {
+      rowOptions.tableHeader = true
+    }
+
+    return new TableRow({
+      ...rowOptions,
+      children: this.cells
+    })
+  }
+}
+
+/**
+ * Enhanced TableWrapper class for building tables with rich features
+ * Supports Row objects with styling capabilities
+ */
+class TableWrapper {
+  constructor () {
+    this.rows = []
+    this.width = { size: 100, type: WidthType.PERCENTAGE }
+    this.indent = { size: 0, type: WidthType.AUTO }
+    this.borders = null
+    this.margins = null
+  }
+
+  /**
+   * Create and add a new row
+   * @returns {Row} - The new Row instance for chaining
+   */
+  addRow () {
+    const row = new Row()
+    this.rows.push(row)
+    return row
+  }
+
+  /**
+   * Add a title row that spans 2 columns (convenience method)
+   * @param {string} text - The title text (supports \n for multiple lines)
+   * @returns {TableWrapper} - For chaining
+   */
+  addTitleRow (text) {
+    const row = new Row()
+    row.addTitleCell(text)
+    this.rows.push(row)
+    return this
+  }
+
+  /**
+   * Add a form field row with label and empty input cell (convenience method)
+   * @param {string} label - The label for the form field
+   * @returns {TableWrapper} - For chaining
+   */
+  addFormFieldRow (label) {
+    const row = new Row()
+    row.addFormField(label)
+    this.rows.push(row)
+    return this
+  }
+
+  /**
+   * Add a label/value row with two label/value pairs
+   * @param {string} label1 - First label
+   * @param {string} value1 - First value
+   * @param {string} label2 - Second label
+   * @param {string} value2 - Second value
+   * @returns {TableWrapper} - For chaining
+   */
+  addLabelValueRow (label1, value1, label2, value2) {
+    const row = new Row()
+    row.addLabelValue(label1, value1)
+      .addLabelValue(label2, value2)
+    this.rows.push(row)
+    return this
+  }
+
+  /**
+   * Add a pre-built Row object
+   * @param {Row} row - The Row instance to add
+   * @returns {TableWrapper} - For chaining
+   */
+  addRowObject (row) {
+    if (row instanceof Row) {
+      this.rows.push(row)
+    }
+    return this
+  }
+
+  /**
+   * Set table width
+   * @param {number} size - Width size
+   * @param {WidthType} type - Width type (PERCENTAGE, DXA, etc.)
+   * @returns {TableWrapper} - For chaining
+   */
+  setWidth (size, type = WidthType.PERCENTAGE) {
+    this.width = { size, type }
+    return this
+  }
+
+  /**
+   * Set table indent
+   * @param {number} size - Indent size
+   * @param {WidthType} type - Indent type
+   * @returns {TableWrapper} - For chaining
+   */
+  setIndent (size, type = WidthType.AUTO) {
+    this.indent = { size, type }
+    return this
+  }
+
+  /**
+   * Set table borders
+   * @param {Object} borders - Border configuration
+   * @returns {TableWrapper} - For chaining
+   */
+  setBorders (borders) {
+    this.borders = borders
+    return this
+  }
+
+  /**
+   * Set table margins
+   * @param {Object} margins - Margin configuration
+   * @returns {TableWrapper} - For chaining
+   */
+  setMargins (margins) {
+    this.margins = margins
+    return this
+  }
+
+  /**
+   * Build and return the Table object
+   * @returns {Table} - The constructed docx Table
+   */
+  build () {
+    const tableRows = this.rows.map(row => {
+      if (row instanceof Row) {
+        return row.build()
+      }
+      // Legacy support for old format
+      if (row.type === 'title') {
+        return new TableRow({
+          children: [titleCell(row.text)]
+        })
+      } else if (row.type === 'formField') {
+        return new TableRow({
+          children: formField(row.label)
+        })
+      }
+      return new TableRow({ children: [] })
+    })
+
+    const tableOptions = {
+      rows: tableRows,
+      width: this.width,
+      indent: this.indent
+    }
+
+    if (this.borders) {
+      tableOptions.borders = this.borders
+    }
+
+    if (this.margins) {
+      tableOptions.margins = this.margins
+    }
+
+    return new Table(tableOptions)
+  }
+}
 
 /**
  * Parse HTML-like tags and convert to TextRun array
@@ -343,5 +710,8 @@ const formField = (label) => [ // eslint-disable-line no-unused-vars
     }
   })
 ]
+
+// Export the classes
+export { TableWrapper, Row }
 
 // --------------------------------------------------------------
