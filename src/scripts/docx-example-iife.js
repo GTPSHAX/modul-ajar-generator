@@ -8,6 +8,7 @@ import {
   ImageRun,
   AlignmentType
 } from 'docx'
+import { TableWrapper, Row } from './docx-api.js'
 import fs from 'fs'
 import path from 'path'
 
@@ -27,67 +28,22 @@ import path from 'path'
       {
         properties,
         children: [
-          new Table({
-            rows: [
-              new TableRow({
-                children: [ titleCell('MODUL AJAR PENDIDIKAN ANAK USIA DINI  KURIKULUM MERDEKA PERENCANAAN PEMBELAJARAN MENDALAM') ]
-              })
-            ],
-            width: {
-              size: 100,
-              type: WidthType.PERCENTAGE
-            },
-            indent: {
-              size: 0,
-              type: WidthType.AUTO
-            }
-          }),
+          new TableWrapper()
+            .addTitleRow('MODUL AJAR PENDIDIKAN ANAK USIA DINI  KURIKULUM MERDEKA PERENCANAAN PEMBELAJARAN MENDALAM')
+            .build(),
           createParagraph(''),
-          new Table({
-            rows: [
-              new TableRow({
-                children: formField("Penyusun"),
-              }),
-              new TableRow({
-                children: formField("Satuan Pendidikan"),
-              }),
-              new TableRow({
-                children: formField("Fase"),
-              }),
-              new TableRow({
-                children: formField("Jenjang/Kelas"),
-              }),
-              new TableRow({
-                children: formField("Model Pembelajaran"),
-              }),
-              new TableRow({
-                children: formField("Semester"),
-              }),
-              new TableRow({
-                children: formField("Minggu Ke-"),
-              }),
-              new TableRow({
-                children: formField("Bulan"),
-              }),
-              new TableRow({
-                children: formField("Alokasi Waktu"),
-              }),
-              new TableRow({
-                children: formField("Jumlah Anak"),
-              }),
-              new TableRow({
-                children: formField("Tema/Subtema"),
-              })
-            ],
-            width: {
-              size: 100,
-              type: WidthType.PERCENTAGE
-            },
-            indent: {
-              size: 0,
-              type: WidthType.AUTO
-            }
-          }),
+          new TableWrapper()
+            .addLabelValueRow('Penulis', 'Septi Rahayuningsih, S.Pd', 'Semester', '1 (Gasal)')
+            .addLabelValueRow('Asal Sekolah', 'KB PAUD Jateng', 'Minggu Ke-', '1')
+            .addLabelValueRow('Fase', 'Fondasi', 'Bulan', 'Juli 2025')
+            .addLabelValueRow('Jenjang/Kelas', 'A (2-3 Tahun)', 'Alokasi Waktu', '5 x 3 JP')
+            .addLabelValueRow('Model Pembelajaran', 'Kolaboratif, Eksperimental', 'Jumlah Anak', '')
+            .addRowObject(
+              new Row()
+                .addTextCell('Topik / Sub Topik', { bold: true })
+                .addTextCell('Identitas / Diriku (Aku Istimewa: Ayo Kita Berkenalan)', { columnSpan: 3 })
+            )
+            .build(),
           createHeading(`MODUL AJAR DEEP LEARNING\nTEMA/SUBTEMA: ${temaSubtema.toUpperCase()}\nSEMESTER ${convertNumToRoman(semester)} MINGGU KE: ${mingguKe}`, 1),
           createParagraph(''), createParagraph(''), // Untuk memberi jarak setelah judul utama
           
