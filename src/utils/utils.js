@@ -112,3 +112,18 @@ export function extractCodeFromMarkdownFence (code) {
     .replace(/\n```$/, '') // Remove closing fence
     .trim()
 }
+
+/**
+ * Converts a number to its Roman numeral representation.
+ * @param {number} num - The number to convert
+ * @returns {string} - The Roman numeral representation of the number
+ */
+export function convertNumToRoman (num) {
+  if (num < 1) { return '' }
+  if (num >= 40) { return 'XL' + convertNumToRoman(num - 40) }
+  if (num >= 10) { return 'X' + convertNumToRoman(num - 10) }
+  if (num >= 9) { return 'IX' + convertNumToRoman(num - 9) }
+  if (num >= 5) { return 'V' + convertNumToRoman(num - 5) }
+  if (num >= 4) { return 'IV' + convertNumToRoman(num - 4) }
+  if (num >= 1) { return 'I' + convertNumToRoman(num - 1) }
+}
