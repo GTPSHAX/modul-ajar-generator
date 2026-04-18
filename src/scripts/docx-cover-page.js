@@ -1,3 +1,5 @@
+import { TableWrapper } from './docx-api.js'
+
 const coverPage = {
   properties,
   children: [
@@ -28,39 +30,13 @@ const coverPage = {
         lineRule: "AUTO",
       },
     ),
-    new Table({
-      rows: [
-        // Title row (supports \n for multiple lines)
-        new TableRow({
-          children: [
-            titleCell("MODUL AJAR\nKURIKULUM MERDEKA (Deep Learning)"),
-          ],
-        }),
-        // Form fields
-        new TableRow({
-          children: formField("Nama Sekolah"),
-        }),
-        new TableRow({
-          children: formField("Nama Penyusun"),
-        }),
-        new TableRow({
-          children: formField("NIP"),
-        }),
-        new TableRow({
-          children: formField("Tema / Subtema"),
-        }),
-        new TableRow({
-          children: formField("Fase / Kelas / Semester"),
-        }),
-      ],
-      width: {
-        size: 100,
-        type: WidthType.PERCENTAGE,
-      },
-      indent: {
-        size: 0,
-        type: WidthType.AUTO,
-      },
-    }),
+    new TableWrapper()
+      .addTitleRow("MODUL AJAR\nKURIKULUM MERDEKA (Deep Learning)")
+      .addFormFieldRow("Nama Sekolah")
+      .addFormFieldRow("Nama Penyusun")
+      .addFormFieldRow("NIP")
+      .addFormFieldRow("Tema / Subtema")
+      .addFormFieldRow("Fase / Kelas / Semester")
+      .build(),
   ],
 };
