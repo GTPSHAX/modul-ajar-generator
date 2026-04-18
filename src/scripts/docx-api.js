@@ -189,9 +189,18 @@ const createHeading = (text, level = 1, center = false, customSpacing = {}, inde
 const createHeadingWithChildren = (headingText, level = 1, children = [], indentSize = 720, headingIndent = 0) => { // eslint-disable-line no-unused-vars
   const headingParagraph = createHeading(headingText, level, false, {}, headingIndent)
 
-  const childParagraphs = children.map((child) => {
+  // Flatten children to handle nested arrays from nested createHeadingWithChildren calls
+  const flatChildren = Array.isArray(children) ? children.flat(Infinity) : [children]
+
+  const childParagraphs = flatChildren.map((child) => {
     // If child is already a Paragraph or Table object, return it as-is
-    if (child instanceof Paragraph || child instanceof Table) {
+    // Use duck-typing because instanceof may fail in VM environments
+    if (
+      child instanceof Paragraph ||
+      child instanceof Table ||
+      (child && child.constructor && ['Paragraph', 'Table'].includes(child.constructor.name)) ||
+      (child && typeof child === 'object' && child.root)
+    ) {
       return child
     }
 
@@ -221,8 +230,13 @@ const bulletPoint = (label, textOrChildren = '', children = []) => { // eslint-d
     textOrChildren = ''
   }
 
+  let finalLabel = label
+  if (textOrChildren && typeof label === 'string' && !label.endsWith(' ')) {
+    finalLabel += ' '
+  }
+
   // Parse label for HTML tags
-  const labelRuns = label.includes('<') ? parseHtmlTags(label) : [new TextRun({ text: label, bold: true })]
+  const labelRuns = finalLabel.includes('<') ? parseHtmlTags(finalLabel) : [new TextRun({ text: finalLabel, bold: true })]
 
   const paragraphs = [
     new Paragraph({
@@ -245,8 +259,13 @@ const bulletPoint = (label, textOrChildren = '', children = []) => { // eslint-d
 
       if (childLabel) {
         // Parse label and text for HTML tags
-        const childLabelRuns = childLabel.includes('<') ? parseHtmlTags(childLabel) : [new TextRun({ text: childLabel, bold: true })]
         const textRuns = text.includes('<') ? parseHtmlTags(text) : [new TextRun({ text })]
+
+        let finalChildLabel = childLabel
+        if (text && typeof childLabel === 'string' && !childLabel.endsWith(' ')) {
+          finalChildLabel += ' '
+        }
+        const childLabelRuns = finalChildLabel.includes('<') ? parseHtmlTags(finalChildLabel) : [new TextRun({ text: finalChildLabel, bold: true })]
 
         return new Paragraph({
           bullet: {
