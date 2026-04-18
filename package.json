@@ -38,7 +38,8 @@
   },
   "standard": {
     "ignore": [
-      "src/scripts/docx-cover-page.js"
+      "src/scripts/docx-cover-page.js",
+      "src/scripts/docx-example-iife.js"
     ]
   }
 }
