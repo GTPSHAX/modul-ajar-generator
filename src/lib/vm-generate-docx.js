@@ -7,7 +7,15 @@ import { removeImportRequire } from '../utils/utils.js'
 const __dirname = import.meta.dirname
 const __filename = import.meta.filename
 
-export default function generateDocxInVM (templateCode) {
+/**
+ * Generates a DOCX document by executing the provided template code in a VM context.
+ * The template code can utilize the `docx` library and any additional predefined variables passed in.
+ * The generated document buffer is captured in a shared object for retrieval after execution.
+ * @param {*} templateCode - The JavaScript code that generates the DOCX document, expected to set `shared.buffer` with the resulting document buffer.
+ * @param {*} predefinedVars - An optional object containing predefined variables that will be available in the VM context when executing the template code.
+ * @returns
+ */
+export default function generateDocxInVM (templateCode, predefinedVars = '') {
   const cleanedCode = removeImportRequire(templateCode)
 
   // Shared object to capture output from VM
@@ -23,6 +31,7 @@ export default function generateDocxInVM (templateCode) {
   const code = `
   ${removeImportRequire(configCode)}
   ${removeImportRequire(apiCode)}
+  ${typeof coverPageCode === 'string' ? removeImportRequire(coverPageCode) : ''}
   ${removeImportRequire(coverPageCode)}
   ${cleanedCode}
   `
@@ -37,6 +46,10 @@ export default function generateDocxInVM (templateCode) {
     __filename,
     shared,
     ...docx
+  }
+
+  if (predefinedVars && typeof predefinedVars === 'object') {
+    Object.assign(context, predefinedVars)
   }
 
   try {
