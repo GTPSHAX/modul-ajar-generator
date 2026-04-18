@@ -1,5 +1,3 @@
-// Config -------------------------------------------------------
-
 const properties = { // eslint-disable-line no-unused-vars
   page: {
     size: {
@@ -80,4 +78,8 @@ const paragraphStyles = [ // eslint-disable-line no-unused-vars
   }
 ]
 
-// --------------------------------------------------------------
+export {
+  properties,
+  spacing,
+  paragraphStyles
+}
