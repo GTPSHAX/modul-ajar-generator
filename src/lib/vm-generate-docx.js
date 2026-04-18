@@ -11,8 +11,8 @@ const __filename = import.meta.filename
  * Generates a DOCX document by executing the provided template code in a VM context.
  * The template code can utilize the `docx` library and any additional predefined variables passed in.
  * The generated document buffer is captured in a shared object for retrieval after execution.
- * @param {*} templateCode - The JavaScript code that generates the DOCX document, expected to set `shared.buffer` with the resulting document buffer.
- * @param {*} predefinedVars - An optional object containing predefined variables that will be available in the VM context when executing the template code.
+ * @param {String} templateCode - The JavaScript code that generates the DOCX document, expected to set `shared.buffer` with the resulting document buffer.
+ * @param {String | Object} predefinedVars - An optional object containing predefined variables that will be available in the VM context when executing the template code.
  * @returns
  */
 export default function generateDocxInVM (templateCode, predefinedVars = '') {
