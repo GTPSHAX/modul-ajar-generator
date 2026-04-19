@@ -115,21 +115,21 @@ import {
           new TableWrapper()
             .setFitContent()
             .addLabelValuePairRow('<b>Capaian Pembelajaran</b>',
-              '<ul><li><b>Elemen Jati Diri:</b> Sub Elemen Anak memahami identitas dirinya yang terbentuk oleh ragam minat, kebutuhan, karakteristik gender, agama, dan sosial budaya</li><li><b>Elemen Jati Diri:</b> Sub Elemen Anak menggunakan fungsi gerak (motorik kasar, halus, dan taktil) untuk mengeksplorasi dan memanipulasi berbagai objek dan lingkungan sekitar sebagai bentuk pengembangan diri</li></ul>')
+              '<ol><li><b>Elemen Jati Diri:</b> Sub Elemen Anak memahami identitas dirinya yang terbentuk oleh ragam minat, kebutuhan, karakteristik gender, agama, dan sosial budaya</li><li><b>Elemen Jati Diri:</b> Sub Elemen Anak menggunakan fungsi gerak (motorik kasar, halus, dan taktil) untuk mengeksplorasi dan memanipulasi berbagai objek dan lingkungan sekitar sebagai bentuk pengembangan diri</li></ol>')
             .addLabelValuePairRow('<b>Lintas Disiplin Ilmu</b>',
               'Nilai agama dan moral (mengenal keberadaan Tuhan melalui syukur atas identitas diri), nilai Pancasila (menghargai keberagaman nama dan karakteristik teman), fisik motorik (gerakan menunjuk dan melambai), kognitif (mengingat dan menyebut nama sendiri), bahasa (mengucapkan nama dengan jelas), sosial emosional (membangun kepercayaan diri dan interaksi dengan teman)')
             .addLabelValuePairRow('<b>Tujuan Pembelajaran</b>',
-              '<ul><li>Anak mampu mengenal identitas dirinya sebagai bagian dari keluarga dan menyebutkan namanya sendiri sambil melakukan gerakan sederhana seperti melambai atau bertepuk tangan.</li></ul>')
+              '<ol><li>Anak mampu mengenal identitas dirinya sebagai bagian dari keluarga dan menyebutkan namanya sendiri sambil melakukan gerakan sederhana seperti melambai atau bertepuk tangan.</li></ol>')
             .addLabelValuePairRow('<b>Topik Pembelajaran</b>',
               'Aku Istimewa: Ayo Kita Berkenalan')
             .addLabelValuePairRow('<b>Praktik Pedagogis</b>',
               'Pembelajaran berbasis bermain dengan pendekatan eksplorasi langsung menggunakan metode bercerita interaktif, bernyanyi sambil bergerak, dan permainan cermin. Pendekatan ini mendukung prinsip berkesadaran melalui fokus pada diri sendiri, bermakna karena relevan dengan kehidupan sehari-hari, dan menggembirakan melalui aktivitas yang menyenangkan dan tidak menakutkan.')
             .addLabelValuePairRow('<b>Kemitraan Pembelajaran</b>',
-              '<ul><li>Lingkungan pembelajaran mengintegrasikan ruang kelas yang nyaman dengan cermin besar, area bermain terbuka untuk aktivitas motorik, dan sudut tenang untuk kegiatan refleksi, menciptakan suasana aman yang mendorong eksplorasi identitas diri.</li></ul>')
+              '<ol><li>Lingkungan pembelajaran mengintegrasikan ruang kelas yang nyaman dengan cermin besar, area bermain terbuka untuk aktivitas motorik, dan sudut tenang untuk kegiatan refleksi, menciptakan suasana aman yang mendorong eksplorasi identitas diri.</li></ol>')
             .addLabelValuePairRow('<b>Lingkungan Pembelajaran</b>',
-              '<ul><li>Melibatkan guru kelas sebagai fasilitator utama, orang tua sebagai sumber informasi tentang anak di rumah, serta kakak kelas sebagai model positif dalam pengenalan diri dan interaksi sosial.</li></ul>')
+              '<ol><li>Melibatkan guru kelas sebagai fasilitator utama, orang tua sebagai sumber informasi tentang anak di rumah, serta kakak kelas sebagai model positif dalam pengenalan diri dan interaksi sosial.</li></ol>')
             .addLabelValuePairRow('<b>Pemanfaatan Digital</b>',
-              '<ul><li>Perencanaan: Persiapan video cerita dan lagu digital, aplikasi dokumentasi pembelajaran</li><li>Pelaksanaan: Video interaktif "Ayo Berkenalan", musik latar untuk aktivitas, dokumentasi foto dan video proses belajar anak</li><li>Asesmen: Portofolio digital karya anak, rekaman video presentasi sederhana anak</li><li>Dukungan media ajar digital tersedia melalui https://drive.paud.id/download/ayo-berkenalan/</li></ul>')
+              '<ol><li>Perencanaan: Persiapan video cerita dan lagu digital, aplikasi dokumentasi pembelajaran</li><li>Pelaksanaan: Video interaktif "Ayo Berkenalan", musik latar untuk aktivitas, dokumentasi foto dan video proses belajar anak</li><li>Asesmen: Portofolio digital karya anak, rekaman video presentasi sederhana anak</li><li>Dukungan media ajar digital tersedia melalui https://drive.paud.id/download/ayo-berkenalan/</li></ol>')
         )
         .sp(2)
 
@@ -227,37 +227,37 @@ import {
                 .para('Asesmen pada Awal Pembelajaran:')
                 .para('Asesmen awal dilakukan untuk mengidentifikasi kemampuan dasar anak dalam mengenal identitas diri dan kesiapan mengikuti pembelajaran. Observasi difokuskan pada respon verbal, non-verbal, dan interaksi sosial anak.')
                 .add(parseContentAsParagraphs(
-                  '<ul>' +
+                  '<ol>' +
                     '<li>Tanyakan langsung "Siapa namamu?" dan catat apakah anak menjawab, diam, atau menunjuk diri.</li>' +
                     '<li>Panggil nama anak satu per satu dan observasi respon (menoleh, tersenyum, atau mengabaikan.)</li>' +
                     '<li>Minta anak menunjuk bagian tubuh (kepala, tangan, kaki) dan catat keakuratan responnya.</li>' +
                     '<li>Amati tingkat kepercayaan diri anak saat berinteraksi dengan guru dan teman baru.</li>' +
                     '<li>Dokumentasikan kemampuan motorik awal melalui permainan sederhana seperti tepuk tangan.</li>' +
-                  '</ul>'
+                  '</ol>'
                 ))
                 .sp()
                 .para('Asesmen pada Proses Pembelajaran:')
                 .para('Asesmen proses dilakukan berkelanjutan selama kegiatan berlangsung untuk memantau perkembangan dan memberikan dukungan tepat waktu. Focus pada partisipasi aktif dan kemajuan keterampilan.')
                 .add(parseContentAsParagraphs(
-                  '<ul>' +
+                  '<ol>' +
                     '<li>Catat frekuensi anak menyebutkan nama sendiri selama aktivitas dan tingkat kejelasan ucapan.</li>' +
                     '<li>Observasi keaktifan anak dalam setiap permainan dan beri tanda centang pada lembar checklist.</li>' +
                     '<li>Dokumentasikan interaksi sosial positif seperti berbagi, membantu, atau bermain bersama teman.</li>' +
                     '<li>Amati kemampuan mengikuti instruksi sederhana dan beri bantuan jika diperlukan.</li>' +
                     '<li>Berikan pujian langsung saat anak menunjukkan progress dan catat momen keberhasilannya.</li>' +
-                  '</ul>'
+                  '</ol>'
                 ))
                 .sp()
                 .para('Asesmen pada Akhir Pembelajaran:')
                 .para('Asesmen akhir mengevaluasi pencapaian tujuan pembelajaran dan memberikan gambaran kemajuan anak secara keseluruhan. Fokus pada demonstrasi kemampuan yang telah dipelajari.')
                 .add(parseContentAsParagraphs(
-                  '<ul>' +
+                  '<ol>' +
                     '<li>Minta setiap anak memperkenalkan diri di depan teman dan catat kelancaran serta kepercayaan dirinya.</li>' +
                     '<li>Tes kemampuan menunjuk foto diri sendiri dari kumpulan foto anak-anak di kelas.</li>' +
                     '<li>Observasi kemampuan motorik melalui gerakan melambai dan bertepuk tangan saat menyebut nama.</li>' +
                     '<li>Dokumentasikan ekspresi kegembiraan dan antusiasme anak melalui foto atau video singkat.</li>' +
                     '<li>Berikan reward berupa stiker atau pujian khusus dan catat reaksi positif anak terhadap penghargaan.</li>' +
-                  '</ul>'
+                  '</ol>'
                 )),
               { numbering: { level: 1 } }
             ),
