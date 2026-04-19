@@ -94,3 +94,5 @@ createParagraph('')
 ````
 
 Harus memuat Heading dengan format "A. IDENTIFIKASI" dan level 1, kemudian diikuti dengan table yang memiliki 5 kolom dan beberapa baris sesuai dengan kebutuhan informasi yang harus disampaikan. Setiap cell dalam table harus diisi dengan informasi yang relevan dan sesuai dengan konteks pembelajaran anak usia dini.
+
+HARUS MENGIKUTI FORMAT TABLE YANG ADA DALAM CONTOH, JANGAN MENGUBAH STRUKTUR TABLE ATAU FORMAT PENULISAN INFORMASI DI DALAM CELL.
