@@ -115,6 +115,8 @@ class Row {
       bold = false,
       italic = false,
       columnSpan = 1,
+      rowSpan = 1,
+      width = null,
       margins = { top: 50, bottom: 50, left: 100, right: 100 },
       borders = {
         top: { style: BorderStyle.SINGLE, size: 1, color: '000000' },
@@ -135,6 +137,8 @@ class Row {
         })
       ],
       columnSpan,
+      ...(rowSpan > 1 && { rowSpan }),
+      ...(width && { width }),
       margins,
       borders
     })
