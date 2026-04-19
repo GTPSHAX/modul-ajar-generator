@@ -29,11 +29,11 @@ export default function generateDocxInVM (templateCode, predefinedVars = '') {
   const coverPageCode = fs.readFileSync(path.join(__dirname, '../scripts/docx-cover-page.js'), 'utf-8')
 
   const code = `
-  ${removeImportRequire(configCode)}
-  ${removeImportRequire(apiCode)}
-  ${typeof predefinedVars === 'string' ? removeImportRequire(predefinedVars) : ''}
-  ${removeImportRequire(coverPageCode)}
-  ${cleanedCode}
+  ;${removeImportRequire(configCode)}
+  ;${removeImportRequire(apiCode)}
+  ;${typeof predefinedVars === 'string' ? removeImportRequire(predefinedVars) : ''}
+  ;${removeImportRequire(coverPageCode)}
+  ;${cleanedCode}
   `
 
   console.debug('Executing VM code:\n', code)
