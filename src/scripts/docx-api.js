@@ -1300,7 +1300,7 @@ const getNumberingConfig = () => [
       {
         level: 0,
         format: LevelFormat.DECIMAL,
-        text: '%1. ',
+        text: '%1.\u2009',
         suffix: LevelSuffix.SPACE,
         alignment: AlignmentType.LEFT,
         style: {
@@ -1312,7 +1312,7 @@ const getNumberingConfig = () => [
       {
         level: 1,
         format: LevelFormat.LOWER_LETTER,
-        text: '%2) ',
+        text: '%2)\u2009',
         suffix: LevelSuffix.SPACE,
         alignment: AlignmentType.LEFT,
         style: {
@@ -1324,7 +1324,7 @@ const getNumberingConfig = () => [
       {
         level: 2,
         format: LevelFormat.LOWER_ROMAN,
-        text: '%3) ',
+        text: '%3)\u2009',
         suffix: LevelSuffix.SPACE,
         alignment: AlignmentType.LEFT,
         style: {
