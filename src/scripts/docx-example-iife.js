@@ -177,6 +177,7 @@ import { namaPenulis, semester, asalSekolah, mingguKe, fase, bulan, jenjangKelas
   })
 
   Packer.toBuffer(doc).then((buffer) => {
+    shared.buffer = buffer // eslint-disable-line no-undef
     fs.writeFileSync('Modul_Ajar_Keluarga_TK_Bintang_Kecil.docx', buffer)
     console.log('Dokumen berhasil dibuat!')
   })
