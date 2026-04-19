@@ -105,7 +105,7 @@ import { namaPenulis, semester, asalSekolah, mingguKe, fase, bulan, jenjangKelas
             .addLabelValuePairRow('Pemanfaatan Digital', '<ul><li>Perencanaan: Persiapan video cerita dan lagu digital, aplikasi dokumentasi pembelajaran</li><li>Pelaksanaan: Video interaktif "Ayo Berkenalan", musik latar untuk aktivitas, dokumentasi foto dan video proses belajar anak</li><li>Asesmen: Portofolio digital karya anak, rekaman video presentasi sederhana anak</li><li>Dukungan media ajar digital tersedia melalui https://drive.paud.id/download/ayo-berkenalan/</li></ul>')
             .build(),
           createParagraph(''),
-          ...createHeadingWithChildren('C.PENGALAMAN BELAJAR', 1, [
+          ...createHeadingWithChildren('C. RENCANA PELAKSANAAN PEMBELAJARAN', 1, [
             ...createHeadingWithChildren('C.1. Pendahuluan', 2, [
               createParagraph('Pendahuluan tentang pengalaman belajar.')
             ]),
