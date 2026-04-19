@@ -14,6 +14,7 @@ import {
   createIndent,
   createTableWidthElement
 } from 'docx'
+import { spacing } from './docx-config.js'
 
 /**
  * Row class for table rows with styling capabilities
@@ -788,7 +789,7 @@ const parseHtmlTags = (text) => {
 
 const createParagraph = (content, customSpacing = {}) => {
   const baseConfig = {
-    spacing // eslint-disable-line no-undef
+    spacing
   }
 
   if (customSpacing) {
