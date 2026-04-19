@@ -11,6 +11,40 @@ Parses a string containing basic HTML tags (`<b>`, `<i>`, `<u>`, `<s>`) and conv
 - **Returns:** `TextRun[]`
 - **Description:** This function enables the insertion of basic text formatting (bold, italic, underline, and strikethrough) directly within an input string, which is then translated into a format compatible with the `docx` library.
 
+### `parseHtmlLists(text)`
+Detects and parses HTML lists (`<ul>`, `<ol>`, `<li>`) or markdown-style lists (`- item`) in text.
+- **Parameters:**
+  - `text` (String): The input string to be parsed.
+- **Returns:** `Paragraph[]` or `null` (if no lists found)
+- **Description:** This function automatically detects both HTML list tags and markdown-style lists (lines starting with `-`), converting them into properly formatted bullet or numbered paragraphs in the Word document.
+
+### `parseHtmlListTags(text)`
+Parses HTML `<ul>`, `<ol>`, `<li>` tags into paragraphs.
+- **Parameters:**
+  - `text` (String): The input string containing HTML list tags.
+- **Returns:** `Paragraph[]` or `null`
+- **Unordered Lists:** `<ul><li>item</li></ul>` → bullet points (•)
+- **Ordered Lists:** `<ol><li>item</li></ol>` → numbered points (1, 2, 3, etc.)
+- **Example:**
+  ```html
+  <ul><li>First item</li><li>Second item</li></ul>
+  <ol><li>First step</li><li>Second step</li></ol>
+  ```
+
+### `parseMarkdownLists(lines)`
+Parses markdown-style lists (lines starting with `-`) into bullet paragraphs.
+- **Parameters:**
+  - `lines` (String[]): Array of text lines.
+- **Returns:** `Paragraph[]` or `null`
+- **Example:** `['- First item', '- Second item']`
+
+### `parseContentAsParagraphs(content)`
+Intelligently parses content - detects lists and converts them to structured paragraphs, otherwise treats as regular text with formatting.
+- **Parameters:**
+  - `content` (String | Object): The content to parse.
+- **Returns:** `Paragraph[]`
+- **Description:** Primary function used internally by the API to convert any text content (with or without lists) into proper Word paragraphs.
+
 ### `createParagraph(content, customSpacing)`
 Creates a `Paragraph` with "Normal" styling. It supports HTML tag processing within the `content` and accepts optional spacing configurations.
 - **Parameters:**
@@ -95,8 +129,12 @@ A class for creating table rows with extensive styling and cell management capab
   - **Parameters:** `label` (String)
   - **Returns:** `Row` (for chaining)
 
-- **`addTextCell(text, options)`**: Adds a regular text cell with customizable styling.
+- **`addTextCell(text, options)`**: Adds a regular text cell with customizable styling. Supports HTML formatting, HTML lists, and markdown-style lists.
   - **Parameters:** `text` (String), `options` (Object: alignment, style, bold, italic, columnSpan, margins, borders)
+  - **Supports:**
+    - HTML formatting: `<b>bold</b>`, `<i>italic</i>`, `<u>underline</u>`, `<s>strikethrough</s>`
+    - HTML lists: `<ul><li>item</li></ul>`, `<ol><li>item</li></ol>`
+    - Markdown lists: Lines starting with `- ` are converted to bullet points
   - **Returns:** `Row` (for chaining)
 
 - **`addLabelValue(label, value, options)`**: Adds a label/value pair inside the same row.
@@ -179,8 +217,31 @@ Enhanced table builder with Row objects and advanced table styling.
 ```javascript
 import { TableWrapper, Row, AlignmentType, WidthType, BorderStyle } from './docx-api.js';
 
-// Example 1: Complex table with Row objects and styling
-const complexTable = new TableWrapper()
+// Example 1: Table with markdown-style lists in cells
+const markdownListTable = new TableWrapper()
+  .setFitContent()
+  .addLabelValuePairRow('Learning Objectives', '- Understand core concepts\n- Apply knowledge to examples\n- Evaluate results')
+  .addLabelValuePairRow('Materials', '- Textbook\n- Reference materials\n- Online resources')
+  .build();
+
+// Example 2: Table with HTML list syntax
+const htmlListTable = new TableWrapper()
+  .setFitContent()
+  .addLabelValuePairRow('Key Points', '<ul><li>First point</li><li>Second point</li><li>Third point</li></ul>')
+  .addLabelValuePairRow('Steps', '<ol><li>Step one</li><li>Step two</li><li>Step three</li></ol>')
+  .build();
+// Note: <ul> renders as bullets, <ol> renders as numbered list
+
+// Example 3: Table with mixed content and formatting
+const mixedTable = new TableWrapper()
+  .setFitContent()
+  .addLabelValuePairRow('Important Notes', 'Pay attention to:\n- <b>Bold items</b> are critical\n- <i>Italic items</i> are optional\n- Regular items are supplementary')
+  .addRowObject(
+    new Row()
+      .addTextCell('Assessment Methods', { bold: true })
+      .addTextCell('- Written test\n- Practical demonstrations\n- Group projects')
+  )
+  .build();
   .setWidth(100, WidthType.PERCENTAGE)
   .addRowObject(
     new Row()
