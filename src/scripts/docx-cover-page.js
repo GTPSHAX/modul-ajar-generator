@@ -4,6 +4,8 @@ import { properties } from './docx-config.js'
 import fs from 'fs'
 import path from 'path'
 
+const __dirname = import.meta.dirname
+
 const coverPage = {
   properties,
   children: [
