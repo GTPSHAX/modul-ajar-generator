@@ -2,7 +2,10 @@ import fs from 'fs'
 import path from 'path'
 import vm from 'vm'
 import * as docx from 'docx'
-import { removeImportRequire, convertNumToRoman } from '../utils/utils.js'
+import { removeImportRequire, convertNumToRoman, extractCodeFromMarkdownFence } from '../utils/utils.js'
+import * as docxConfig from '../scripts/docx-config.js'
+import * as docxApi from '../scripts/docx-api.js'
+import * as docxCoverPage from '../scripts/docx-cover-page.js'
 
 const __dirname = import.meta.dirname
 const __filename = import.meta.filename
@@ -13,28 +16,17 @@ const __filename = import.meta.filename
  * The generated document buffer is captured in a shared object for retrieval after execution.
  * @param {String} templateCode - The JavaScript code that generates the DOCX document, expected to set `shared.buffer` with the resulting document buffer.
  * @param {String | Object} predefinedVars - An optional object containing predefined variables that will be available in the VM context when executing the template code.
- * @returns
+ * @returns {Promise<Buffer>} A promise resolving to the generated DOCX document buffer.
  */
 export default function generateDocxInVM (templateCode, predefinedVars = '') {
-  const cleanedCode = removeImportRequire(templateCode)
+  const cleanedCode = removeImportRequire(extractCodeFromMarkdownFence(templateCode))
 
   // Shared object to capture output from VM
   const shared = {
     buffer: null
   }
 
-  // Load additional code snippets
-  const configCode = fs.readFileSync(path.join(__dirname, '../scripts/docx-config.js'), 'utf-8')
-  const apiCode = fs.readFileSync(path.join(__dirname, '../scripts/docx-api.js'), 'utf-8')
-  const coverPageCode = fs.readFileSync(path.join(__dirname, '../scripts/docx-cover-page.js'), 'utf-8')
-
-  const code = `
-  ;${removeImportRequire(configCode)}
-  ;${removeImportRequire(apiCode)}
-  ;${typeof predefinedVars === 'string' ? removeImportRequire(predefinedVars) : ''}
-  ;${removeImportRequire(coverPageCode)}
-  ;${cleanedCode}
-  `
+  const code = `;${typeof predefinedVars === 'string' ? removeImportRequire(predefinedVars) : ''}\n;${cleanedCode}`
 
   console.debug('Executing VM code:\n', code)
 
@@ -46,7 +38,10 @@ export default function generateDocxInVM (templateCode, predefinedVars = '') {
     __filename,
     convertNumToRoman,
     shared,
-    ...docx
+    ...docx,
+    ...docxConfig,
+    ...docxApi,
+    ...docxCoverPage
   }
 
   if (predefinedVars && typeof predefinedVars === 'object') {
