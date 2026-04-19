@@ -134,6 +134,10 @@ Enhanced table builder with Row objects and advanced table styling.
   - **Parameters:** `label` (String)
   - **Returns:** `TableWrapper` (for chaining)
 
+- **`addLabelValuePairRow(label, value)`**: Creates a simple 2-column row with a bold label and value.
+  - **Parameters:** `label` (String), `value` (String)
+  - **Returns:** `TableWrapper` (for chaining)
+
 - **`addLabelValueRow(label1, value1, label2, value2)`**: Creates a row with two label/value pairs across four cells.
   - **Parameters:** `label1` (String), `value1` (String), `label2` (String), `value2` (String)
   - **Returns:** `TableWrapper` (for chaining)
@@ -224,6 +228,8 @@ const simpleTable = new TableWrapper()
 // Example 3: Mixed approach - combining Row objects and convenience methods
 const mixedTable = new TableWrapper()
   .addTitleRow('Header Row')
+  .addLabelValuePairRow('Label 1', 'Value 1')
+  .addLabelValuePairRow('Label 2', 'Value 2')
   .addRowObject(
     new Row()
       .addTextCell('Custom Cell 1', { bold: true })
@@ -233,7 +239,14 @@ const mixedTable = new TableWrapper()
   .addFormFieldRow('Standard Form Field')
   .build();
 
-// Example 4: Advanced Row with multiple cells and styling
+// Example 4: Using addLabelValueRow for 4-column layout
+const fourColumnTable = new TableWrapper()
+  .addTitleRow('Header')
+  .addLabelValueRow('Label 1', 'Value 1', 'Label 2', 'Value 2')
+  .addLabelValueRow('Label 3', 'Value 3', 'Label 4', 'Value 4')
+  .build();
+
+// Example 5: Advanced Row with multiple cells and styling
 const advancedRow = new Row()
   .addTitleCell('Section Header', 2)
   .addTextCell('Data', { alignment: AlignmentType.CENTER })

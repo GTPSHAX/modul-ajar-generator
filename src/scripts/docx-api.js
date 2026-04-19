@@ -274,7 +274,21 @@ class TableWrapper {
   }
 
   /**
-   * Add a label/value row with two label/value pairs
+   * Add a simple 2-column row with label and value
+   * @param {string} label - The label (bold)
+   * @param {string} value - The value
+   * @returns {TableWrapper} - For chaining
+   */
+  addLabelValuePairRow (label, value) {
+    const row = new Row()
+    row.addTextCell(label, { bold: true })
+      .addTextCell(value)
+    this.rows.push(row)
+    return this
+  }
+
+  /**
+   * Add a label/value row with two label/value pairs (4 columns)
    * @param {string} label1 - First label
    * @param {string} value1 - First value
    * @param {string} label2 - Second label
