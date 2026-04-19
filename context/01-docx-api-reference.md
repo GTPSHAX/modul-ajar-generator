@@ -10,6 +10,9 @@ The heading API has been updated to support native multilevel numbering and nest
 - Nested `createHeadingWithChildren(...)` calls now apply child indentation cumulatively by default.
 - A new helper, `createNumberedHeading(...)`, should be used for section numbering instead of manual text prefixes like `A.`, `B.`, `C.1`, etc.
 - `getNumberingConfig()` now includes `section-heading-numbering` in addition to HTML list numbering references.
+- `parseHtmlListTags(...)` now uses a nested-aware parser, so `<ol>` / `<ul>` inside `<li>` are preserved correctly.
+- `html-ordered-list` levels now render as `1.`, `a)`, and `i)` with a single-space suffix after the marker.
+- `createHeadingWithChildren(...)` now preserves nested `ListParagraph` hierarchy when applying child indentation, so sub-list levels remain visually deeper than parent levels.
 
 ### Migration Quick Guide
 
@@ -54,12 +57,25 @@ Parses HTML `<ul>`, `<ol>`, `<li>` tags into paragraphs.
   - `text` (String): The input string containing HTML list tags.
 - **Returns:** `Paragraph[]` or `null`
 - **Unordered Lists:** `<ul><li>item</li></ul>` → bullet points (•)
-- **Ordered Lists:** `<ol><li>item</li></ol>` → numbered list (1., 2., 3., etc.) using docx numbering system
+- **Ordered Lists:** `<ol><li>item</li></ol>` → numbered list using configured multilevel numbering
+  - Level 0: `1.`, `2.`, `3.` (`DECIMAL`)
+  - Level 1: `a)`, `b)`, `c)` (`LOWER_LETTER`)
+  - Level 2: `i)`, `ii)`, `iii)` (`LOWER_ROMAN`)
+  - Marker gap is effectively doubled at this point (marker text includes one trailing space plus `LevelSuffix.SPACE`)
   - Requires `getNumberingConfig()` to be added to Document configuration
+- **Nested Lists:** Nested `<ol>` / `<ul>` inside `<li>` are preserved and mapped to deeper list levels.
 - **Example:**
   ```html
   <ul><li>First item</li><li>Second item</li></ul>
-  <ol><li>First step</li><li>Second step</li></ol>
+  <ol>
+    <li>First step</li>
+    <li>Second step
+      <ol>
+        <li>Second step detail A</li>
+        <li>Second step detail B</li>
+      </ol>
+    </li>
+  </ol>
   ```
 
 ### `getNumberingConfig()`
@@ -68,6 +84,14 @@ Creates numbering configuration for Document to support HTML lists and section h
   - `html-ordered-list`
   - `html-unordered-list`
   - `section-heading-numbering`
+- **HTML ordered list levels (`html-ordered-list`):**
+  - Level 0: `%1. ` (`DECIMAL`) + `LevelSuffix.SPACE`
+  - Level 1: `%2) ` (`LOWER_LETTER`) + `LevelSuffix.SPACE`
+  - Level 2: `%3) ` (`LOWER_ROMAN`) + `LevelSuffix.SPACE`
+- **HTML unordered list levels (`html-unordered-list`):**
+  - Level 0: `•`
+  - Level 1: `◦`
+  - Level 2: `▪`
 - **Section heading levels (`section-heading-numbering`):**
   - Level 0: `%1.` (A., B., C. via `UPPER_LETTER`)
   - Level 1: `%1.%2.`
@@ -155,6 +179,7 @@ Creates a heading paragraph followed by an array of indented child elements (par
 - **Behavior Notes:**
   - Nested `createHeadingWithChildren(...)` outputs are indented cumulatively automatically.
   - Manual `indentSize` adjustment for the second nested call is no longer required in normal usage.
+  - Numbered list children keep relative hierarchy (`ilvl`) when heading-child indentation is injected (nested alphabet/roman items remain deeper than parent numeric items).
   - Existing explicitly-indented external `Paragraph`/`Table` objects are preserved.
 - **Nested Example (Auto Cumulative Indent):**
   ```javascript
