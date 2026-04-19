@@ -4,7 +4,15 @@ import {
   Packer,
   WidthType
 } from 'docx'
-import { TableWrapper, Row, createParagraph, createNumberedHeading, getNumberingConfig, createHeadingWithChildren } from './docx-api.js'
+import {
+  TableWrapper,
+  Row,
+  createParagraph,
+  createNumberedHeading,
+  getNumberingConfig,
+  createHeadingWithChildren,
+  parseContentAsParagraphs
+} from './docx-api.js'
 import { properties, spacing, paragraphStyles } from './docx-config.js'
 import { coverPage } from './docx-cover-page.js'
 import { convertNumToRoman } from './utils.js'
@@ -106,8 +114,8 @@ import { namaPenulis, semester, asalSekolah, mingguKe, fase, bulan, jenjangKelas
             .build(),
           createParagraph(''),
           ...createHeadingWithChildren('RENCANA PELAKSANAAN PEMBELAJARAN', 1, [
-            ...createHeadingWithChildren('Pendahuluan', 2, [
-              createParagraph('Pendahuluan tentang pengalaman belajar.')
+            ...createHeadingWithChildren('AWAL (BERKESADARAN, BERMAKNA, MENGGEMBIRAKAN)', 2, [
+              ...parseContentAsParagraphs('<ol><li>Pembuka dari proses pembelajaran yang bertujuan untuk mempersiapkan peserta didik sebelum memasuki inti pembelajaran.</li><li>Kegiatan dalam tahap ini meliputi orientasi yang bermakna, apersepsi yang kontekstual, dan motivasi yang menggembirakan:</li><li>Salam dan doa pembuka untuk menciptakan suasana tenang dan fokus.</li><li>Menyanyikan lagu "1234 Pergi Sekolah" untuk membangun semangat belajar.</li><li>Kegiatan pemantik dengan buku cerita/video "Ayo Berkenalan".</li><li>Permainan konsentrasi sederhana untuk memusatkan perhatian anak.</li><li>Pertanyaan pemantik untuk mengembangkan berbagai aspek:\n<ol><li>"Siapa yang menciptakan kita semua?" (Keimanan dan Ketakwaan.)</li><li>"Apa yang bisa kamu lakukan sendiri hari ini?" (Kemandirian.)</li><li>"Bagaimana perasaanmu ketika menyebutkan namamu?" (Kesehatan.)</li><li>"Siapa temanmu yang paling baik?" (Kolaborasi.)</li><li>"Apa yang membuat namamu istimewa?" (Kreativitas.)</li><li>"Mengapa kita harus mengenal teman-teman kita?" (Kewargaan.)</li><li>"Bagaimana caranya agar teman tahu nama kita?" (Komunikasi.)</li><li>"Apa yang terjadi jika kita tidak tahu nama sendiri?" (Penalaran Kritis.)</li></ol></li></ol>')
             ], 720, 0, { numbering: { level: 1 } }),
             ...createHeadingWithChildren('Inti', 2, [
               createParagraph('Inti dari pengalaman belajar.')
