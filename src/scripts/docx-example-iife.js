@@ -113,7 +113,7 @@ import {
         .sp()
         .table(
           new TableWrapper()
-            .setFitContent()
+            .setColumnWidths([2000, 5000])
             .addLabelValuePairRow('<b>Capaian Pembelajaran</b>',
               '<ol><li><b>Elemen Jati Diri:</b> Sub Elemen Anak memahami identitas dirinya yang terbentuk oleh ragam minat, kebutuhan, karakteristik gender, agama, dan sosial budaya</li><li><b>Elemen Jati Diri:</b> Sub Elemen Anak menggunakan fungsi gerak (motorik kasar, halus, dan taktil) untuk mengeksplorasi dan memanipulasi berbagai objek dan lingkungan sekitar sebagai bentuk pengembangan diri</li></ol>')
             .addLabelValuePairRow('<b>Lintas Disiplin Ilmu</b>',
@@ -176,7 +176,7 @@ import {
                 .sp()
                 .table(
                   new TableWrapper()
-                    .setFitContent()
+                    .setColumnWidths([500, 5000])
                     .addTitleRow('MEMAHAMI (BERKESADARAN, BERMAKNA, MENGGEMBIRAKAN)')
                     .addLabelValuePairRow('<b>Hari</b>', '<b>Uraian Kegiatan</b>')
                     .addLabelValuePairRow('<b>1</b>', 'Mengenal identitas diri melalui cerita interaktif "Ayo Berkenalan", diikuti dengan diskusi kelompok kecil untuk berbagi pengalaman tentang nama dan karakteristik diri masing-masing anak.')
@@ -184,7 +184,7 @@ import {
                 )
                 .table(
                   new TableWrapper()
-                    .setFitContent()
+                    .setColumnWidths([500, 5000])
                     .addTitleRow('MEMAHAMI (BERKESADARAN, BERMAKNA)')
                     .addLabelValuePairRow('<b>Hari</b>', '<b>Uraian Kegiatan</b>')
                     .addLabelValuePairRow('<b>3</b>', 'Mengenal identitas diri melalui cerita interaktif "Ayo Berkenalan", diikuti dengan diskusi kelompok kecil untuk berbagi pengalaman tentang nama dan karakteristik diri masing-masing anak.')
@@ -192,7 +192,7 @@ import {
                 )
                 .table(
                   new TableWrapper()
-                    .setFitContent()
+                    .setColumnWidths([500, 5000])
                     .addTitleRow('MEREFLEKSI (BERKESADARAN, BERMAKNA)')
                     .addLabelValuePairRow('<b>Hari</b>', '<b>Uraian Kegiatan</b>')
                     .addLabelValuePairRow('<b>5</b>', 'Mengenal identitas diri melalui cerita interaktif "Ayo Berkenalan", diikuti dengan diskusi kelompok kecil untuk berbagi pengalaman tentang nama dan karakteristik diri masing-masing anak.')
