@@ -8,37 +8,21 @@ async function main () {
     const openAI = new OpenAIWrapper()
 
     const prompt = `
-    Buatlah IIFE (Immediately Invoked Function Expression) dalam JavaScript untuk menggenerate document dengan docx.js.
+    Buatkan saya predefined variable dengan JavaScript berdasarkan data dibawah ini:
 
-    Nama Satuan Pendidikan: TK Bintang Kecil
-    Nama Penyusun: Siti Aminah
-    NIP: 123456789
-    Tema / Subtema: Keluarga / Anggota Keluarga
-    Fase / Kelas / Semester: Fase Fondasi / TK A / Semester 1
-    Alokasi Waktu: 6JP (3 Pertemuan)
-    Tahun Pelajaran: 2026/2027
+    # Identifikasi
 
-    Tujuan Pembelajaran:
-    1. Anak dapat menyebutkan anggota keluarga inti (ayah, ibu, saudara).
-    2. Anak dapat menggambar anggota keluarga menggunakan bentuk sederhana.
-    3. Anak dapat menyanyikan lagu tentang keluarga.
+    ## Peserta Didik
+    Anak kelompok A (2-3 tahun) memiliki kemampuan bahasa yang sedang berkembang dengan kosakata terbatas namun mulai dapat mengungkapkan kebutuhan dasar. Mereka sangat membutuhkan pengulangan dan bimbingan dalam pengenalan identitas diri, serta masih dalam tahap mengembangkan kepercayaan terhadap lingkungan sekitar. Anak-anak pada usia ini belajar melalui eksplorasi sensori dan memerlukan dukungan emosional yang konsisten.
 
-    Kegiatan Pembelajaran:
+    ## Materi Pelajaran
+    Materi pengenalan identitas diri mencakup pengetahuan esensial tentang nama dan bagian tubuh, pengetahuan aplikatif dalam berinteraksi sosial sederhana, serta pengetahuan nilai dan karakter melalui rasa percaya diri dan kemandirian. Materi ini sangat relevan dengan kehidupan sehari-hari anak dan memiliki tingkat kesulitan yang sesuai dengan tahap perkembangan mereka, mengintegrasikan nilai keimanan, kejujuran, dan kemandirian.
+    
+    ## Dimensi Profil Lulusan
+    [true, true, true, false, true, true, false, true]
 
-    Pertemuan 1:
-    - Pendahuluan: Menyapa anak dan memperkenalkan tema keluarga dengan gambar dan cerita singkat.
-    - Inti: Mengajak anak menyebutkan anggota keluarga inti dan menggambar anggota keluarganya sendiri.
-    - Penutup: Menyanyikan lagu tentang keluarga bersama-sama.
-
-    Pertemuan 2:
-    - Pendahuluan: Mengulang kembali anggota keluarga inti dengan gambar dan cerita.
-    - Inti: Bermain peran dengan boneka untuk mengenal peran setiap anggota keluarga.
-    - Penutup: Menyanyikan lagu tentang keluarga bersama-sama.
-
-    Pertemuan 3:
-    - Pendahuluan: Mengulang kembali anggota keluarga inti dengan gambar dan cerita.
-    - Inti: Membuat kolase anggota keluarga menggunakan potongan kertas warna-warni.
-    - Penutup: Menyanyikan lagu tentang keluarga bersama-sama.
+    ## Kegiatan Pembelajaran
+    Kegiatan pembelajaran dirancang untuk anak kelompok A (2-3 tahun) dengan pendekatan kolaboratif dan eksperimental. Kegiatan ini melibatkan eksplorasi diri melalui permainan peran, pengenalan bagian tubuh dengan lagu dan gerakan, serta interaksi sosial sederhana untuk membangun kepercayaan diri. Setiap kegiatan disesuaikan dengan kebutuhan perkembangan anak, memberikan dukungan emosional, dan memfasilitasi pembelajaran yang menyenangkan dan bermakna.
     `
 
     const response = await openAI.chat(prompt)
@@ -49,7 +33,20 @@ async function main () {
     const cleanResponse = extractCodeFromMarkdownFence(response)
 
     // Execute the code
-    const docxBuffer = await generateDocxInVM(cleanResponse)
+    const docxBuffer = await generateDocxInVM({
+      namaSekolah: 'TK Negeri Pembina Bangsa',
+      namaPenyusun: 'Zert S.Pd.',
+      nip: '198001012010121001',
+      temaSubtema: 'Identitas / Diriku (Aku Istimewa; Ayo Kita Berkenalan)',
+      fase: 'Fondasi',
+      kelas: 'Kelompok A (2-3 tahun)',
+      semester: 1,
+      mingguKe: 1,
+      bulan: 'Januari',
+      alokasiWaktu: '5 x 3 JP',
+      modelPembelajaran: 'Kolabortif, Eksperimental',
+      jumlahAnak: 10
+    }, cleanResponse)
     if (docxBuffer) {
       fs.writeFileSync('generated_document.docx', docxBuffer)
       console.log('Document generated successfully: generated_document.docx')
