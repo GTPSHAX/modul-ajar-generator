@@ -131,7 +131,7 @@ const dimensiProfilLulusan = {
     createDplCell('dpl2', 'DPL2', 'Kewargaan', identifikasiDimensiProfilLulusan), // eslint-disable-line no-undef
     createDplCell('dpl4', 'DPL4', 'Kreativitas', identifikasiDimensiProfilLulusan), // eslint-disable-line no-undef
     createDplCell('dpl6', 'DPL6', 'Kemandirian', identifikasiDimensiProfilLulusan), // eslint-disable-line no-undef
-    createDplCell(['dpl8', 'dlp8'], 'DPL8', 'Komunikasi', identifikasiDimensiProfilLulusan) // eslint-disable-line no-undef
+    createDplCell('dpl8', 'DPL8', 'Komunikasi', identifikasiDimensiProfilLulusan) // eslint-disable-line no-undef
   ]
 }
 
