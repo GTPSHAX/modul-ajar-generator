@@ -295,6 +295,7 @@ new TableWrapper()
 | `.setWidth(size, type)`  | Default: 100%                           |
 | `.setIndent(size, type)` | Default: 0                              |
 | `.setFitContent()`       | AUTOFIT layout (adapts to cell content) |
+| `.setColumnWidths(widths)` | Set per-column widths (DXA twips)     |
 | `.setBorders(borders)`   | Table-level border config               |
 | `.setMargins(margins)`   | Table-level cell margin defaults        |
 
