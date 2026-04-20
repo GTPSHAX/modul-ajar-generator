@@ -9,24 +9,22 @@ import * as docxCoverPage from '../scripts/docx-cover-page.js'
 
 const __dirname = import.meta.dirname
 const __filename = import.meta.filename
+const mainCode = fs.readFileSync(path.join(__dirname, '../scripts/docx-main.js'), 'utf-8')
 
 /**
  * Generates a DOCX document by executing the provided template code in a VM context.
  * The template code can utilize the `docx` library and any additional predefined variables passed in.
- * The generated document buffer is captured in a shared object for retrieval after execution.
- * @param {String} templateCode - The JavaScript code that generates the DOCX document, expected to set `shared.buffer` with the resulting document buffer.
+ * The generated document buffer is returned by main() from the VM context.
+ * @param {Object} credentialVars - The credentials variable of the document.
  * @param {String | Object} predefinedVars - An optional object containing predefined variables that will be available in the VM context when executing the template code.
  * @returns {Promise<Buffer>} A promise resolving to the generated DOCX document buffer.
  */
-export default function generateDocxInVM (templateCode, predefinedVars = '') {
-  const cleanedCode = removeImportRequire(extractCodeFromMarkdownFence(templateCode))
+export default function generateDocxInVM (credentialVars = {}, predefinedVars) {
+  const predefinedCode = typeof predefinedVars === 'string'
+    ? removeImportRequire(extractCodeFromMarkdownFence(predefinedVars))
+    : ''
 
-  // Shared object to capture output from VM
-  const shared = {
-    buffer: null
-  }
-
-  const code = `;${typeof predefinedVars === 'string' ? removeImportRequire(predefinedVars) : ''}\n;${cleanedCode}`
+  const code = `${predefinedCode};\n${removeImportRequire(mainCode)};\nmain(credentialVars)`
 
   console.debug('Executing VM code:\n', code)
 
@@ -37,30 +35,24 @@ export default function generateDocxInVM (templateCode, predefinedVars = '') {
     __dirname,
     __filename,
     convertNumToRoman,
-    shared,
+    credentialVars,
     ...docx,
     ...docxConfig,
     ...docxApi,
+    ...credentialVars,
     ...docxCoverPage
-  }
-
-  if (predefinedVars && typeof predefinedVars === 'object') {
-    Object.assign(context, predefinedVars)
   }
 
   try {
     const result = vm.runInNewContext(code, context)
     if (result && typeof result.then === 'function') {
       return result
-        .then(() => {
-          return shared.buffer
-        })
         .catch((err) => {
           console.error('Error in async code within VM:', err)
           throw err
         })
     } else {
-      return shared.buffer
+      return result
     }
   } catch (err) {
     console.error('Error executing VM code:', err)
