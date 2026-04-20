@@ -290,25 +290,25 @@ new TableWrapper()
 
 ### Constructor Options (via setters)
 
-| Method                   | Description                             |
-| ------------------------ | --------------------------------------- |
-| `.setWidth(size, type)`  | Default: 100%                           |
-| `.setIndent(size, type)` | Default: 0                              |
-| `.setFitContent()`       | AUTOFIT layout (adapts to cell content) |
-| `.setColumnWidths(widths)` | Set per-column widths (DXA twips)     |
-| `.setBorders(borders)`   | Table-level border config               |
-| `.setMargins(margins)`   | Table-level cell margin defaults        |
+| Method                     | Description                             |
+| -------------------------- | --------------------------------------- |
+| `.setWidth(size, type)`    | Default: 100%                           |
+| `.setIndent(size, type)`   | Default: 0                              |
+| `.setFitContent()`         | AUTOFIT layout (adapts to cell content) |
+| `.setColumnWidths(widths)` | Set per-column widths (DXA twips)       |
+| `.setBorders(borders)`     | Table-level border config               |
+| `.setMargins(margins)`     | Table-level cell margin defaults        |
 
 ### Row convenience methods
 
-| Method                              | Result                                               |
-| ----------------------------------- | ---------------------------------------------------- |
-| `.addTitleRow(text)`                | Shaded header row spanning 2 columns. Supports `\n`. |
-| `.addFormFieldRow(label)`           | Label cell (fixed 3000 twip) + blank input cell      |
-| `.addLabelValuePairRow(label, val)` | Bold label + value, 2 columns. Supports `\n` in both cells |
+| Method                              | Result                                                       |
+| ----------------------------------- | ------------------------------------------------------------ |
+| `.addTitleRow(text)`                | Shaded header row spanning 2 columns. Supports `\n`.         |
+| `.addFormFieldRow(label)`           | Label cell (fixed 3000 twip) + blank input cell              |
+| `.addLabelValuePairRow(label, val)` | Bold label + value, 2 columns. Supports `\n` in both cells   |
 | `.addLabelValueRow(l1, v1, l2, v2)` | Two label/value pairs, 4 columns. Supports `\n` in all cells |
-| `.addRow()`                         | Returns a new `Row` for manual building              |
-| `.addRowObject(row)`                | Add a pre-built `Row` instance                       |
+| `.addRow()`                         | Returns a new `Row` for manual building                      |
+| `.addRowObject(row)`                | Add a pre-built `Row` instance                               |
 
 ### `.build()` → `Table`
 
@@ -609,19 +609,15 @@ await new DocWrapper()
       .section(
         "IDENTIFIKASI",
         1,
-        new SectionWrapper()
-          .sp()
-          .table(
-            new TableWrapper()
-              .setFitContent()
-              .addRowObject(
-                new Row()
-                  .addTextCell("<b>Peserta Didik</b>", {
-                    width: { size: 1800, type: WidthType.DXA },
-                  })
-                  .addTextCell("Deskripsi peserta didik.", { columnSpan: 4 }),
-              ),
+        new SectionWrapper().sp().table(
+          new TableWrapper().setFitContent().addRowObject(
+            new Row()
+              .addTextCell("<b>Peserta Didik</b>", {
+                width: { size: 1800, type: WidthType.DXA },
+              })
+              .addTextCell("Deskripsi peserta didik.", { columnSpan: 4 }),
           ),
+        ),
         { numbering: { level: 0 } },
       )
       .sp(2)
