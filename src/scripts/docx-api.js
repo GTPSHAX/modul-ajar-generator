@@ -939,6 +939,7 @@ class TableWrapper {
     this.borders = null
     this.margins = null
     this.layout = null
+    this.columnWidths = null
   }
 
   /**
@@ -1021,6 +1022,12 @@ class TableWrapper {
     return this
   }
 
+  /** @param {number[]} widths @returns {TableWrapper} */
+  setColumnWidths (widths) {
+    this.columnWidths = widths
+    return this
+  }
+
   /** @param {Object} borders @returns {TableWrapper} */
   setBorders (borders) { this.borders = borders; return this }
 
@@ -1035,7 +1042,8 @@ class TableWrapper {
       ...(this.width && { width: this.width }),
       ...(this.layout && { layout: this.layout }),
       ...(this.borders && { borders: this.borders }),
-      ...(this.margins && { margins: this.margins })
+      ...(this.margins && { margins: this.margins }),
+      ...(this.columnWidths && { columnWidths: this.columnWidths })
     }
     return new Table(tableOptions)
   }
