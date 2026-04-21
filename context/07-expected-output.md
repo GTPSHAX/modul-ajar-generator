@@ -75,7 +75,7 @@ const rencanaPelaksanaanAwal = [
 const rencanaPelaksanaanInti = 'Pada tahap ini, anak aktif terlibat dalam pengalaman belajar memahami, mengaplikasi, dan merefleksi. Guru menerapkan prinsip pembelajaran berkesadaran, bermakna, menggembirakan untuk mencapai tujuan pembelajaran.'
 const rencanaPelaksanaanIntiTable = [
   {
-    title: 'MEMAHAMI (BERKESADARAN, BERMAKNA, MENGGEMBIRAKAN)',
+    title: 'MEMAHAMI',
     rows: [
       ['<b>Hari</b>', '<b>Uraian Kegiatan</b>'],
       [
@@ -107,7 +107,7 @@ const rencanaPelaksanaanIntiTable = [
     ]
   },
   {
-    title: 'MEMAHAMI (BERKESADARAN, BERMAKNA)',
+    title: 'MEMAHAMI',
     rows: [
       ['<b>Hari</b>', '<b>Uraian Kegiatan</b>'],
       [
@@ -137,7 +137,7 @@ const rencanaPelaksanaanIntiTable = [
     ]
   },
   {
-    title: 'MEREFLEKSI (BERKESADARAN, BERMAKNA)',
+    title: 'MEREFLEKSI',
     rows: [
       ['<b>Hari</b>', '<b>Uraian Kegiatan</b>'],
       [
