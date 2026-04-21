@@ -1,0 +1,57 @@
+<script>
+  /** This script is for handling AI enhancement buttons in the form.
+   * It listens for clicks on buttons with IDs corresponding to AI enhancement types,
+   * sends the current content of the associated textarea to the server for enhancement,
+   * and updates the textarea with the enhanced content received from the server.
+   */
+
+  const buttons = document.querySelectorAll('button[id^="ai."]')
+  console.debug("AI Enhancement buttons found:", buttons);
+  const buttonKeys = Array.from(buttons).map(btn => btn.id.slice(3)); // Remove "ai." prefix to get the keys
+  console.debug("AI Enhancement button keys:", buttonKeys);
+
+  const inputField = buttonKeys.reduce((acc, key) => {
+    acc[key] = document.getElementById(key);
+    return acc;
+  }, {});
+  console.debug("Associated input fields for AI Enhancement:", inputField);
+
+  const handleAIEnhancement = async (event) => {
+    const buttonId = event.currentTarget.id;
+    const key = buttonId.slice(3); // Remove "ai." prefix to get the key
+    console.debug(`AI Enhancement button clicked: ${buttonId}, corresponding key: ${key}`);
+
+    const textarea = inputField[key];
+    if (!textarea) {
+      console.error(`No associated textarea found for key: ${key}`);
+      return;
+    }
+
+    const originalContent = textarea.value;
+    console.debug(`Original content for key "${key}":`, originalContent);
+
+    try {
+      const response = await fetch('/api/recommendation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: originalContent, field: key })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.debug(`Enhanced content received for key "${key}":`, data.result);
+      textarea.value = data.result; // Update the textarea with the enhanced content
+    } catch (error) {
+      console.error('Error during AI enhancement:', error);
+      alert('Failed to enhance the content. Please try again later.');
+    }
+  };
+
+  // Attach event listeners to all AI enhancement buttons
+  buttons.forEach(button => {
+    button.addEventListener('click', handleAIEnhancement);
+  });
+</script>
