@@ -130,11 +130,11 @@
 
             <input type="number" id="alokasiWaktu1"
             class="w-10 aspect-square border-2 border-rose-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-rose-800 focus:border-transparent" 
-            placeholder="5" oninput="handleAlokasiWaktuChange()">
+            placeholder="5" oninput="handleAlokasiWaktuChange()" required>
             <span>&times;</span>
             <input type="number" id="alokasiWaktu2" 
             class="w-10 aspect-square border-2 border-rose-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-rose-800 focus:border-transparent" 
-            placeholder="10" oninput="handleAlokasiWaktuChange()">
+            placeholder="10" oninput="handleAlokasiWaktuChange()" required>
             <span class="font-semibold mt-2 text-rose-800">JP</span>
           </div>
           
@@ -152,7 +152,7 @@
               name="temaSubtema" 
               id="temaSubtema"
               class="w-full border-none bg-transparent p-2.5 text-gray-700 placeholder:text-gray-400 focus:ring-0 focus:outline-none" 
-              placeholder="Contoh: Keluarga / Keluargaku Sayang">
+              placeholder="Contoh: Keluarga / Keluargaku Sayang" required>
 
             <div class="flex items-center pr-3">
               <%- include('components/ai.ejs', {prompt: "Sempurnakan tema/subtema", type: "temaSubtemaAi"}) %>
@@ -279,7 +279,7 @@
               id="tujuanPembelajaran"
               rows="3"
               class="w-full resize-y border-none bg-transparent p-2.5 pr-12 text-gray-700 placeholder:text-gray-400 focus:ring-0 focus:outline-none"
-              placeholder="Contoh: Anak mampu menyebutkan anggota keluarganya..."></textarea>
+              placeholder="Contoh: Anak mampu menyebutkan anggota keluarganya..." required></textarea>
 
             <div class="absolute right-3 top-3 flex items-center">
               <%- include('components/ai.ejs', {prompt: "Sempurnakan tujuan pembelajaran", type: "tujuanPembelajaranAi"}) %>
@@ -299,7 +299,7 @@
               name="topikPembelajaran"
               id="topikPembelajaran"
               class="w-full border-none bg-transparent p-2.5 text-gray-700 placeholder:text-gray-400 focus:ring-0 focus:outline-none"
-              placeholder="Contoh: Aku dan Lingkungan Sekitarku">
+              placeholder="Contoh: Aku dan Lingkungan Sekitarku" required>
 
             <div class="flex items-center pr-3">
               <%- include('components/ai.ejs', {prompt: "Sempurnakan topik pembelajaran", type: "topikPembelajaranAi"}) %>
