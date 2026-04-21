@@ -22,14 +22,17 @@ if (!OPENAI_MODEL) {
 }
 
 export default class OpenAIWrapper {
-  constructor (apiKey = OPENAI_API_KEY, model = OPENAI_MODEL) {
+  constructor (diableDefaultContext = false, apiKey = OPENAI_API_KEY, model = OPENAI_MODEL) {
     this.mClient = new OpenAI({
       apiKey,
       baseURL: OPENAI_API_BASE_URL
     })
     this.mModel = model
     this.mContexts = []
-    this.#loadContexts()
+
+    if (!diableDefaultContext) {
+      this.#loadContexts()
+    }
   }
 
   // Setters and getters
