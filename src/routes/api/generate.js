@@ -162,11 +162,11 @@ ${rencanaKegiatan}
   // Execute the code — credentialVars is passed directly from above
   const docxBuffer = await generateDocxInVM({ ...body }, cleanResponse)
   if (docxBuffer) {
-    fs.writeFileSync('generated_document.docx', docxBuffer)
-    console.log('Document generated successfully: generated_document.docx')
+    res.setHeader('Content-Disposition', 'attachment; filename="Modul_Ajar_' + body.namaSekolah.replace(/\s+/g, '_') + '.docx"')
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    return res.status(200).send(docxBuffer)
   } else {
     console.error('Failed to generate document: No buffer returned from VM')
+    return res.status(500).json({ status: false, error: 'Failed to generate document', buffer: null })
   }
-
-  res.send('Hello from the /hello route!')
 })
