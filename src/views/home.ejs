@@ -3,6 +3,13 @@
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia atque modi praesentium, itaque ex, fugiat similique ducimus labore expedita a ipsum culpa, eaque sint? Dicta similique at eius a natus!</p>
 
   <div class="mt-10 border-2 md:border-4 border-dashed p-5">
+    <b>Gunakan template dibawah ini untuk mempermudah proses pembuatan modul ajar:</b>
+    <div class="flex" id="templateButtonsContainer">
+
+    </div>
+  </div>
+
+  <div class="mt-10 border-2 md:border-4 border-dashed p-5">
     <div class="text-gray-700">
       <p>Tolong isi beberapa kolom dibawah ini untuk membantu AI membuat dokumen.</p>
       
@@ -19,11 +26,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 w-full">
 
         <label class="group block cursor-pointer" for="namaSekolah">
-          <div class="flex items-center gap-2 font-semibold text-sky-800">
-            <%- include('components/icons/school.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Satuan Pendidikan</span>
-          </div>
-          <small class="text-sm text-gray-500">Boleh dikosongkan</small>
+          <p class="font-semibold text-sky-800">Satuan Pendidikan</p>
+          <small class="text-gray-500">Boleh dikosongkan</small>
           
           <input type="text" name="namaSekolah" id="namaSekolah" 
             class="w-full border-2 border-sky-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:border-transparent" 
@@ -31,11 +35,8 @@
         </label>
 
         <label class="group block cursor-pointer" for="namaPenyusun">
-          <div class="flex items-center gap-2 font-semibold text-green-800">
-            <%- include('components/icons/user.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Nama Penyusun</span>
-          </div>
-          <small class="text-sm text-gray-500">Boleh dikosongkan</small>
+          <p class="font-semibold text-green-800">Nama Penyusun</p>
+          <small class="text-gray-500">Boleh dikosongkan</small>
           
           <input type="text" name="namaPenyusun" id="namaPenyusun" 
             class="w-full border-2 border-green-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-green-800 focus:border-transparent" 
@@ -43,51 +44,39 @@
         </label>
 
         <label class="group block cursor-pointer" for="nip">
-          <div class="flex items-center gap-2 font-semibold text-yellow-800">
-            <%- include('components/icons/number.ejs', {width: "20px", height: "20px"}) %> 
-            <span>NIP</span>
-          </div>
-          <small class="text-sm text-gray-500">Boleh dikosongkan</small>
+          <p class="font-semibold text-amber-800">NIP</p>
+          <small class="text-gray-500">Boleh dikosongkan</small>
           
           <input type="text" name="nip" id="nip" 
-            class="w-full border-2 border-yellow-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-800 focus:border-transparent" 
+            class="w-full border-2 border-amber-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-amber-800 focus:border-transparent" 
             placeholder="Contoh: 1234567890">
         </label>
 
         <label class="group block cursor-pointer" for="fase">
-          <div class="flex items-center gap-2 font-semibold text-red-800">
-            <%- include('components/icons/phase.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Fase</span>
-          </div>
-          <small class="text-sm text-gray-500">Pilih Fase yang sesuai</small>
+          <p class="font-semibold text-orange-800">Fase</p>
+          <small class="text-gray-500">Pilih Fase yang sesuai</small>
           
           <select name="fase" id="fase" 
-            class="w-full border-2 border-red-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent appearance-none cursor-pointer" required>
+            class="w-full border-2 border-orange-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-orange-800 focus:border-transparent appearance-none cursor-pointer" required>
             <option value="Fondasi" selected>Fondasi</option>
           </select>
         </label>
 
         <label class="group block cursor-pointer" for="semester">
-          <div class="flex items-center gap-2 font-semibold text-violet-800">
-            <%- include('components/icons/date.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Semester</span>
-          </div>
-          <small class="text-sm text-gray-500">Semester saat ini</small>
+          <p class="font-semibold text-red-800">Semester</p>
+          <small class="text-gray-500">Semester saat ini</small>
           
           <input type="number" name="semester" id="semester" 
-            class="w-full border-2 border-violet-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-violet-800 focus:border-transparent" 
+            class="w-full border-2 border-red-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent" 
             placeholder="Contoh: 2" min="1" max="14" required>
         </label>
 
         <label class="group block cursor-pointer" for="bulan">
-          <div class="flex items-center gap-2 font-semibold text-purple-800">
-            <%- include('components/icons/date.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Bulan</span>
-          </div>
-          <small class="text-sm text-gray-500">Pilih bulan pelaksanaan</small>
+          <p class="font-semibold text-pink-800">Bulan</p>
+          <small class="text-gray-500">Pilih bulan pelaksanaan</small>
           
           <select name="bulan" id="bulan" 
-            class="w-full border-2 border-purple-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-transparent appearance-none cursor-pointer" required>
+            class="w-full border-2 border-pink-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-pink-800 focus:border-transparent appearance-none cursor-pointer" required>
             <option value="Januari" selected>Januari</option>
             <option value="Februari">Februari</option>
             <option value="Maret">Maret</option>
@@ -104,72 +93,57 @@
         </label>
 
         <label class="group block cursor-pointer" for="mingguKe">
-          <div class="flex items-center gap-2 font-semibold text-violet-800">
-            <%- include('components/icons/date.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Minggu Ke</span>
-          </div>
-          <small class="text-sm text-gray-500">Minggu ke berapa dalam pembelajaran kali ini</small>
+          <p class="font-semibold text-purple-800">Minggu Ke</p>
+          <small class="text-gray-500">Minggu ke berapa dalam pembelajaran kali ini</small>
           
           <input type="number" name="mingguKe" id="mingguKe" 
-            class="w-full border-2 border-violet-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-violet-800 focus:border-transparent" 
+            class="w-full border-2 border-purple-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-transparent" 
             placeholder="Contoh: 2" min="1" max="4" required>
         </label>
 
         <label class="group block cursor-pointer" for="kelas">
-          <div class="flex items-center gap-2 font-semibold text-red-800">
-            <%- include('components/icons/phase.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Kelas</span>
-          </div>
-          <small class="text-sm text-gray-500">Pilih Kelas yang sesuai</small>
+          <p class="font-semibold text-violet-800">Kelas</p>
+          <small class="text-gray-500">Pilih Kelas yang sesuai</small>
           
           <select name="kelas" id="kelas" 
-            class="w-full border-2 border-red-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent appearance-none cursor-pointer" required>
+            class="w-full border-2 border-violet-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-violet-800 focus:border-transparent appearance-none cursor-pointer" required>
             <option value="Kelompok A (4-5 tahun)" selected>Kelompok A (4-5 tahun)</option>
             <option value="Kelompok B (5-6 tahun)">Kelompok B (5-6 tahun)</option>
           </select>
         </label>
 
         <label class="group block cursor-pointer" for="jumlahAnak">
-          <div class="flex items-center gap-2 font-semibold text-violet-800">
-            <%- include('components/icons/date.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Jumlah Anak</span>
-          </div>
-          <small class="text-sm text-gray-500">Boleh dikosongkan</small>
+          <p class="font-semibold text-indigo-800">Jumlah Anak</p>
+          <small class="text-gray-500">Boleh dikosongkan</small>
           
           <input type="number" name="jumlahAnak" id="jumlahAnak" 
-            class="w-full border-2 border-violet-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-violet-800 focus:border-transparent" 
+            class="w-full border-2 border-indigo-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-indigo-800 focus:border-transparent" 
             placeholder="Contoh: 10">
         </label>
 
         <label class="group block cursor-pointer" for="alokasiWaktu1">
-          <div class="flex items-center gap-2 font-semibold text-violet-800">
-            <%- include('components/icons/date.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Alokasi Waktu</span>
-          </div>
-          <small class="text-sm text-gray-500">Hari &times; Jam Pelajaran</small>
+          <p class="font-semibold text-rose-800">Alokasi Waktu</p>
+          <small class="text-gray-500">Hari &times; Jam Pelajaran</small>
           
           <div class="flex items-center gap-2">
             <input type="hidden" name="alokasiWaktu" id="alokasiWaktu" required>
 
             <input type="number" id="alokasiWaktu1"
-            class="w-10 aspect-square border-2 border-violet-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-violet-800 focus:border-transparent" 
-            placeholder="Contoh: 10" oninput="handleAlokasiWaktuChange()">
+            class="w-10 aspect-square border-2 border-rose-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-rose-800 focus:border-transparent" 
+            placeholder="5" oninput="handleAlokasiWaktuChange()">
             <span>&times;</span>
             <input type="number" id="alokasiWaktu2" 
-            class="w-10 aspect-square border-2 border-violet-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-violet-800 focus:border-transparent" 
-            placeholder="Contoh: 10" oninput="handleAlokasiWaktuChange()">
-            <span class="font-semibold mt-2">JP</span>
+            class="w-10 aspect-square border-2 border-rose-800/50 rounded-md p-2 mt-2 focus:outline-none focus:ring-2 focus:ring-rose-800 focus:border-transparent" 
+            placeholder="10" oninput="handleAlokasiWaktuChange()">
+            <span class="font-semibold mt-2 text-rose-800">JP</span>
           </div>
           
         </label>
 
         <div class="group block">
           <label for="temaSubtema" class="cursor-pointer">
-            <div class="flex items-center gap-2 font-semibold text-sky-800">
-              <%- include('components/icons/school.ejs', {width: "20px", height: "20px"}) %>
-              <span>Tema/Subtema</span>
-            </div>
-            <small class="block text-sm text-gray-500">Tema dan Subtema yang akan diajarkan</small>
+            <p class="font-semibold text-sky-800">Tema/Subtema</p>
+            <small class="block text-gray-500">Tema dan Subtema yang akan diajarkan</small>
           </label>
 
           <div class="relative mt-2 flex items-center border-2 border-sky-800/50 rounded-md transition-all focus-within:border-sky-800 focus-within:ring-2 focus-within:ring-sky-800/50">
@@ -187,75 +161,66 @@
         </div>
 
         <div class="group block cursor-pointer">
-          <div class="flex items-center gap-2 font-semibold text-red-800">
-            <%- include('components/icons/phase.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Model Pembelajaran</span>
-          </div>
-          <small class="text-sm text-gray-500">Pilih satu atau lebih pendekatan yang sesuai</small>
+          <p class="font-semibold text-orange-800">Model Pembelajaran</p>
+          <small class="text-gray-500">Pilih satu atau lebih pendekatan yang sesuai</small>
 
           <input type="hidden" name="modelPembelajaran" id="modelPembelajaran">
 
           <div class="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <label class="flex items-center gap-2 rounded-md border-2 border-red-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-red-50">
-              <input type="checkbox" id="modelPembelajaranKolaboratif" class="model-pembelajaran-option accent-red-800" value="Kolaboratif">
+            <label class="flex items-center gap-2 rounded-md border-2 border-orange-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-orange-50">
+              <input type="checkbox" id="modelPembelajaranKolaboratif" class="model-pembelajaran-option accent-orange-800" value="Kolaboratif">
               <span>Kolaboratif</span>
             </label>
 
-            <label class="flex items-center gap-2 rounded-md border-2 border-red-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-red-50">
-              <input type="checkbox" id="modelPembelajaranEksperimental" class="model-pembelajaran-option accent-red-800" value="Eksperimental">
+            <label class="flex items-center gap-2 rounded-md border-2 border-orange-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-orange-50">
+              <input type="checkbox" id="modelPembelajaranEksperimental" class="model-pembelajaran-option accent-orange-800" value="Eksperimental">
               <span>Eksperimental</span>
             </label>
 
-            <label class="flex items-center gap-2 rounded-md border-2 border-red-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-red-50">
-              <input type="checkbox" id="modelPembelajaranBermainPeran" class="model-pembelajaran-option accent-red-800" value="Bermain Peran">
+            <label class="flex items-center gap-2 rounded-md border-2 border-orange-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-orange-50">
+              <input type="checkbox" id="modelPembelajaranBermainPeran" class="model-pembelajaran-option accent-orange-800" value="Bermain Peran">
               <span>Bermain Peran</span>
             </label>
 
-            <label class="flex items-center gap-2 rounded-md border-2 border-red-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-red-50">
-              <input type="checkbox" id="modelPembelajaranDiscoveryLearning" class="model-pembelajaran-option accent-red-800" value="Discovery Learning">
+            <label class="flex items-center gap-2 rounded-md border-2 border-orange-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-orange-50">
+              <input type="checkbox" id="modelPembelajaranDiscoveryLearning" class="model-pembelajaran-option accent-orange-800" value="Discovery Learning">
               <span>Discovery Learning</span>
             </label>
 
-            <label class="flex items-center gap-2 rounded-md border-2 border-red-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-red-50 sm:col-span-2">
-              <input type="checkbox" id="modelPembelajaranPjBL" class="model-pembelajaran-option accent-red-800" value="Project-Based Learning (PjBL)">
+            <label class="flex items-center gap-2 rounded-md border-2 border-orange-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-orange-50 sm:col-span-2">
+              <input type="checkbox" id="modelPembelajaranPjBL" class="model-pembelajaran-option accent-orange-800" value="Project-Based Learning (PjBL)">
               <span>Project-Based Learning (PjBL)</span>
             </label>
           </div>
         </div>
 
         <div class="group block cursor-pointer">
-          <div class="flex items-center gap-2 font-semibold text-red-800">
-            <%- include('components/icons/phase.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Pilih Elemen CP</span>
-          </div>
-          <small class="text-sm text-gray-500">Pilih satu atau lebih elemen Capaian Pembelajaran Fase Fondasi</small>
+          <p class="font-semibold text-green-800">Pilih Elemen CP</p>
+          <small class="text-gray-500">Pilih satu atau lebih elemen Capaian Pembelajaran Fase Fondasi</small>
 
           <input type="hidden" name="elemenCp" id="elemenCp">
 
           <div class="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <label class="flex items-center gap-2 rounded-md border-2 border-red-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-red-50">
-              <input type="checkbox" id="elemenCpAgama" class="elemen-cp-option accent-red-800" value="Nilai Agama dan Budi Pekerti">
+            <label class="flex items-center gap-2 rounded-md border-2 border-green-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-green-50">
+              <input type="checkbox" id="elemenCpAgama" class="elemen-cp-option accent-green-800" value="Nilai Agama dan Budi Pekerti">
               <span>Nilai Agama dan Budi Pekerti</span>
             </label>
 
-            <label class="flex items-center gap-2 rounded-md border-2 border-red-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-red-50">
-              <input type="checkbox" id="elemenCpJatiDiri" class="elemen-cp-option accent-red-800" value="Jati Diri">
+            <label class="flex items-center gap-2 rounded-md border-2 border-green-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-green-50">
+              <input type="checkbox" id="elemenCpJatiDiri" class="elemen-cp-option accent-green-800" value="Jati Diri">
               <span>Jati Diri</span>
             </label>
 
-            <label class="flex items-center gap-2 rounded-md border-2 border-red-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-red-50 sm:col-span-2">
-              <input type="checkbox" id="elemenCpLiterasiSains" class="elemen-cp-option accent-red-800" value="Dasar-dasar Literasi, Matematika, Sains, Teknologi, Rekayasa, dan Seni">
+            <label class="flex items-center gap-2 rounded-md border-2 border-green-800/20 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-green-50 sm:col-span-2">
+              <input type="checkbox" id="elemenCpLiterasiSains" class="elemen-cp-option accent-green-800" value="Dasar-dasar Literasi, Matematika, Sains, Teknologi, Rekayasa, dan Seni">
               <span>Literasi-Sains-Seni</span>
             </label>
           </div>
         </div>
 
         <div class="group block cursor-pointer">
-          <div class="flex items-center gap-2 font-semibold text-purple-800">
-            <%- include('components/icons/phase.ejs', {width: "20px", height: "20px"}) %> 
-            <span>Dimensi Profil Lulusan</span>
-          </div>
-          <small class="text-sm text-gray-500">Pilih dimensi profil lulusan yang relevan</small>
+          <p class="font-semibold text-purple-800">Dimensi Profil Lulusan</p>
+          <small class="text-gray-500">Pilih dimensi profil lulusan yang relevan</small>
 
           <input type="hidden" name="dimensiProfilLulusan" id="dimensiProfilLulusan">
 
@@ -304,20 +269,17 @@
 
         <div class="group block md:col-span-2">
           <label for="tujuanPembelajaran" class="cursor-pointer">
-            <div class="flex items-center gap-2 font-semibold text-sky-800">
-              <%- include('components/icons/school.ejs', {width: "20px", height: "20px"}) %>
-              <span>Tujuan Pembelajaran</span>
-            </div>
-            <small class="block text-sm text-gray-500">Tulis singkat 1-2 kalimat target pembelajaran</small>
+            <p class="font-semibold text-blue-800">Tujuan Pembelajaran</p>
+            <small class="block text-gray-500">Tulis singkat 1-2 kalimat target pembelajaran</small>
           </label>
 
-          <div class="relative mt-2 rounded-md border-2 border-sky-800/50 transition-all focus-within:border-sky-800 focus-within:ring-2 focus-within:ring-sky-800/50">
+          <div class="relative mt-2 rounded-md border-2 border-blue-800/50 transition-all focus-within:border-blue-800 focus-within:ring-2 focus-within:ring-blue-800/50">
             <textarea
               name="tujuanPembelajaran"
               id="tujuanPembelajaran"
               rows="3"
               class="w-full resize-y border-none bg-transparent p-2.5 pr-12 text-gray-700 placeholder:text-gray-400 focus:ring-0 focus:outline-none"
-              placeholder="Contoh: Anak mampu menyebutkan anggota keluarganya dan menunjukkan perilaku saling menyayangi saat bermain bersama."></textarea>
+              placeholder="Contoh: Anak mampu menyebutkan anggota keluarganya..."></textarea>
 
             <div class="absolute right-3 top-3 flex items-center">
               <%- include('components/ai.ejs', {prompt: "Sempurnakan tujuan pembelajaran", type: "tujuanPembelajaranAi"}) %>
@@ -327,14 +289,11 @@
 
         <div class="group block">
           <label for="topikPembelajaran" class="cursor-pointer">
-            <div class="flex items-center gap-2 font-semibold text-green-800">
-              <%- include('components/icons/user.ejs', {width: "20px", height: "20px"}) %>
-              <span>Topik Pembelajaran</span>
-            </div>
-            <small class="block text-sm text-gray-500">Topik pendek yang spesifik untuk pekan ini</small>
+            <p class="font-semibold text-amber-800">Topik Pembelajaran</p>
+            <small class="block text-gray-500">Topik pendek yang spesifik untuk pekan ini</small>
           </label>
 
-          <div class="relative mt-2 flex items-center border-2 border-green-800/50 rounded-md transition-all focus-within:border-green-800 focus-within:ring-2 focus-within:ring-green-800/50">
+          <div class="relative mt-2 flex items-center border-2 border-amber-800/50 rounded-md transition-all focus-within:border-amber-800 focus-within:ring-2 focus-within:ring-amber-800/50">
             <input
               type="text"
               name="topikPembelajaran"
@@ -349,11 +308,8 @@
         </div>
 
         <div class="group block md:col-span-2" id="kegiatanDynamicWrapper">
-          <div class="flex items-center gap-2 font-semibold text-violet-800">
-            <%- include('components/icons/date.ejs', {width: "20px", height: "20px"}) %>
-            <span>Kegiatan Harian</span>
-          </div>
-          <small class="block text-sm text-gray-500">Kolom kegiatan akan otomatis dibuat berdasarkan Hari x JP pada Alokasi Waktu</small>
+          <p class="font-semibold text-violet-800">Kegiatan Harian</p>
+          <small class="block text-gray-500">Kolom kegiatan akan otomatis dibuat berdasarkan Hari x JP pada Alokasi Waktu</small>
 
           <div id="kegiatanDynamicContainer" class="mt-3 grid grid-cols-1 gap-4"></div>
         </div>
@@ -372,3 +328,4 @@
 
 <%- include('js/home.ejs') %>
 <%- include('js/dynamic-save-input.ejs') %>
+<%- include('js/home-template') %>
