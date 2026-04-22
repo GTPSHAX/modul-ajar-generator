@@ -1,3 +1,13 @@
+/**
+ * Utility function to register routes in an Express application.
+ */
+
+/**
+ * Registers a route with the given HTTP method, path, and handler.
+ *
+ * @param {*} routes - The Express router instance
+ * @param {*} route - The route object containing method, path, and handler
+ */
 export function registerRoute (routes, route) {
   switch (route.method.toLowerCase()) {
     case 'get':
