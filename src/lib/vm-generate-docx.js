@@ -1,3 +1,13 @@
+/**
+ * This module provides a function to generate a DOCX document by executing template code in a VM context. The template code can utilize the `docx` library and any additional predefined variables passed in. The generated document buffer is returned by main() from the VM context.
+ *
+ * The function `generateDocxInVM` takes in credential variables and optional predefined variables, constructs the code to be executed in the VM, and runs it. The context for the VM includes the `docx` library, configuration, API functions, and any credential variables needed for document generation.
+ *
+ * @param {Object} credentialVars - The credentials variable of the document.
+ * @param {String | Object} predefinedVars - An optional object containing predefined variables that will be available in the VM context when executing the template code.
+ * @returns {Promise<Buffer>} A promise resolving to the generated DOCX document buffer.
+ */
+
 import fs from 'fs'
 import path from 'path'
 import vm from 'vm'

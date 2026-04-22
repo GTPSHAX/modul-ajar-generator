@@ -1,3 +1,7 @@
+/**
+ * Handling the /recommendation endpoint for generating recommendations to improve lesson plans based on provided class information
+ */
+
 import { AppRoute } from '../index.js'
 import OpenAIWrapper from '../../lib/openai.js'
 import consola from 'consola'
