@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { encoding_for_model } from '@dqbd/tiktoken' // eslint-disable-line camelcase
 
 export function parseMarkdownToObject (markdown) {
   const lines = markdown.split('\n')
@@ -125,4 +126,18 @@ export function convertNumToRoman (num) {
   if (num >= 5) { return 'V' + convertNumToRoman(num - 5) }
   if (num >= 4) { return 'IV' + convertNumToRoman(num - 4) }
   if (num >= 1) { return 'I' + convertNumToRoman(num - 1) }
+}
+
+/**
+ * Counts the number of tokens in a string using the specified model's tokenizer.
+ * @param {string} message - The string to count tokens for
+ * @param {TiktokenModel} model - The OpenAI model to use for tokenization (e.g., "gpt-3.5-turbo")
+ * @returns {number} - The number of tokens in the string
+ */
+export function numTokensFromString (message, model = 'gpt-5') {
+  const encoder = encoding_for_model(model)
+
+  const tokens = encoder.encode(message)
+  encoder.free()
+  return tokens.length
 }
