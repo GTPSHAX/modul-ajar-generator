@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node src/server.js --watch",
     "test": "standard",
+    "debug": "DEBUG=* npm run dev",
     "standard:fix": "standard --fix",
     "start": "node src/index.js",
     "tailwindcss": "npx @tailwindcss/cli -i ./src/main.css -o ./public/css/main.css --watch",
@@ -21,6 +22,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@dqbd/tiktoken": "^1.0.22",
     "@tailwindcss/typography": "^0.5.19",
     "consola": "^3.4.2",
     "docx": "^9.6.1",

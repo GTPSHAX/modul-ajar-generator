@@ -2,6 +2,7 @@ import { AppRoute } from '../index.js'
 import OpenAIWrapper from '../../lib/openai.js'
 import { extractCodeFromMarkdownFence } from '../../utils/utils.js'
 import generateDocxInVM from '../../lib/vm-generate-docx.js'
+import consola from 'consola'
 
 const FILTER_KEYS = [
   'namaSekolah',
@@ -92,10 +93,8 @@ function buildRencanaKegiatan (body, kegiatanKeys) {
 const openai = new OpenAIWrapper()
 
 export const route = new AppRoute('/generate', 'post', async (req, res) => {
-  console.log(req.body)
   const body = req.body
   const kegiatanKeys = Object.keys(req.body).filter(key => !FILTER_KEYS.includes(key))
-  console.log('Received data keys:', kegiatanKeys)
 
   const { totalHari, kegiatanPerHari } = parseAlokasiWaktu(body.alokasiWaktu)
 
@@ -149,10 +148,7 @@ ${body.topikPembelajaran}
 ${rencanaKegiatan}
 `
 
-  console.log('Generated Prompt:\n', prompt)
-
   const response = await openai.chat(prompt)
-  console.log('AI Response:\n', response)
 
   // Remove code blocks from the response
   const cleanResponse = extractCodeFromMarkdownFence(response)
@@ -164,7 +160,7 @@ ${rencanaKegiatan}
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     return res.status(200).send(docxBuffer)
   } else {
-    console.error('Failed to generate document: No buffer returned from VM')
+    consola.error('Failed to generate document: No buffer returned from VM')
     return res.status(500).json({ status: false, error: 'Failed to generate document', buffer: null })
   }
 })

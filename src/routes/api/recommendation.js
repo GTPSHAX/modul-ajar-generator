@@ -1,5 +1,6 @@
 import { AppRoute } from '../index.js'
 import OpenAIWrapper from '../../lib/openai.js'
+import consola from 'consola'
 
 const openai = new OpenAIWrapper(true)
 
@@ -51,7 +52,7 @@ export const route = new AppRoute('/recommendation', 'post', async (req, res) =>
 
     res.json({ result: response })
   } catch (error) {
-    console.error('Error generating recommendation:', error)
+    consola.error('Error generating recommendation:', error)
     res.status(500).json({ error: 'Failed to generate recommendation' })
   }
 })
