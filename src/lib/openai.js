@@ -1,3 +1,11 @@
+/**
+ * This file defines the OpenAIWrapper class, which serves as a simple wrapper around the OpenAI API to manage contexts and generate responses. It loads contexts from files in the context directory and allows chatting with the model using those contexts. The class provides methods to set the model, set contexts, and chat with the model by sending prompts and receiving responses.
+ *
+ * The constructor initializes the OpenAI client with the provided API key and model, and optionally loads default contexts from files. The chat method constructs a conversation by combining the loaded contexts with the provided prompt and sends it to the OpenAI API to generate a response.
+ *
+ * @note Make sure to set the OPENAI_API_KEY and OPENAI_MODEL environment variables before using this class.
+ */
+
 import fs from 'fs'
 import path from 'path'
 import OpenAI from 'openai'

@@ -1,3 +1,7 @@
+/**
+ * This file is handleing req for generating the document based on the provided data from the client.
+ */
+
 import { AppRoute } from '../index.js'
 import OpenAIWrapper from '../../lib/openai.js'
 import { extractCodeFromMarkdownFence, validateBodyParams } from '../../utils/utils.js'

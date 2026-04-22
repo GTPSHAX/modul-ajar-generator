@@ -1,3 +1,8 @@
+/**
+ * This file contains utility API functions for working with the docx library to create and manipulate Word documents.
+ * Why should use this API instead of directly using docx? This API provides higher-level abstractions for common document structures like headings with children, bullet points with labels, and intelligent content parsing that supports HTML tags and markdown lists. It also includes internal utilities for handling XML components related to paragraph and table indentation, which are necessary for maintaining proper formatting when creating complex documents. By using this API, you can simplify the process of generating Word documents with consistent styling and structure, while still leveraging the powerful features of the underlying docx library.
+ */
+
 import {
   Document,
   DocumentDefaults,
@@ -27,6 +32,13 @@ import { spacing, paragraphStyles } from './docx-config.js'
 const CHILD_PARAGRAPH_INDENT_KEY = '__headingChildrenParagraphIndent'
 const CHILD_TABLE_INDENT_KEY = '__headingChildrenTableIndent'
 
+/**
+ * Checks if an XML component has a specific child key in its root array.
+ *
+ * @param {Object} xmlComponent - The XML component to check.
+ * @param {string} rootKey - The key to look for.
+ * @returns {boolean} True if the child exists, false otherwise.
+ */
 const hasXmlChild = (xmlComponent, rootKey) =>
   Boolean(
     xmlComponent &&
@@ -34,11 +46,25 @@ const hasXmlChild = (xmlComponent, rootKey) =>
     xmlComponent.root.some((item) => item && item.rootKey === rootKey)
   )
 
+/**
+ * Finds the index of a specific child key in an XML component's root array.
+ *
+ * @param {Object} xmlComponent - The XML component to search.
+ * @param {string} rootKey - The key to look for.
+ * @returns {number} The index of the child, or -1 if not found.
+ */
 const getXmlChildIndex = (xmlComponent, rootKey) => {
   if (!xmlComponent || !Array.isArray(xmlComponent.root)) return -1
   return xmlComponent.root.findIndex((item) => item && item.rootKey === rootKey)
 }
 
+/**
+ * Extracts the value of an XML attribute from a component.
+ *
+ * @param {Object} xmlComponent - The XML component to inspect.
+ * @param {string} [attributeName='val'] - The name of the attribute.
+ * @returns {string|number|null} The attribute value, or null if not found.
+ */
 const getXmlAttributeValue = (xmlComponent, attributeName = 'val') => {
   if (!xmlComponent || !Array.isArray(xmlComponent.root)) return null
   const attrNode = xmlComponent.root.find((item) => item && item.rootKey === '_attr')
@@ -52,12 +78,24 @@ const getXmlAttributeValue = (xmlComponent, attributeName = 'val') => {
   return null
 }
 
+/**
+ * Retrieves the style ID from paragraph properties.
+ *
+ * @param {Object} paragraphProperties - The paragraph properties component.
+ * @returns {string|null} The style ID, or null if not found.
+ */
 const getParagraphStyleId = (paragraphProperties) => {
   const styleIndex = getXmlChildIndex(paragraphProperties, 'w:pStyle')
   if (styleIndex < 0) return null
   return getXmlAttributeValue(paragraphProperties.root[styleIndex], 'val')
 }
 
+/**
+ * Retrieves the numbering level (ilvl) from paragraph properties.
+ *
+ * @param {Object} paragraphProperties - The paragraph properties component.
+ * @returns {number} The numbering level, defaulting to 0.
+ */
 const getParagraphNumberingLevel = (paragraphProperties) => {
   const numberingIndex = getXmlChildIndex(paragraphProperties, 'w:numPr')
   if (numberingIndex < 0) return null
@@ -70,6 +108,12 @@ const getParagraphNumberingLevel = (paragraphProperties) => {
   return Number.isNaN(parsedLevel) ? 0 : parsedLevel
 }
 
+/**
+ * Sets or overrides the left indent size on paragraph properties.
+ *
+ * @param {Object} paragraphProperties - The paragraph properties component.
+ * @param {number} indentSize - The indent size in twips.
+ */
 const setParagraphIndent = (paragraphProperties, indentSize) => {
   const indentElement = createIndent({ left: indentSize, hanging: 0 })
   const indentIndex = getXmlChildIndex(paragraphProperties, 'w:ind')
@@ -80,6 +124,12 @@ const setParagraphIndent = (paragraphProperties, indentSize) => {
   paragraphProperties.push(indentElement)
 }
 
+/**
+ * Sets or overrides the table indent width element.
+ *
+ * @param {Object} tableProperties - The table properties component.
+ * @param {number} indentSize - The indent size in twips.
+ */
 const setTableIndent = (tableProperties, indentSize) => {
   const indentElement = createTableWidthElement('w:tblInd', {
     size: indentSize,
@@ -93,6 +143,13 @@ const setTableIndent = (tableProperties, indentSize) => {
   tableProperties.root.push(indentElement)
 }
 
+/**
+ * Calculates the initial paragraph indent, accounting for list hierarchy.
+ *
+ * @param {Object} paragraphProperties - The paragraph properties component.
+ * @param {number} indentSize - The base indent size in twips.
+ * @returns {number} The calculated indent size.
+ */
 const getInitialParagraphIndent = (paragraphProperties, indentSize) => {
   const paragraphStyle = getParagraphStyleId(paragraphProperties)
   const numberingLevel = getParagraphNumberingLevel(paragraphProperties)
@@ -103,6 +160,13 @@ const getInitialParagraphIndent = (paragraphProperties, indentSize) => {
   return indentSize
 }
 
+/**
+ * Safely applies cumulative left indentation to a Paragraph.
+ *
+ * @param {Paragraph} paragraph - The paragraph object to indent.
+ * @param {number} indentSize - The indent size in twips.
+ * @returns {Paragraph} The updated paragraph.
+ */
 const applyIndentToParagraph = (paragraph, indentSize) => {
   const paragraphProperties = paragraph && paragraph.properties
   const trackedIndent = paragraph && paragraph[CHILD_PARAGRAPH_INDENT_KEY]
@@ -131,6 +195,13 @@ const applyIndentToParagraph = (paragraph, indentSize) => {
   return paragraph
 }
 
+/**
+ * Safely applies cumulative left indentation to a Table.
+ *
+ * @param {Table} table - The table object to indent.
+ * @param {number} indentSize - The indent size in twips.
+ * @returns {Table} The updated table.
+ */
 const applyIndentToTable = (table, indentSize) => {
   const trackedIndent = table && table[CHILD_TABLE_INDENT_KEY]
 
@@ -159,12 +230,24 @@ const applyIndentToTable = (table, indentSize) => {
 
 let htmlOrderedListInstanceCounter = 1
 
+/**
+ * Returns the next unique instance ID for HTML ordered lists.
+ *
+ * @returns {number} The next instance ID.
+ */
 const getNextHtmlOrderedListInstance = () => {
   const nextInstance = htmlOrderedListInstanceCounter
   htmlOrderedListInstanceCounter += 1
   return nextInstance
 }
 
+/**
+ * Creates an array of TextRuns, splitting the text by newline.
+ *
+ * @param {string} text - The input text.
+ * @param {Object} [formatting={}] - Formatting options to apply to each TextRun.
+ * @returns {TextRun[]} The created text runs.
+ */
 const createTextRuns = (text, formatting = {}) => {
   const lines = String(text ?? '').split('\n')
 
