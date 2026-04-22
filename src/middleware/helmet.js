@@ -1,18 +1,26 @@
 import helmet from 'helmet'
 
+const CORS_TRUSTED_HOSTS = process.env.CORS_TRUSTED_HOSTS ? process.env.CORS_TRUSTED_HOSTS.split(',').map(host => host.trim()) : []
+const CORS_TRUSTED_CDN_HOSTS = process.env.CORS_TRUSTED_CDN_HOSTS
+  ? process.env.CORS_TRUSTED_CDN_HOSTS.split(',').map(host => host.trim())
+  : []
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 const helmetMiddleware = helmet({
   contentSecurityPolicy: {
     directives: {
-      // Disable upgrade-insecure-requests in development.
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+
       'upgrade-insecure-requests': isDevelopment ? null : [],
-      // Allow framing from any origin.
-      'frame-ancestors': ['*']
+      'frame-ancestors': ["'self'", ...CORS_TRUSTED_HOSTS],
+      'script-src': ["'self'", "'unsafe-inline'", ...CORS_TRUSTED_CDN_HOSTS],
+      'style-src': ["'self'", "'unsafe-inline'", ...CORS_TRUSTED_CDN_HOSTS],
+      'img-src': ["'self'", 'data:', ...CORS_TRUSTED_CDN_HOSTS],
+      'font-src': ["'self'", ...CORS_TRUSTED_CDN_HOSTS]
     }
   },
-  frameguard: false,
-  referrerPolicy: false,
+  frameguard: false, // Diperlukan agar frame-ancestors bekerja
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' }, // Lebih baik diatur daripada false
   xPoweredBy: false
 })
 
