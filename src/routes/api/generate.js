@@ -2,7 +2,6 @@ import { AppRoute } from '../index.js'
 import OpenAIWrapper from '../../lib/openai.js'
 import { extractCodeFromMarkdownFence } from '../../utils/utils.js'
 import generateDocxInVM from '../../lib/vm-generate-docx.js'
-import fs from 'fs'
 
 const FILTER_KEYS = [
   'namaSekolah',
@@ -154,7 +153,6 @@ ${rencanaKegiatan}
 
   const response = await openai.chat(prompt)
   console.log('AI Response:\n', response)
-  fs.writeFileSync('ai_response.txt', response)
 
   // Remove code blocks from the response
   const cleanResponse = extractCodeFromMarkdownFence(response)
