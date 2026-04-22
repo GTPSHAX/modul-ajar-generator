@@ -1,24 +1,30 @@
 const APP_ORIGIN_URL = process.env.APP_ORIGIN_URL || 'http://localhost:3000'
+const isDevelopment = process.env.NODE_ENV !== 'production'
 
 if (!APP_ORIGIN_URL) {
   throw new Error('APP_ORIGIN_URL environment variable is required')
 }
 
-const isOriginAllowed = (origin, req) => {
+const isHostAllowed = (host) => {
+  try {
+    const requestHost = new URL(host).host
+    const allowedHost = new URL(APP_ORIGIN_URL).host
+    console.log('Request Host:', requestHost)
+    console.log('Allowed Host:', allowedHost)
+    return requestHost === allowedHost
+  } catch {
+    return false
+  }
+}
+
+const isOriginAllowed = (origin) => {
   if (!origin) {
-    return process.env.NODE_ENV !== 'production'
+    return isDevelopment
   }
 
-  if (!origin) return false
-
   try {
-    const requestHost = new URL(req.query.url).host
     const requestOrigin = new URL(origin).origin
     const allowedOrigin = new URL(APP_ORIGIN_URL).origin
-
-    if (requestHost && requestHost !== APP_ORIGIN_URL) {
-      return false
-    }
 
     return requestOrigin === allowedOrigin
   } catch {
@@ -48,7 +54,7 @@ const cors = (req, res, next) => {
     return res.sendStatus(204)
   }
 
-  if (!isOriginAllowed(origin, req)) {
+  if (!isOriginAllowed(origin) && !isHostAllowed(req.headers.host)) {
     console.warn(`CORS blocked - origin not allowed: ${origin}`)
     return res.status(403).json({ status: false, message: '403 Forbidden', error: null })
   }
