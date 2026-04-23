@@ -50,5 +50,6 @@ app.use(router)
 
 // Serving static files
 app.use(Express.static('public'))
+app.use(Express.static('node_modules/sweetalert2/dist'))
 
 export default app
