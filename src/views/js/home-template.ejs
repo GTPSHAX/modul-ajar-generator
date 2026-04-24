@@ -274,47 +274,57 @@
     const tpl = MODUL_TEMPLATES.find((t) => t.id === templateId);
     if (!tpl) return;
 
-    // ── Metadata fields ────────────────────────────────────────────────────────
-    if (tpl.jumlahAnak !== '') setFieldValue('jumlahAnak', tpl.jumlahAnak);
-    setFieldValue('temaSubtema', tpl.temaSubtema);
-    setFieldValue('tujuanPembelajaran', tpl.tujuanPembelajaran);
-    setFieldValue('topikPembelajaran', tpl.topikPembelajaran);
+    Swal.fire({
+      title: 'Terapkan Template?',
+      text: 'Peringatan: Isian Anda saat ini akan ditimpa oleh template baru. Lanjutkan?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#4c1d95',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, terapkan!',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // ── Metadata fields ────────────────────────────────────────────────────────
+        if (tpl.jumlahAnak !== '') setFieldValue('jumlahAnak', tpl.jumlahAnak);
+        setFieldValue('temaSubtema', tpl.temaSubtema);
+        setFieldValue('tujuanPembelajaran', tpl.tujuanPembelajaran);
+        setFieldValue('topikPembelajaran', tpl.topikPembelajaran);
 
-    // ── Alokasi waktu ──────────────────────────────────────────────────────────
-    // Set the two numeric inputs first, then trigger the combined handler.
-    const aw1 = document.getElementById('alokasiWaktu1');
-    const aw2 = document.getElementById('alokasiWaktu2');
-    if (aw1) aw1.value = tpl.alokasiHari;
-    if (aw2) aw2.value = tpl.alokasiJp;
+        // ── Alokasi waktu ──────────────────────────────────────────────────────────
+        // Set the two numeric inputs first, then trigger the combined handler.
+        const aw1 = document.getElementById('alokasiWaktu1');
+        const aw2 = document.getElementById('alokasiWaktu2');
+        if (aw1) aw1.value = tpl.alokasiHari;
+        if (aw2) aw2.value = tpl.alokasiJp;
 
-    // handleAlokasiWaktuChange is exposed on window by js/home.ejs.
-    // It both updates the hidden #alokasiWaktu field and re-renders
-    // the dynamic kegiatan input fields synchronously.
-    if (typeof window.handleAlokasiWaktuChange === 'function') {
-      window.handleAlokasiWaktuChange();
-    }
+        // handleAlokasiWaktuChange is exposed on window by js/home.ejs.
+        // It both updates the hidden #alokasiWaktu field and re-renders
+        // the dynamic kegiatan input fields synchronously.
+        if (typeof window.handleAlokasiWaktuChange === 'function') {
+          window.handleAlokasiWaktuChange();
+        }
 
-    // ── Checkboxes ─────────────────────────────────────────────────────────────
-    setCheckboxGroup('.model-pembelajaran-option', tpl.modelPembelajaran);
-    setCheckboxGroup('.elemen-cp-option', tpl.elemenCp);
-    setCheckboxGroup('.dpl-option', tpl.dpl);
+        // ── Checkboxes ─────────────────────────────────────────────────────────────
+        setCheckboxGroup('.model-pembelajaran-option', tpl.modelPembelajaran);
+        setCheckboxGroup('.elemen-cp-option', tpl.elemenCp);
+        setCheckboxGroup('.dpl-option', tpl.dpl);
 
-    // ── Kegiatan inputs ────────────────────────────────────────────────────────
-    // The dynamic fields are now rendered; fill them in sequence.
-    let kegiatanIdx = 0;
-    for (let hari = 1; hari <= tpl.alokasiHari; hari += 1) {
-      for (let jp = 1; jp <= tpl.alokasiJp; jp += 1) {
-        const val = tpl.kegiatan[kegiatanIdx] ?? '';
-        setFieldValue(`kegiatanHari${hari}Jp${jp}`, val);
-        kegiatanIdx += 1;
+        // ── Kegiatan inputs ────────────────────────────────────────────────────────
+        // The dynamic fields are now rendered; fill them in sequence.
+        let kegiatanIdx = 0;
+        for (let hari = 1; hari <= tpl.alokasiHari; hari += 1) {
+          for (let jp = 1; jp <= tpl.alokasiJp; jp += 1) {
+            const val = tpl.kegiatan[kegiatanIdx] ?? '';
+            setFieldValue(`kegiatanHari${hari}Jp${jp}`, val);
+            kegiatanIdx += 1;
+          }
+        }
+
+        // ── Visual feedback ────────────────────────────────────────────────────────
+        showTemplateToast(tpl);
       }
-    }
-
-    // ── Visual feedback ────────────────────────────────────────────────────────
-    showTemplateToast(tpl);
-
-    // Scroll to top of the form so user sees the filled fields.
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   };
 
   // ─────────────────────────────────────────────────────────────────────────────
