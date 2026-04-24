@@ -25,7 +25,7 @@
     <form id="rppForm" action="/api/generate" method="post" class="mt-5">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 w-full">
 
-        <label class="group block cursor-pointer" for="namaSekolah">
+        <label class="group block cursor-pointer" for="namaSekolah" id="namaSekolahWrapper">
           <p class="font-semibold text-sky-800">Satuan Pendidikan</p>
           <small class="text-gray-500">Boleh dikosongkan</small>
           
@@ -34,7 +34,7 @@
             placeholder="Contoh: SDN 1 Cibodas">
         </label>
 
-        <label class="group block cursor-pointer" for="namaPenyusun">
+        <label class="group block cursor-pointer" for="namaPenyusun" id="namaPenyusunWrapper">
           <p class="font-semibold text-green-800">Nama Penyusun</p>
           <small class="text-gray-500">Boleh dikosongkan</small>
           
@@ -43,7 +43,7 @@
             placeholder="Contoh: Budi Santoso">
         </label>
 
-        <label class="group block cursor-pointer" for="nip">
+        <label class="group block cursor-pointer" for="nip" id="nipWrapper">
           <p class="font-semibold text-amber-800">NIP</p>
           <small class="text-gray-500">Boleh dikosongkan</small>
           
@@ -52,7 +52,7 @@
             placeholder="Contoh: 1234567890">
         </label>
 
-        <label class="group block cursor-pointer" for="fase">
+        <label class="group block cursor-pointer" for="fase" id="faseWrapper">
           <p class="font-semibold text-orange-800">Fase</p>
           <small class="text-gray-500">Pilih Fase yang sesuai</small>
           
@@ -62,7 +62,7 @@
           </select>
         </label>
 
-        <label class="group block cursor-pointer" for="semester">
+        <label class="group block cursor-pointer" for="semester" id="semesterWrapper">
           <p class="font-semibold text-red-800">Semester</p>
           <small class="text-gray-500">Semester saat ini</small>
           
@@ -71,7 +71,7 @@
             placeholder="Contoh: 2" min="1" max="14" required>
         </label>
 
-        <label class="group block cursor-pointer" for="bulan">
+        <label class="group block cursor-pointer" for="bulan" id="bulanWrapper">
           <p class="font-semibold text-pink-800">Bulan</p>
           <small class="text-gray-500">Pilih bulan pelaksanaan</small>
           
@@ -92,7 +92,7 @@
           </select>
         </label>
 
-        <label class="group block cursor-pointer" for="mingguKe">
+        <label class="group block cursor-pointer" for="mingguKe" id="mingguKeWrapper">
           <p class="font-semibold text-purple-800">Minggu Ke</p>
           <small class="text-gray-500">Minggu ke berapa dalam pembelajaran kali ini</small>
           
@@ -101,7 +101,7 @@
             placeholder="Contoh: 2" min="1" max="4" required>
         </label>
 
-        <label class="group block cursor-pointer" for="kelas">
+        <label class="group block cursor-pointer" for="kelas" id="kelasWrapper">
           <p class="font-semibold text-violet-800">Kelas</p>
           <small class="text-gray-500">Pilih Kelas yang sesuai</small>
           
@@ -112,7 +112,7 @@
           </select>
         </label>
 
-        <label class="group block cursor-pointer" for="jumlahAnak">
+        <label class="group block cursor-pointer" for="jumlahAnak" id="jumlahAnakWrapper">
           <p class="font-semibold text-indigo-800">Jumlah Anak</p>
           <small class="text-gray-500">Boleh dikosongkan</small>
           
@@ -121,7 +121,7 @@
             placeholder="Contoh: 10">
         </label>
 
-        <label class="group block cursor-pointer" for="alokasiWaktu1">
+        <label class="group block cursor-pointer" for="alokasiWaktu1" id="alokasiWaktu1Wrapper">
           <p class="font-semibold text-rose-800">Alokasi Waktu</p>
           <small class="text-gray-500">Hari &times; Jam Pelajaran</small>
           
@@ -140,7 +140,7 @@
           
         </label>
 
-        <div class="group block">
+        <div class="group block" id="temaSubtemaWrapper">
           <label for="temaSubtema" class="cursor-pointer">
             <p class="font-semibold text-sky-800">Tema/Subtema</p>
             <small class="block text-gray-500">Tema dan Subtema yang akan diajarkan</small>
@@ -194,7 +194,7 @@
           </div>
         </div>
 
-        <div class="group block cursor-pointer">
+        <div class="group block cursor-pointer" id="elemenCpWrapper">
           <p class="font-semibold text-green-800">Pilih Elemen CP</p>
           <small class="text-gray-500">Pilih satu atau lebih elemen Capaian Pembelajaran Fase Fondasi</small>
 
@@ -218,7 +218,7 @@
           </div>
         </div>
 
-        <div class="group block cursor-pointer">
+        <div class="group block cursor-pointer" id="dimensiProfilLulusanWrapper">
           <p class="font-semibold text-purple-800">Dimensi Profil Lulusan</p>
           <small class="text-gray-500">Pilih dimensi profil lulusan yang relevan</small>
 
@@ -267,7 +267,7 @@
           </div>
         </div>
 
-        <div class="group block md:col-span-2">
+        <div class="group block md:col-span-2" id="materiPembelajaranWrapper">
           <label for="materiPembelajaran" class="cursor-pointer">
             <p class="font-semibold text-blue-800">Materi Pembelajaran</p>
             <small class="block text-gray-500">Deskripsikan dengan singkat materi yang akan diajarkan</small>
@@ -287,7 +287,7 @@
           </div>
         </div>
 
-        <div class="group block md:col-span-2">
+        <div class="group block md:col-span-2" id="identifikasiPesertaDidikWrapper">
           <label for="identifikasiPesertaDidik" class="cursor-pointer">
             <p class="font-semibold text-green-800">Identifikasi Peserta Didik</p>
             <small class="block text-gray-500">Deskripsikan karakteristik dan perkembangan peserta didik</small>
@@ -307,7 +307,7 @@
           </div>
         </div>
 
-        <div class="group block md:col-span-2">
+        <div class="group block md:col-span-2" id="tujuanPembelajaranWrapper">
           <label for="tujuanPembelajaran" class="cursor-pointer">
             <p class="font-semibold text-lime-800">Tujuan Pembelajaran</p>
             <small class="block text-gray-500">Tulis singkat 1-2 kalimat target pembelajaran</small>
@@ -327,7 +327,7 @@
           </div>
         </div>
 
-        <div class="group block">
+        <div class="group block" id="topikPembelajaranWrapper">
           <label for="topikPembelajaran" class="cursor-pointer">
             <p class="font-semibold text-amber-800">Topik Pembelajaran</p>
             <small class="block text-gray-500">Topik pendek yang spesifik untuk pekan ini</small>
