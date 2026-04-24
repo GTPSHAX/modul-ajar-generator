@@ -41,4 +41,16 @@ body {
   label:has(input[type="checkbox"]) {
     @apply select-none;
   }
+
+  /* Kembalikan opacity 100 untuk area yang difokuskan dan isinya */
+  .focused-area {
+    @apply border-2 border-dashed border-orange-500 p-2;
+  }
+  .focused-area > * {
+    @apply !opacity-100;
+  }
+
+  *:has(.focused-area) > *:not(:has(.focused-area)):not(.focused-area):not(.swal2-container) {
+    @apply opacity-30 pointer-events-none select-none transition-opacity duration-300 ease-in-out;
+  }
 }
