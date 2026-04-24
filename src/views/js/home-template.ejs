@@ -248,6 +248,9 @@
       ],
     },
   ];
+  const MODUL_TEMPLATES_SYSTEM = MODUL_TEMPLATES.map((tpl) => ({
+    id: tpl.id
+  }));
 
   // State vars
   let selectedTemplateId = null;
@@ -569,20 +572,36 @@
   ];
 
   const clearAllFields = () => {
-    CLEARABLE_IDS.forEach((id) => setFieldValue(id, ''));
+    Swal.fire({
+      title: 'Kosongkan Semua?',
+      text: 'Apakah Anda yakin ingin mengosongkan semua isian form?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Ya, Kosongkan!',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        selectedTemplateId = null;
+        CLEARABLE_IDS.forEach((id) => setFieldValue(id, ''));
 
-    // Uncheck all checkbox groups
-    ['model-pembelajaran-option', 'elemen-cp-option', 'dpl-option'].forEach((cls) => {
-      document.querySelectorAll(`.${cls}`).forEach((cb) => {
-        cb.checked = false;
-        cb.dispatchEvent(new Event('change', { bubbles: true }));
-      });
+        // Uncheck all checkbox groups
+        ['model-pembelajaran-option', 'elemen-cp-option', 'dpl-option'].forEach((cls) => {
+          document.querySelectorAll(`.${cls}`).forEach((cb) => {
+            cb.checked = false;
+            cb.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+        });
+
+        // Clear alokasi → triggers kegiatan fields to clear/re-render
+        if (typeof window.handleAlokasiWaktuChange === 'function') {
+          window.handleAlokasiWaktuChange();
+        }
+        
+        Swal.fire('Berhasil', 'Semua isian form telah dikosongkan.', 'success');
+      }
     });
-
-    // Clear alokasi → triggers kegiatan fields to clear/re-render
-    if (typeof window.handleAlokasiWaktuChange === 'function') {
-      window.handleAlokasiWaktuChange();
-    }
   };
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -619,4 +638,201 @@
 
   // Expose applyTemplate globally (useful for testing or external calls)
   window.applyModulTemplate = applyTemplate;
+
+  // Handle delete of external templates
+  const deleteExternalTemplate = () => {
+    if (!selectedTemplateId) {
+      Swal.fire('Gagal', 'Tidak ada template yang dipilih untuk dihapus.', 'error');
+      return;
+    }
+
+    // Dont allow deleting system templates (those in MODUL_TEMPLATES_SYSTEM)
+    if (MODUL_TEMPLATES_SYSTEM.some((t) => t.id === selectedTemplateId)) {
+      Swal.fire('Gagal', 'Template bawaan tidak dapat dihapus.', 'error');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Hapus Template?',
+      text: 'Apakah Anda yakin ingin menghapus template ini? Tindakan ini tidak dapat dibatalkan.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Ya, Hapus!',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const idx = MODUL_TEMPLATES.findIndex((t) => t.id === selectedTemplateId);
+        if (idx >= 0) {
+          // Remove from active templates
+          MODUL_TEMPLATES.splice(idx, 1);
+
+          // Remove from localStorage
+          try {
+            const existing = localStorage.getItem('externalTemplate');
+            if (existing) {
+              let externalTemplates = JSON.parse(existing);
+              externalTemplates = externalTemplates.filter((t) => t.id !== selectedTemplateId);
+              localStorage.setItem('externalTemplate', JSON.stringify(externalTemplates));
+            }
+          } catch (e) {}
+
+          // Bersihkan state & isi form agar tidak nyangkut
+          selectedTemplateId = null;
+          // Kosongkan form siluman tanpa konfirmasi popup ganda
+          CLEARABLE_IDS.forEach((id) => setFieldValue(id, ''));
+          ['model-pembelajaran-option', 'elemen-cp-option', 'dpl-option'].forEach((cls) => {
+            document.querySelectorAll(`.${cls}`).forEach((cb) => {
+              cb.checked = false;
+              cb.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+          });
+          if (typeof window.handleAlokasiWaktuChange === 'function') {
+            window.handleAlokasiWaktuChange();
+          }
+
+          // Re-render buttons
+          renderTemplateButtons();
+
+          Swal.fire('Berhasil', 'Template berhasil dihapus.', 'success');
+        }
+      }
+    });
+  };
+
+  // Handle save/update of external templates
+  const saveExternalTemplate = () => {
+    const isNew = !selectedTemplateId;
+
+    // Dont allow saving system templates (those in MODUL_TEMPLATES_SYSTEM)
+    if (!isNew && MODUL_TEMPLATES_SYSTEM.some((t) => t.id === selectedTemplateId)) {
+      Swal.fire('Gagal', 'Template bawaan tidak dapat disimpan.', 'error');
+      return;
+    }
+
+    Swal.fire({
+      title: isNew ? 'Simpan Template Baru?' : 'Simpan Perubahan?',
+      text: isNew ? 'Masukkan nama untuk template baru ini:' : 'Simpan semua isian form saat ini ke template yang dipilih?',
+      icon: 'question',
+      input: isNew ? 'text' : undefined,
+      inputPlaceholder: isNew ? 'Nama Template Baru...' : '',
+      showCancelButton: true,
+      confirmButtonColor: '#4c1d95',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, Simpan!',
+      cancelButtonText: 'Batal',
+      preConfirm: (inputValue) => {
+        if (isNew && !inputValue) {
+          Swal.showValidationMessage('Nama template tidak boleh kosong');
+          return false;
+        }
+        return inputValue;
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let tpl;
+        if (isNew) {
+          tpl = {
+            id: `custom_${Date.now()}`,
+            label: 'Kustom',
+            sublabel: result.value,
+            emoji: '📝',
+          };
+        } else {
+          const idx = MODUL_TEMPLATES.findIndex((t) => t.id === selectedTemplateId);
+          if (idx < 0) return;
+          tpl = MODUL_TEMPLATES[idx];
+        }
+        
+        // Helper fungsi reverse
+        const getFieldValue = (id) => document.getElementById(id)?.value || '';
+        const getCheckboxValues = (selector) => {
+          const checked = [];
+          document.querySelectorAll(selector).forEach((cb) => {
+            if (cb.checked) checked.push(cb.value.trim()); // menyimpan original value atau bisa diringkas, tapi asumsinya ini checkbox
+          });
+          return checked;
+        };
+
+        // Override semua isian
+        tpl.jumlahAnak = getFieldValue('jumlahAnak');
+        tpl.temaSubtema = getFieldValue('temaSubtema');
+        tpl.tujuanPembelajaran = getFieldValue('tujuanPembelajaran');
+        tpl.topikPembelajaran = getFieldValue('topikPembelajaran');
+        tpl.materiPembelajaran = getFieldValue('materiPembelajaran');
+        tpl.identifikasiPesertaDidik = getFieldValue('identifikasiPesertaDidik');
+
+        // Alokasi Waktu
+        tpl.alokasiHari = parseInt(getFieldValue('alokasiWaktu1'), 10) || 0;
+        tpl.alokasiJp = parseInt(getFieldValue('alokasiWaktu2'), 10) || 0;
+
+        // Checkboxes
+        tpl.modelPembelajaran = getCheckboxValues('.model-pembelajaran-option');
+        tpl.elemenCp = getCheckboxValues('.elemen-cp-option');
+        tpl.dpl = getCheckboxValues('.dpl-option');
+
+        // Kegiatan Loop
+        tpl.kegiatan = [];
+        for (let hari = 1; hari <= tpl.alokasiHari; hari += 1) {
+          for (let jp = 1; jp <= tpl.alokasiJp; jp += 1) {
+            tpl.kegiatan.push(getFieldValue(`kegiatanHari${hari}Jp${jp}`));
+          }
+        }
+
+        // Simpan ke localStorage
+        let externalTemplates = [];
+        try {
+          const existing = localStorage.getItem('externalTemplate');
+          if (existing) {
+            externalTemplates = JSON.parse(existing);
+          }
+        } catch (e) {}
+
+        const existingIdx = externalTemplates.findIndex((t) => t.id === tpl.id);
+        if (existingIdx >= 0) {
+          externalTemplates[existingIdx] = tpl;
+        } else {
+          externalTemplates.push(tpl);
+        }
+        localStorage.setItem('externalTemplate', JSON.stringify(externalTemplates));
+
+        if (isNew) {
+          MODUL_TEMPLATES.push(tpl);
+          selectedTemplateId = tpl.id; // set sebagai template aktif
+          renderTemplateButtons(); // Tampilkan tombol untuk template yg baru
+        }
+
+        Swal.fire('Berhasil', isNew ? 'Template baru berhasil dibuat dan disimpan.' : 'Perubahan template berhasil disimpan.', 'success');
+      }
+    });
+  };
+
+  // Export template and auto download as JSON file
+  const exportTemplate = () => {
+    if (!selectedTemplateId) {
+      Swal.fire('Gagal', 'Tidak ada template yang dipilih untuk diekspor.', 'error');
+      return;
+    }
+
+    // Dont allow exporting system templates (those in MODUL_TEMPLATES_SYSTEM)
+    if (MODUL_TEMPLATES_SYSTEM.some((t) => t.id === selectedTemplateId)) {
+      Swal.fire('Gagal', 'Template bawaan tidak dapat diekspor.', 'error');
+      return;
+    }
+
+    const tpl = MODUL_TEMPLATES.find((t) => t.id === selectedTemplateId);
+    if (!tpl) return;
+
+    const dataStr = JSON.stringify(tpl, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${tpl.id}-template.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 </script>
