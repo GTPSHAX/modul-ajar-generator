@@ -17,6 +17,10 @@ body {
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   button:hover {
     cursor: pointer;
     transform: scale(0.95);
