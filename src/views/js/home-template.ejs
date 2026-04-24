@@ -259,6 +259,16 @@
   // Helpers
   // ─────────────────────────────────────────────────────────────────────────────
 
+  const setActiveTemplateBtn = (templateId) => {
+    document.querySelectorAll('[id^="templateBtn-"]').forEach((btn) => {
+      if (btn.dataset.templateId === templateId) {
+        btn.classList.add('!border-violet-700', 'active');
+      } else {
+        btn.classList.remove('!border-violet-700', 'active');
+      }
+    });
+  };
+
   /**
    * Set value of a text/number/textarea input and fire both 'input' and 'change'.
    */
@@ -304,6 +314,7 @@
     }).then((result) => {
       if (result.isConfirmed) {
         selectedTemplateId = templateId;
+        setActiveTemplateBtn(templateId);
 
         // ── Metadata fields ────────────────────────────────────────────────────────
         if (tpl.jumlahAnak !== '') setFieldValue('jumlahAnak', tpl.jumlahAnak);
@@ -422,6 +433,7 @@
     MODUL_TEMPLATES.forEach((tpl) => {
       const btn = document.createElement('button');
       btn.type = 'button';
+      btn.id = `templateBtn-${tpl.id}`;
       btn.dataset.templateId = tpl.id;
 
       btn.className = [
@@ -431,7 +443,6 @@
         'text-xs font-semibold text-violet-800',
         'transition-all duration-150',
         'hover:border-violet-700 hover:bg-violet-50 hover:shadow-sm',
-        'active:scale-95',
         'cursor-pointer',
       ].join(' ');
 
@@ -458,7 +469,6 @@
       'text-xs font-semibold text-red-500',
       'transition-all duration-150',
       'hover:border-red-400 hover:bg-red-50',
-      'active:scale-95',
       'cursor-pointer',
     ].join(' ');
     resetBtn.innerHTML = '<span aria-hidden="true">✕</span><span>Kosongkan semua field</span>';
@@ -476,7 +486,6 @@
       'text-xs font-semibold text-green-500',
       'transition-all duration-150',
       'hover:border-green-400 hover:bg-green-50',
-      'active:scale-95',
       'cursor-pointer',
     ].join(' ');
     importBtn.innerHTML = '<span aria-hidden="true">📂</span><span>Impor Template</span>';
@@ -583,6 +592,7 @@
       cancelButtonText: 'Batal'
     }).then((result) => {
       if (result.isConfirmed) {
+        setActiveTemplateBtn(null);
         selectedTemplateId = null;
         CLEARABLE_IDS.forEach((id) => setFieldValue(id, ''));
 
@@ -679,6 +689,7 @@
           } catch (e) {}
 
           // Bersihkan state & isi form agar tidak nyangkut
+          setActiveTemplateBtn(null);
           selectedTemplateId = null;
           // Kosongkan form siluman tanpa konfirmasi popup ganda
           CLEARABLE_IDS.forEach((id) => setFieldValue(id, ''));
@@ -800,6 +811,7 @@
         if (isNew) {
           MODUL_TEMPLATES.push(tpl);
           selectedTemplateId = tpl.id; // set sebagai template aktif
+          setActiveTemplateBtn(selectedTemplateId);
           renderTemplateButtons(); // Tampilkan tombol untuk template yg baru
         }
 
