@@ -363,7 +363,20 @@
 
       </div>
 
-      <button id="rppFormSubmitBtn" type="submit" class="w-full mt-5 p-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2">
+      <div class="flex flex-col md:flex-row gap-4 mt-5">
+        <button id="deleteTemplateBtn" type="button" class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-offset-2" onclick="deleteExternalTemplate()">
+          <span>Hapus Template</span>
+        </button>
+
+        <button id="saveTemplateBtn" type="button" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2" onclick="saveExternalTemplate()">
+          <span>Simpan Template</span>
+        </button>
+
+        <button id="exportTemplateBtn" type="button" class="w-full px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2" onclick="exportTemplate()">
+          <span>Export Template</span>
+        </button>
+      </div>
+      <button id="rppFormSubmitBtn" type="submit" class="w-full mt-4 p-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2">
         <span>Buat Dokumen</span>
       </button>
     </form>
