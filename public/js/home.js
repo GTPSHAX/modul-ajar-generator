@@ -61,63 +61,6 @@ const kegiatanAiButtonTemplate = document.getElementById(
 const form = document.getElementById('rppForm')
 const submitButton = document.getElementById('rppFormSubmitBtn')
 
-// Loading indicator elements
-const templateLoadingGenerateWrapper = document.getElementById('loadingGenerateWrapper')
-
-// Dummy loading message
-const loadingMessage = [
-  {
-    message: 'Menganalisis kurikulum dan tujuan pembelajaran...',
-    class: 'text-gray-500',
-    delay: 10000 // 10s
-  },
-  {
-    message: 'Mengidentifikasi kebutuhan dan karakteristik siswa...',
-    class: 'text-gray-500',
-    delay: 10000 // 10s
-  },
-  {
-    message: 'Merancang strategi pembelajaran aktif...',
-    class: 'text-blue-500',
-    delay: 15000 // 15s
-  },
-  {
-    message: 'Menyusun materi inti dan referensi konten...',
-    class: 'text-blue-500',
-    delay: 20000 // 20s
-  },
-  {
-    message: 'Menyiapkan asesmen formatif dan sumatif...',
-    class: 'text-indigo-500',
-    delay: 15000 // 15s
-  },
-  {
-    message: 'Mengintegrasikan profil pelajar Pancasila...',
-    class: 'text-indigo-500',
-    delay: 15000 // 15s
-  },
-  {
-    message: 'Membangun struktur dokumen dan media pendukung...',
-    class: 'text-cyan-600',
-    delay: 15000 // 15s
-  },
-  {
-    message: 'Melakukan validasi AI terhadap standar modul ajar...',
-    class: 'text-amber-600',
-    delay: 10000 // 10s
-  },
-  {
-    message: 'Finalisasi format dokumen (DOCX/PDF)...',
-    class: 'text-emerald-600',
-    delay: 10000 // 10s
-  },
-  {
-    message: 'Mengirim dokumen, mohon bersabar!',
-    class: 'text-green-600',
-    delay: 2000 // 2s
-  }
-]
-
 // State variables
 let isGeneratingDocx = false
 let focusedAreaId = null
@@ -417,33 +360,18 @@ form.addEventListener('submit', (e) => {
   submitButton.textContent = 'Generating...'
   submitButton.classList.add('cursor-not-allowed', 'opacity-50')
 
+  const loadingIndicator = loadingIndicatorInit() // eslint-disable-line no-undef
+
   Swal.fire({ // eslint-disable-line no-undef
     icon: 'warning',
     title: 'Sedang membuat dokumen...',
     text: 'Jangan meninggalkan, menutup, merefresh, maupun membuka aplikasi lain selama proses pembuatan berlangsung untuk menghindari kegagalan pembuatan dokumen.',
-    footer: templateLoadingGenerateWrapper.innerHTML,
+    footer: loadingIndicator.show().innerHTML,
     showConfirmButton: false,
     allowOutsideClick: false,
     allowEscapeKey: false,
     didOpen: () => {
-      const footerElement = Swal.getFooter() // eslint-disable-line no-undef
-      if (footerElement) {
-        const updateableText = footerElement.querySelector('#loading-generate-text')
-        let actualDelay = 0
-
-        loadingMessage.forEach(({ message, class: messageClass, delay }, index) => {
-          setTimeout(() => {
-            if (!isGeneratingDocx) return
-
-            if (updateableText) {
-              updateableText.textContent =
-                  message + ` (${index + 1}/${loadingMessage.length})`
-              updateableText.className = messageClass
-            }
-          }, actualDelay)
-          actualDelay += delay
-        })
-      }
+      loadingIndicator.startAnimation()
     }
   })
 
@@ -461,11 +389,12 @@ form.addEventListener('submit', (e) => {
 
       isGeneratingDocx = false
 
-      const footerElement = Swal.getFooter() // eslint-disable-line no-undef
-      const updateableText = footerElement?.querySelector('#loading-generate-text')
-      if (updateableText) {
-        updateableText.textContent = 'Dokumen selesai dibuat, terima kasih sudah menunggu!'
-      }
+      loadingIndicator.stopAnimation()
+      loadingIndicator.changeLoadingMessage({
+        message: 'Dokumen selesai dibuat, terima kasih sudah menunggu!',
+        class: 'text-green-600',
+        delay: 3000
+      })
 
       submitButton.disabled = false
       submitButton.textContent = 'Buat Dokumen'
