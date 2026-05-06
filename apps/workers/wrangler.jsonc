@@ -1,7 +1,7 @@
 {
   "name": "module-ajar-worker",
   "main": "src/index.js",
-  "compatibility_date": "2026-03-10",
+  "compatibility_date": "2025-07-18",
   "compatibility_flags": [
     "nodejs_compat",
     "global_fetch_strictly_public"
