@@ -1,7 +1,7 @@
 {
-  "name": "<WORKER_NAME>",
+  "name": "module-ajar-worker",
   "main": "src/index.js",
-  "compatibility_date": "<COMPATIBILITY_DATE>",
+  "compatibility_date": "2026-03-10",
   "compatibility_flags": [
     "nodejs_compat",
     "global_fetch_strictly_public"
