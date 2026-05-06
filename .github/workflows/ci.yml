@@ -9,9 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js
+      - name: Run standard linting and tests on root of project
         uses: actions/setup-node@v4
         with:
           node-version: '20'
       - run: npm install
       - run: npm test
+    
+      - name: Run tests for workers
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npm test --workspace=apps/workers
