@@ -5,7 +5,8 @@
     "target": "ESNext",
     "allowJs": true,
     "checkJs": true,
-    "maxNodeModuleJsDepth": 0
+    "maxNodeModuleJsDepth": 0,
+    "types": ["@cloudflare/workers-types", "@cloudflare/vitest-pool-workers"]
   },
   "include": ["packages/**/*", "apps/**/*", "scripts/**/*"],
   "exclude": ["node_modules", "**/dist/**", "packages/scripts/**/*"]
