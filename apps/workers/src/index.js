@@ -17,6 +17,14 @@ export default {
   async fetch (request, env, ctx) {
     const url = new URL(request.url)
 
+    // Set up basic CORS headers
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': request.headers.get('Origin') || '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': request.headers.get('Access-Control-Request-Headers') || 'Content-Type, Authorization',
+      'Access-Control-Max-Age': '86400'
+    }
+
     if (request.method === 'POST') {
       try {
         const body = await request.json()
@@ -34,14 +42,24 @@ export default {
         } else if (url.pathname === '/api/generate-docx') {
           result = await handleGenerateDocx(body)
         } else {
-          return new Response('Not Found', { status: 404 })
+          return new Response('Not Found', { status: 404, headers: corsHeaders })
         }
 
-        return new Response(result.data ?? result.message, { status: result.status })
+        // Apply CORS headers to the successful POST response
+        const headers = new Headers(corsHeaders)
+        if (result.status === 200) {
+          headers.set('Content-Type', 'application/json')
+        }
+        return new Response(result.data ?? result.message, { status: result.status, headers })
       } catch (/** @type {Error | unknown} */ error) {
         console.error('Error occurred while processing request:', error)
-        return new Response('Internal Server Error', { status: 500 })
+        return new Response('Internal Server Error', { status: 500, headers: corsHeaders })
       }
+    } else if (request.method === 'OPTIONS') {
+      // Handle CORS preflight requests
+      return new Response(null, { status: 204, headers: corsHeaders })
+    } else {
+      return new Response('Not Found', { status: 404, headers: corsHeaders })
     }
   }
 }
